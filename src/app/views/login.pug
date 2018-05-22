@@ -1,0 +1,36 @@
+extends layouts/main
+
+append head
+    title Login - Ward
+
+block content
+  // Top content
+  .top-content
+    .inner-bg
+      .container
+        .row
+          .col-sm-8.col-sm-offset-2.text
+            h1.display-1
+              strong Welcome!
+            .description
+        .row
+          .col-sm-6.col-sm-offset-3.form-box
+            .form-top
+              .form-top-left
+                h3 Login to our site
+                p Enter your username and password to log on:
+              .form-top-right
+                i.fa.fa-key
+            .form-bottom
+              if (error.length > 0) 
+                .alert.alert-danger #{error}
+              if (success.length > 0)
+                .alert.alert-success #{success}
+              form.login-form(role='form' action='/login' method='post')
+                .form-group
+                  label.sr-only(for='form-username') Email
+                  input#email.form-username.form-control(type='text' name='email' required='' placeholder='Email...')
+                .form-group
+                  label.sr-only(for='form-password') Password
+                  input#password.form-password.form-control(type='password' required='' name='password' placeholder='Password...')
+                button.btn(type='submit').btn-success Sign in!

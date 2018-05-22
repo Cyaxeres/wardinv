@@ -1,0 +1,55 @@
+extends layouts/main
+
+append head
+    title SignUp - Ward
+
+block content
+    // Top content
+    .top-content
+        .inner-bg
+            .container
+            .row
+                .col-sm-8.col-sm-offset-2.text
+                h1
+                    strong Bootstrap Login Form
+                .description
+                    p This is a free responsive login form made with Bootstrap.         Download it on 
+                    a(href='http://azmind.com') 
+                        strong AZMIND customize and use it as you like!
+            .row
+                .col-sm-6.col-sm-offset-3.form-box
+                .form-top
+                    .form-top-left
+                    h3 Signup to our site
+                    p Enter your username , password to sign up on:
+                    .form-top-right
+                    i.fa.fa-key
+                .form-bottom
+                    if (error.length > 0) 
+                        .alert.alert-danger #{error}
+                    if (success.length > 0)
+                        .alert.alert-success #{success}
+                    form.login-form(role='form' action='/signup' method='post')
+                        .form-group
+                            label.sr-only(for='username') Name
+                            input#username.form-control.form-username(type='text' name='username' required='' placeholder='Name')
+                        .form-group
+                            label.sr-only(for='email') Email
+                            input#email.form-control.form-username(type='email' name='email' required='' placeholder='Email')
+                        .form-group
+                            label.sr-only(for='password') Password
+                            input#password.form-control.form-username(type='password' name='password' ng-model='user.password' required='' placeholder='Password')
+                        button.btn(type='submit') Sign in!
+                .row
+                    .col-sm-6.col-sm-offset-3.social-login
+                    h3 ...or login with:
+                    .social-login-buttons
+                        a.btn.btn-link-1.btn-link-1-facebook(href='#')
+                        i.fa.fa-facebook
+                        Facebook
+                        a.btn.btn-link-1.btn-link-1-twitter(href='#')
+                        i.fa.fa-twitter
+                        Twitter
+                        a.btn.btn-link-1.btn-link-1-google-plus(href='#')
+                        i.fa.fa-google-plus
+                        Google Plus
