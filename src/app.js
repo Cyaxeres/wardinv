@@ -8,6 +8,7 @@ import logger from 'morgan';
 import passport from 'passport';
 import path from 'path';
 
+
 /***************Mongodb configuratrion********************/
 import configDB from './config/database.js';
 mongoose.connect(configDB.url); // connect to our database
@@ -29,6 +30,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use('/bootstrap', express.static(path.join(__dirname, '../node_modules/bootstrap/dist/')));
+app.use('/roboto', express.static(path.join(__dirname, '../node_modules/roboto-fontface/css/')));
 
 app.use(session({
   secret: 'wholoveskeylimepi3', //session secret
