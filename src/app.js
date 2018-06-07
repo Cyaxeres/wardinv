@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
-app.use(express.static(path.join(__dirname, '../public')));
+app.use('/assets', express.static(path.join(__dirname, '../public')));
 app.use('/bootstrap', express.static(path.join(__dirname, '../node_modules/bootstrap/dist/')));
 app.use('/roboto', express.static(path.join(__dirname, '../node_modules/roboto-fontface/css/')));
 
@@ -43,8 +43,8 @@ app.use(passport.initialize());
 
 app.use(session({ cookie: { maxAge: 60000 }, 
   secret: 'nooot',
-  resave: false, 
-  saveUninitialized: false}));
+  resave: true, 
+  saveUninitialized: true}));
   app.use(flash()); // use connect-flash for flash messages stored in session
   
 //Passport Things

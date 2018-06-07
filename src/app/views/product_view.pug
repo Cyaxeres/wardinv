@@ -1,0 +1,14 @@
+extends layouts/main
+
+append head
+    title Ward Product
+
+block content
+    div.container-fluid
+        div.row
+            div.section
+                h1 #{product.name}
+                h3 Unit: #{product.unit} #{product.unitq ? "of " + product.unitq : ""}
+                p In Stock: #{product.quantity}
+                p Type: #{product.type}
+                p Unit Price: $#{product.uprice}

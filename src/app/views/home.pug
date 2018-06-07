@@ -7,70 +7,92 @@ block content
     div.container-fluid
         div.row
             div.col-md-6.section.search__section
-                h1 Search
-                form.search__form
-                    .form-group
-                        .input-group.mb-3
-                            input.search__btn.form-control(type='search' placeholder="Search Products" aria-label="Search" aria-describedby='search')
-                            .input-group-append
-                                button.btn.btn-primary(type='button') Search
-                ul.list-group.search__results
-                    each item in items
-                        li.list-group-item.d-flex.justify-content-between.align-items-center.search__result 
-                            h5 #{item.name}
-                                small.text-faded  as #{item.unit}
-                            span.badge.badge-info.badge-pill x#{item.quantity} available
-                            button.btn.btn-sm.btn-outline-success(type='button') Add to Cart
+                h1 Product List
+                if (error.length > 0) 
+                    //- .alert.alert-danger #{error}
+                    .alert.alert-warning.alert-dismissible.fade.show(role='alert')
+                        strong Oops!
+                        |  #{error}
+                        button.close(type='button', data-dismiss='alert', aria-label='Close')
+                            span(aria-hidden='true') ×
+                if (success.length > 0)
+                    //- .alert.alert-success #{success}
+                    .alert.alert-success.alert-dismissible.fade.show(role='alert')
+                        strong Success!
+                        |  #{success}
+                        button.close(type='button', data-dismiss='alert', aria-label='Close')
+                            span(aria-hidden='true') ×
+                a.btn.btn-primary(href="/products/new") Add Product
+                each product in products
+                    h3 #{product.name} as #{product.unit}  #{product.unitq ? "of " + product.unitq : ""}
+                    p In Stock: #{product.quantity}
+                    p Type: #{product.type}
+                    p Unit Price: $#{product.uprice}
+                    a.btn.btn-outline-primary.btn-sm(href=`/products/${product._id}`) View Product
 
-            div.col-md-5.ml-md-auto.section.receipt__section
-                h1 Cart
-                //- ul.list-group.search__results
-                //-     each item in items
-                //-         li.list-group-item.d-flex.justify-content-between.align-items-center.search__result 
-                //-             button.close(type='button' aria-label='Close')
-                //-                 span(aria-hidden='true') &times;
-                //-             h5 #{item.name}
-                //-                 small.text-faded  as #{item.unit}
-                //-             span.badge.badge-info.badge-pill x#{item.quantity}
-                //-             .btn-group(role='group' aria-label='Basic example')
-                //-                 button.btn.btn-sm.btn-warning(type='button') Less
-                //-                 button.btn.btn-sm.btn-info(type='button') More
-                table.table
-                    thead.thead-dark
-                        tr
-                            th(scope='col') Item
-                            th(scope='col') Quantity
-                            th(scope='col') Price
-                            th(scope='col')
-                    tbody
-                        each item in items
-                            tr
-                                th(scope='row') #{item.name}
-                                td
-                                    button.close(type=button aria-label=Close)
-                                        span(aria-hidden=true) -
+            //-     form.search__form
+            //-         .form-group
+            //-             .input-group.mb-3
+            //-                 input.search__btn.form-control(type='search' placeholder="Search Products" aria-label="Search" aria-describedby='search')
+            //-                 .input-group-append
+            //-                     button.btn.btn-primary(type='button') Search
+            //-     ul.list-group.search__results
+            //-         each item in items
+            //-             li.list-group-item.d-flex.justify-content-between.align-items-center.search__result 
+            //-                 h5 #{item.name}
+            //-                     small.text-faded  as #{item.unit}
+            //-                 span.badge.badge-info.badge-pill x#{item.quantity} available
+            //-                 button.btn.btn-sm.btn-outline-success(type='button') Add to Cart
 
-                                    #{item.quantity}
+            //- div.col-md-5.ml-md-auto.section.receipt__section
+            //-     h1 Cart
+            //-     //- ul.list-group.search__results
+            //-     //-     each item in items
+            //-     //-         li.list-group-item.d-flex.justify-content-between.align-items-center.search__result 
+            //-     //-             button.close(type='button' aria-label='Close')
+            //-     //-                 span(aria-hidden='true') &times;
+            //-     //-             h5 #{item.name}
+            //-     //-                 small.text-faded  as #{item.unit}
+            //-     //-             span.badge.badge-info.badge-pill x#{item.quantity}
+            //-     //-             .btn-group(role='group' aria-label='Basic example')
+            //-     //-                 button.btn.btn-sm.btn-warning(type='button') Less
+            //-     //-                 button.btn.btn-sm.btn-info(type='button') More
+            //-     table.table
+            //-         thead.thead-dark
+            //-             tr
+            //-                 th(scope='col') Item
+            //-                 th(scope='col') Quantity
+            //-                 th(scope='col') Price
+            //-                 th(scope='col')
+            //-         tbody
+            //-             each item in items
+            //-                 tr
+            //-                     th(scope='row') #{item.name}
+            //-                     td
+            //-                         button.close(type=button aria-label=Close)
+            //-                             span(aria-hidden=true) -
 
-                                    button.close(type=button aria-label=Close)
-                                        span(aria-hidden=true) +
-                                td $#{item.uprice}
-                                td
-                                     button.close(type=button aria-label=Close)
-                                     span(aria-hidden=true) &times;
+            //-                         #{item.quantity}
 
-            
-                .section__bottom                
-                    form.form-inline
-                        label.sr-only(for='employee') Employee
-                        input#employee.form-control.mb-3.mr-sm-4(type='text' placeholder='Employee')
-                        label.sr-only(for='patient') Patient
-                        .input-group.mb-3.mr-sm-auto
-                            .input-group-prepend
-                            .input-group-text for
-                            input#patient.form-control(type='text' placeholder='Patient')
+            //-                         button.close(type=button aria-label=Close)
+            //-                             span(aria-hidden=true) +
+            //-                     td $#{item.uprice}
+            //-                     td
+            //-                          button.close(type=button aria-label=Close)
+            //-                          span(aria-hidden=true) &times;
 
-                    button.btn.btn-success.btn-lg.btn-block#btn-checkout(type='button') 
-                        h1 CHECKOUT
-            //- div.col-md-3.ml-md-auto.section.product__section
-            //-     h1 Products
+
+            //-     .section__bottom                
+            //-         form.form-inline
+            //-             label.sr-only(for='employee') Employee
+            //-             input#employee.form-control.mb-3.mr-sm-4(type='text' placeholder='Employee')
+            //-             label.sr-only(for='patient') Patient
+            //-             .input-group.mb-3.mr-sm-auto
+            //-                 .input-group-prepend
+            //-                 .input-group-text for
+            //-                 input#patient.form-control(type='text' placeholder='Patient')
+
+            //-         button.btn.btn-success.btn-lg.btn-block#btn-checkout(type='button') 
+            //-             h1 CHECKOUT
+            //- //- div.col-md-3.ml-md-auto.section.product__section
+            //- //-     h1 Products

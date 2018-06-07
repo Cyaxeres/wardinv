@@ -1,7 +1,6 @@
 body {
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
-  color: darkslategrey;
  }
 
 .no-margin {
@@ -9,23 +8,9 @@ body {
 }
 
 .section {
-  padding: 1rem; 
-  height: 100vh;
-  background-color: #eeeeee;
-}
-
-.section h1 {
-  font-weight: 700;
-  letter-spacing: .1rem;
-}
-
-.text-faded {
-  color: lightslategrey;
-
-}
-
-small{
-  font-size: 75%;
+  padding: 2rem; 
+  /* height: 100vh; */
+  background-color: #F1F3F4;
 }
 
 .section__bottom{
@@ -36,6 +21,18 @@ small{
   right: 0;
 }
 
-#btn-checkout>h1{
-  font-weight: 300;
+/* form {
+  background-color: #F1F3F4;
+} */
+
+/* input.currency {
+  text-align: right;
+  padding-right: 15px;
 }
+.input-group .form-control {
+  float: none;
+}
+.input-group .input-buttons {
+  position: relative;
+  z-index: 3;
+} */

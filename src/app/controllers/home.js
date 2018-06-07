@@ -1,3 +1,5 @@
+// TODO: REMOVE THIS FILE
+
 exports.loggedIn = (req, res, next) => {
   if (req.session.user) { // req.session.passport._id
     next();
@@ -6,38 +8,17 @@ exports.loggedIn = (req, res, next) => {
   }
 }
 
-
-/** 
- * TODO: Remove this test code
- */
-let items = [
-  {
-      name: 'Tuna Fish', 
-      unit: 'tin', 
-      quantity: 500
-  },
-  {
-      name: 'Cat Heart', 
-      unit: 'bowl', 
-      quantity: 30
-  },{
-    name: 'Toilet Paper',
-    unit: 'roll',
-    quantity: 200
-  }];
-
-exports.home = (req, res) => {
+exports.products = (req, res) => {
   res.render('home', {
     error: req.flash("error"),
     success: req.flash("success"),
-    session: req.session,
-    items: items
+    session: req.session
   });
 }
 
 exports.signup = (req, res) => {
   if (req.session.user) {
-    res.redirect('/home');
+    res.redirect('/products');
   } else {
     res.render('signup', {
       error: req.flash("error"),
@@ -49,7 +30,7 @@ exports.signup = (req, res) => {
 
 exports.login = (req, res) => {
   if (req.session.user) {
-    res.redirect('/home');
+    res.redirect('/products');
   } else {
     res.render('login', {
       error: req.flash("error"),
