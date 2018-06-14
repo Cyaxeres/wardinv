@@ -1,19 +1,43 @@
 //load the things we need
 import mongoose from 'mongoose';
+// require('mongoose-currency').loadType(mongoose);
 
+// let Currency = mongoose.Types.Currency;
 
 //define the schema for our item model
 const productSchema = mongoose.Schema({
-  name: String, //Example: War Pike
-  unit: String, //Example: pack
-  unitq: Number, //Example: 50 (in a pack)
-  uprice: Number, //$450 per pack
-  quantity: Number, //Example: How many packs?
-  type: String, //Example: medical, general supplies
+  name: {
+    type: String,
+    required: true
+  }, //Example: War Pike
+  unit: {
+    type: String,
+    required: true
+  }, //Example: pack
+  unitq: {
+    type: Number,
+    required: true
+  }, //Example: 50 (in a pack)
+  uprice: {
+    type: Number,
+    required: true
+  }, //$450 per pack
+  quantity: {
+    type: Number,
+    required: true
+  }, //Example: How many packs?
+  type: {
+    type: String,
+    required: true
+  }, //Example: medical, general supplies
   expdate: {
+    //--optional--
     type: Date
-  }, //--optional--
-  reorder: Number // Example: Trigger alert when there are only two packs left
+  },
+  reorder: {
+    type: Number,
+    required: true
+  } // Example: Trigger alert when there are only two packs left
 });
 
 //create the model for users and expose it to our app

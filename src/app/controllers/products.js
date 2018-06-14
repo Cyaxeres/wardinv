@@ -1,4 +1,8 @@
 import Products from '../models/product';
+import {
+  formatMoney
+} from 'accounting';
+import Cart from '../models/cart';
 
 exports.loggedIn = (req, res, next) => {
   if (req.session.user) { // req.session.passport._id
@@ -12,13 +16,19 @@ exports.home = (req, res) => {
   //Find items and send them to view
   Products.find({}, function (err, products) {
     if (err) {
-      console.log(err);
-    } else {
       res.render('home', {
         error: req.flash("error"),
-        success: req.flash("success"),
         session: req.session,
         products: products
+      });
+    } else {
+      let displayPrices = products.map(x => formatMoney(x.uprice));
+      // console.log(displayPrices);
+      res.render('home', {
+        success: req.flash("success"),
+        session: req.session,
+        products: products,
+        displayPrices: displayPrices
       });
     }
   });
@@ -48,34 +58,19 @@ exports.login = (req, res) => {
   }
 }
 
-// const addProducts = () => {
-//   Products.create({
-//     name: 'Zion necklace', //Example: War Pike
-//     unit: 'pack', //Example: pack
-//     unitq: 100, //Example: 50 (in a pack)
-//     uprice: 120.00, //$450 per pack
-//     quantity: 200, //Example: How many packs?
-//     type: 'medical', //Example: medical, general supplies
-//     reorder: 5 // Example: Trigger alert when there are only two packs left
-//   }, (err, item) => {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//         console.log(item);
-//       return item;
-//     }
-//   });
-
-// }
-
 exports.viewProduct = (req, res) => {
   const prodID = req.params.id;
   Products.findById(prodID, (err, product) => {
+    const displayPrice = formatMoney(product.uprice);
     if (err) {
-      console.log(err);
+      res.render('product_view', {
+        error: req.flash('error'),
+        product: product
+      });
     } else {
       res.render('product_view', {
-        product: product
+        product: product,
+        displayPrice: displayPrice
       });
     }
   });
@@ -115,8 +110,51 @@ exports.createProduct = (req, res) => {
       req.flash("error", err);
       res.redirect('/products');
     } else {
-      req.flash("success", `${product.name} added successfully`)
+      req.flash("success", `${product.name} was added successfully`)
       res.redirect('/products');
     }
   });
+}
+
+exports.addToCart = (req, res) => {
+  let productId = req.params.id;
+  let cart = new Cart(req.session.cart ? req.session.cart : {});
+
+  //Fetch Product form DB
+  Products.findById(productId, (err, product) => {
+    if (err) {
+      req.flash("error", err);
+      res.redirect('/products');
+    } else {
+      cart.add(product, productId);
+      req.session.cart = cart;
+      console.log(req.session.cart);
+      // req.flash("success", `${product.name} was added to cart`);
+      res.redirect('/products');
+    }
+  });
+}
+
+exports.viewCart = (req, res) => {
+  if (!req.session.cart || req.session.cart.items == {}) {
+    res.render('cart', {
+      products: null
+    });
+  } else {
+    let cart = new Cart(req.session.cart);
+    res.render('cart', {
+      products: cart.generateArray(),
+      totalPrice: formatMoney(cart.totalPrice),
+      displayPrices: cart.makeDisplayPrices()
+    });
+  }
+}
+
+exports.removeFromCart = (req, res) => {
+  let cart = new Cart(req.session.cart);
+  let id = req.params.id;
+  cart.remove(id);
+  req.session.cart = cart;
+  console.log(req.session.cart);
+  res.redirect('/cart');
 }

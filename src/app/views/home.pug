@@ -1,98 +1,54 @@
 extends layouts/main
+ 
 
 append head
-    title Home - Ward
+  title Home - Ward
 
 block content
-    div.container-fluid
-        div.row
-            div.col-md-6.section.search__section
-                h1 Product List
-                if (error.length > 0) 
-                    //- .alert.alert-danger #{error}
-                    .alert.alert-warning.alert-dismissible.fade.show(role='alert')
-                        strong Oops!
-                        |  #{error}
-                        button.close(type='button', data-dismiss='alert', aria-label='Close')
-                            span(aria-hidden='true') ×
-                if (success.length > 0)
-                    //- .alert.alert-success #{success}
-                    .alert.alert-success.alert-dismissible.fade.show(role='alert')
-                        strong Success!
-                        |  #{success}
-                        button.close(type='button', data-dismiss='alert', aria-label='Close')
-                            span(aria-hidden='true') ×
-                a.btn.btn-primary(href="/products/new") Add Product
-                each product in products
-                    h3 #{product.name} as #{product.unit}  #{product.unitq ? "of " + product.unitq : ""}
-                    p In Stock: #{product.quantity}
-                    p Type: #{product.type}
-                    p Unit Price: $#{product.uprice}
-                    a.btn.btn-outline-primary.btn-sm(href=`/products/${product._id}`) View Product
 
-            //-     form.search__form
-            //-         .form-group
-            //-             .input-group.mb-3
-            //-                 input.search__btn.form-control(type='search' placeholder="Search Products" aria-label="Search" aria-describedby='search')
-            //-                 .input-group-append
-            //-                     button.btn.btn-primary(type='button') Search
-            //-     ul.list-group.search__results
-            //-         each item in items
-            //-             li.list-group-item.d-flex.justify-content-between.align-items-center.search__result 
-            //-                 h5 #{item.name}
-            //-                     small.text-faded  as #{item.unit}
-            //-                 span.badge.badge-info.badge-pill x#{item.quantity} available
-            //-                 button.btn.btn-sm.btn-outline-success(type='button') Add to Cart
+  div.container-fluid
+    div.row
+      div.col-md-6.section.search__section
+        if (error && error.length > 0) 
+          .alert.alert-warning.alert-dismissible.fade.show(role='alert')
+            strong Oops!
+            |  #{error}
+            button.close(type='button', data-dismiss='alert', aria-label='Close')
+              span(aria-hidden='true') ×
+        if (success && success.length > 0)
+          .alert.alert-success.alert-dismissible.fade.show(role='alert')
+            strong Nice!
+            |  #{success}
+            button.close(type='button', data-dismiss='alert', aria-label='Close')
+              span(aria-hidden='true') ×
 
-            //- div.col-md-5.ml-md-auto.section.receipt__section
-            //-     h1 Cart
-            //-     //- ul.list-group.search__results
-            //-     //-     each item in items
-            //-     //-         li.list-group-item.d-flex.justify-content-between.align-items-center.search__result 
-            //-     //-             button.close(type='button' aria-label='Close')
-            //-     //-                 span(aria-hidden='true') &times;
-            //-     //-             h5 #{item.name}
-            //-     //-                 small.text-faded  as #{item.unit}
-            //-     //-             span.badge.badge-info.badge-pill x#{item.quantity}
-            //-     //-             .btn-group(role='group' aria-label='Basic example')
-            //-     //-                 button.btn.btn-sm.btn-warning(type='button') Less
-            //-     //-                 button.btn.btn-sm.btn-info(type='button') More
-            //-     table.table
-            //-         thead.thead-dark
-            //-             tr
-            //-                 th(scope='col') Item
-            //-                 th(scope='col') Quantity
-            //-                 th(scope='col') Price
-            //-                 th(scope='col')
-            //-         tbody
-            //-             each item in items
-            //-                 tr
-            //-                     th(scope='row') #{item.name}
-            //-                     td
-            //-                         button.close(type=button aria-label=Close)
-            //-                             span(aria-hidden=true) -
+        h1.display-4 Product List
+        a.btn.btn-primary.mr-3(href="/products/new") New Product
+        - var cart = session.cart;
+        if cart && cart.totalQty > 0  
+          a.btn.btn-secondary(href="/cart") View Cart #[span.badge.badge-light #{cart.totalQty}]
 
-            //-                         #{item.quantity}
+        ul.mt-3.list-group
+          each product, index in products
+            if product.unit == 'pack'
+              -var unit =  `pack of ${product.unitq}`;
+            else
+              -var unit = `${product.unit}`;     
+            li.list-group-item.d-flex.justify-content-between.align-items-center
+              //- h3 #{product.name} as #{product.unit}  #{product.unitq ? "of " + product.unitq : ""}
+              .container-fluid
+                h6 #{product.name}
+                h6.text-success
+                  span #{displayPrices[index]} #[small.text-muted / #{unit}]
+                  
+              if product.quantity > 0
+                if product.quantity <= product.reorder
+                  span.mr-3.badge.badge-warning #{product.quantity} in stock
+                else
+                  span.mr-3.badge.badge-success #{product.quantity} in stock
 
-            //-                         button.close(type=button aria-label=Close)
-            //-                             span(aria-hidden=true) +
-            //-                     td $#{item.uprice}
-            //-                     td
-            //-                          button.close(type=button aria-label=Close)
-            //-                          span(aria-hidden=true) &times;
+                a.btn.btn-primary.btn-sm.mr-3(href=`/add-to-cart/${product._id}`) Add to Cart
+              else
+                span.mr-3.badge.badge-danger.badge-pill None Available
 
-
-            //-     .section__bottom                
-            //-         form.form-inline
-            //-             label.sr-only(for='employee') Employee
-            //-             input#employee.form-control.mb-3.mr-sm-4(type='text' placeholder='Employee')
-            //-             label.sr-only(for='patient') Patient
-            //-             .input-group.mb-3.mr-sm-auto
-            //-                 .input-group-prepend
-            //-                 .input-group-text for
-            //-                 input#patient.form-control(type='text' placeholder='Patient')
-
-            //-         button.btn.btn-success.btn-lg.btn-block#btn-checkout(type='button') 
-            //-             h1 CHECKOUT
-            //- //- div.col-md-3.ml-md-auto.section.product__section
-            //- //-     h1 Products
+              //- a.btn.btn-secondary.btn-sm(href=`/products/${product._id}`) View Product

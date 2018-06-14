@@ -6,9 +6,11 @@ const Schema = mongoose.Schema;
 //define the schema for our order model
 const orderSchema = Schema({
   items: [{type: Schema.Types.ObjectId, ref:'Item'}],
+  user: {type: Schema.Types.ObjectID, ref: 'User'},
   total: Number,
   active: Boolean,
-  pickup_emp: String, //TODO: Possible independent model
+  itemqty: Number,
+  pickup_emp: {type: Schema.Types.ObjectID, ref: 'User'}, //TODO: Possible independent model
   patient: String //TODO: Possible independent model [ARRAY OF DOCKET NUMBERS]
 }, {
   timestamps: {

@@ -7,8 +7,11 @@ import mongoose from 'mongoose';
 import logger from 'morgan';
 import passport from 'passport';
 import path from 'path';
+var mongoStore = require('connect-mongo')(session);
 
+// import seedProd from '../src/app/models/seeders/product-seeder';
 
+// seedProd();
 /***************Mongodb configuratrion********************/
 import configDB from './config/database.js';
 mongoose.connect(configDB.url); // connect to our database
@@ -32,21 +35,22 @@ app.use('/assets', express.static(path.join(__dirname, '../public')));
 app.use('/bootstrap', express.static(path.join(__dirname, '../node_modules/bootstrap/dist/')));
 app.use('/roboto', express.static(path.join(__dirname, '../node_modules/roboto-fontface/css/')));
 
-app.use(session({
-  secret: 'wholoveskeylimepi3', //session secret
-  resave: true,
-  saveUninitialized: true
-}));
+
 
 app.use(passport.initialize());
-// app.use(passport.session()); // persistent login sessions
+app.use(passport.session()); // persistent login sessions
 
-app.use(session({ cookie: { maxAge: 60000 }, 
+app.use(session({
+  cookie: {
+    maxAge: 180 * 60 * 1000
+  },
   secret: 'nooot',
-  resave: true, 
-  saveUninitialized: true}));
-  app.use(flash()); // use connect-flash for flash messages stored in session
-  
+  resave: false,
+  saveUninitialized: false,
+  store: new mongoStore({mongooseConnection: mongoose.connection})
+}));
+app.use(flash()); // use connect-flash for flash messages stored in session
+
 //Passport Things
 require('./config/auth')(passport); // pass passport for configuration
 
@@ -67,6 +71,12 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
     .render('error', {
       message: err.message
     });
+});
+
+//store session
+app.use((req, res, next) => {
+  res.locals.session = req.session;
+  next();
 });
 
 // app.use(function (req, res, next) {

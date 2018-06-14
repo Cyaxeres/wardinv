@@ -32,4 +32,12 @@ module.exports = (app, passport) => {
   //Create Product
   app.post('/products', product.createProduct);
 
+  //Adds an item to the cart
+  app.get('/add-to-cart/:id', product.addToCart);
+  
+  //Adds an item to the cart
+  app.get('/cart', product.viewCart);
+
+  //Remove item from cart
+  app.get('/remove-from-cart/:id', product.removeFromCart);
 }
