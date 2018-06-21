@@ -7,10 +7,11 @@ import mongoose from 'mongoose';
 import logger from 'morgan';
 import passport from 'passport';
 import path from 'path';
-var mongoStore = require('connect-mongo')(session);
+// require('roboto-fontface');
+
+let mongoStore = require('connect-mongo')(session);
 
 // import seedProd from '../src/app/models/seeders/product-seeder';
-
 // seedProd();
 /***************Mongodb configuratrion********************/
 import configDB from './config/database.js';
@@ -33,9 +34,7 @@ app.use(bodyParser.urlencoded({
 
 app.use('/assets', express.static(path.join(__dirname, '../public')));
 app.use('/bootstrap', express.static(path.join(__dirname, '../node_modules/bootstrap/dist/')));
-app.use('/roboto', express.static(path.join(__dirname, '../node_modules/roboto-fontface/css/')));
-
-
+app.use('/roboto', express.static(path.join(__dirname, '../node_modules/roboto-fontface/')));
 
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
@@ -76,6 +75,7 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
 //store session
 app.use((req, res, next) => {
   res.locals.session = req.session;
+  res.locals.user = req.user || null;
   next();
 });
 

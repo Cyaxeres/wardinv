@@ -1,8 +1,5 @@
 //load the things we need
 import mongoose from 'mongoose';
-// require('mongoose-currency').loadType(mongoose);
-
-// let Currency = mongoose.Types.Currency;
 
 //define the schema for our item model
 const productSchema = mongoose.Schema({

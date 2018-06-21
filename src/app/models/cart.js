@@ -49,6 +49,21 @@ class Cart {
         this.totalPrice = 0;
     }
   }
+
+  updateQuantity(id, nQty){
+    //get item
+    let storedItem = this.items[id];
+    //remove previous quantity
+    this.totalQty -= storedItem.qty;
+    //add new quantity
+    storedItem.qty = nQty;
+    this.totalQty += storedItem.qty;
+    //update price
+    this.totalPrice -= this.items[id].price;
+    storedItem.price = storedItem.item.uprice * storedItem.qty;
+    //Update total
+    this.totalPrice += storedItem.price;
+  }
 }
 
 module.exports = Cart;

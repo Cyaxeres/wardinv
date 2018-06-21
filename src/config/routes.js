@@ -1,5 +1,8 @@
 // import home from '../app/controllers/home';
 import product from '../app/controllers/products';
+import cart from '../app/controllers/cart';
+// import order from '../app/controllers/order';
+
 
 //you can include all your controllers
 
@@ -33,11 +36,17 @@ module.exports = (app, passport) => {
   app.post('/products', product.createProduct);
 
   //Adds an item to the cart
-  app.get('/add-to-cart/:id', product.addToCart);
-  
-  //Adds an item to the cart
-  app.get('/cart', product.viewCart);
+  app.get('/cart/new/:id', cart.addToCart);
 
   //Remove item from cart
-  app.get('/remove-from-cart/:id', product.removeFromCart);
+  app.get('/cart/delete/:id', cart.removeFromCart);
+
+  //View cart
+  app.get('/cart', cart.viewCart);
+
+  //Update cart
+  app.post('/cart', cart.updateQuantity);
+
+  //Submit Order
+  app.post('/cart/checkout', cart.checkout);
 }

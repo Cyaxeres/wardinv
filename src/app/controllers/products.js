@@ -2,7 +2,7 @@ import Products from '../models/product';
 import {
   formatMoney
 } from 'accounting';
-import Cart from '../models/cart';
+
 
 exports.loggedIn = (req, res, next) => {
   if (req.session.user) { // req.session.passport._id
@@ -101,60 +101,14 @@ exports.createProduct = (req, res) => {
     reorder: preorder
   };
 
-  //! POSTMAN testing
-  //! res.send('Name is ' + newItem.name);
-
   //Create new product
   Products.create(newProduct, (err, product) => {
     if (err) {
       req.flash("error", err);
       res.redirect('/products');
     } else {
-      req.flash("success", `${product.name} was added successfully`)
+      req.flash("success", `${product.name} was added successfully`);
       res.redirect('/products');
     }
   });
-}
-
-exports.addToCart = (req, res) => {
-  let productId = req.params.id;
-  let cart = new Cart(req.session.cart ? req.session.cart : {});
-
-  //Fetch Product form DB
-  Products.findById(productId, (err, product) => {
-    if (err) {
-      req.flash("error", err);
-      res.redirect('/products');
-    } else {
-      cart.add(product, productId);
-      req.session.cart = cart;
-      console.log(req.session.cart);
-      // req.flash("success", `${product.name} was added to cart`);
-      res.redirect('/products');
-    }
-  });
-}
-
-exports.viewCart = (req, res) => {
-  if (!req.session.cart || req.session.cart.items == {}) {
-    res.render('cart', {
-      products: null
-    });
-  } else {
-    let cart = new Cart(req.session.cart);
-    res.render('cart', {
-      products: cart.generateArray(),
-      totalPrice: formatMoney(cart.totalPrice),
-      displayPrices: cart.makeDisplayPrices()
-    });
-  }
-}
-
-exports.removeFromCart = (req, res) => {
-  let cart = new Cart(req.session.cart);
-  let id = req.params.id;
-  cart.remove(id);
-  req.session.cart = cart;
-  console.log(req.session.cart);
-  res.redirect('/cart');
 }

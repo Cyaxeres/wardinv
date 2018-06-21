@@ -1,60 +1,52 @@
 extends layouts/main
- 
+
 
 append head
   title Your Cart - Ward
 
 block content
 
-  div.container-fluid
-    div.row
-      div.col-md-6.section.search__section
-        if (error && error.length > 0) 
-          .alert.alert-warning.alert-dismissible.fade.show(role='alert')
-            strong Oops!
-            |  #{error}
-            button.close(type='button', data-dismiss='alert', aria-label='Close')
-              span(aria-hidden='true') ×
-        if (success && success.length > 0)
-          .alert.alert-success.alert-dismissible.fade.show(role='alert')
-            strong Success!
-            |  #{success}
-            button.close(type='button', data-dismiss='alert', aria-label='Close')
-              span(aria-hidden='true') ×
+  div.container-fluid.section
+    if (error && error.length > 0) 
+      .alert.alert-warning.alert-dismissible.fade.show(role='alert')
+        strong Oops!
+        |  #{error}
+        button.close(type='button', data-dismiss='alert', aria-label='Close')
+          span(aria-hidden='true') ×
 
-        h1.display-4 Cart
-        a.btn.btn-secondary.mr-3(href="/products") Products
-        a.btn.btn-primary(href="/products/new") New Product
+    if (success && success.length > 0)
+      .alert.alert-success.alert-dismissible.fade.show(role='alert')
+        strong Success!
+        |  #{success}
+        button.close(type='button', data-dismiss='alert', aria-label='Close')
+          span(aria-hidden='true') ×
 
-        if products && products.length > 0
-            ul.mt-3.list-group
-            each product, index in products
-                //- if product.unit == 'pack'
-                //-   -var unit =  `pack of ${product.unitq}`;
-                //- else
-                //-   -var unit = `${product.unit}`;     
-                li.list-group-item.d-flex.justify-content-between.align-items-center
-                    //- h3 #{product.name} as #{product.unit}  #{product.unitq ? "of " + product.unitq : ""}
-                    .container-fluid
-                        h6 #{product.item.name}
-                        a.btn.btn-danger.btn-sm(href=`/remove-from-cart/${product.item._id}`) Remove
-                        
-                        
-                    //- if product.quantity > 0
-                    //-     if product.quantity <= product.reorder
-                    //-     span.mr-3.badge.badge-warning #{product.quantity} in stock
-                    //-     else
-                    h5.text-success.mb-0.mr-3.mb-
-                        span #{displayPrices[index]}
-                    span.mr-3.badge.badge-success #{product.qty}
+    h1.display-4 Cart
+    a.btn.btn-secondary.mr-3(href="/products") Products
+    a.btn.btn-primary(href="/products/new") New Product
+    if products && products.length > 0
+      ul.mt-3.list-group
+      
+      each product, index in products
+        li.list-group-item.d-flex.justify-content-between.align-items-center.clearfix
+          .container-fluid
+            h5.mb-1 #{product.item.name}
+            h6.text-success.mb-0.mr-3
+              span #{displayPrices[index]}
+          form.col-md-3(method="POST", action='/cart')
+            .input-group.input-group-sm.mr-3
+              input(type="hidden" name="product_id" value=`${product.item._id}`)
+              input.form-control.qnty(type='number', value=`${product.qty}`, aria-label="New quantity", max=`${product.item.quantity}`, min=1 required name='qty', id="qnty")
+              .input-group-append
+                button.btn.btn-info.btn-update(type='submit', href=`/update-quantity/${product.item._id}`) Update
+          a.btn.btn-danger.btn-sm(href=`/cart/delete/${product.item._id}`) #[ion-icon(name='trash')]
+      hr
+      .float-right
+        h3 Total #[small (#{totalQty} items)]: #[span.text-success #{totalPrice}]
+        form.form-inline(method="POST", action='/cart/checkout')
+          input.form-control.mr-2(type="text", name="patient",placeholder="Patient name", required)
+          button.btn.btn-lg.btn-success.float-right(type='submit') Order Items
 
-                    //- button.close(type='button', data-dismiss="list-item-#{index}", aria-label='Close')
-                    //-     span(aria-hidden='true') ×
-                    //- else
-                    //-     span.mr-3.badge.badge-danger.badge-pill None Available
 
-                //- a.btn.btn-secondary.btn-sm(href=`/products/${product._id}`) View Product
-            hr
-            h3.float-right Total: #[span.text-success #{totalPrice}]
-        else
-            h2.mt-3 No items in cart!
+    else
+      h2.mt-3 No items in cart!

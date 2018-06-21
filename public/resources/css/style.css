@@ -1,3 +1,5 @@
+/* @import "roboto/roboto/roboto-fontface.css"; */
+
 body {
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
@@ -9,7 +11,7 @@ body {
 
 .section {
   padding: 2rem; 
-  /* height: 100vh; */
+  height: 100vh;
   background-color: #F1F3F4;
 }
 
@@ -36,3 +38,14 @@ body {
   position: relative;
   z-index: 3;
 } */
+.product{
+  border-left: 5px solid lightgrey;
+  transition: .2s ease-out;
+}
+.product:hover{
+  border-left: 5px solid #FF4081;
+}
+
+.btn{
+  border-radius: 0;
+}

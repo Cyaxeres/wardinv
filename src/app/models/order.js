@@ -5,13 +5,11 @@ const Schema = mongoose.Schema;
 
 //define the schema for our order model
 const orderSchema = Schema({
-  items: [{type: Schema.Types.ObjectId, ref:'Item'}],
-  user: {type: Schema.Types.ObjectID, ref: 'User'},
-  total: Number,
-  active: Boolean,
-  itemqty: Number,
-  pickup_emp: {type: Schema.Types.ObjectID, ref: 'User'}, //TODO: Possible independent model
-  patient: String //TODO: Possible independent model [ARRAY OF DOCKET NUMBERS]
+  user: {type: Schema.ObjectId, ref: 'Users', required: true},
+  cart: {type: Object, required: true},
+  // pickup_emp: {type: Schema.Types.ObjectID, ref: 'User'}, //TODO: Possible independent model
+  // patient: {type: Schema.Types.ObjectID, ref: 'User'} //TODO: Possible independent model [ARRAY OF DOCKET NUMBERS]
+  patient: {type: String, required: true} 
 }, {
   timestamps: {
     createdAt: 'created_at',

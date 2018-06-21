@@ -11,7 +11,7 @@ var products = [
     unit: 'pack',
     unitq: 50,
     uprice: 220.50,
-    quantity: 250,
+    quantity: 25,
     type: 'medical',
     expdate: '2018-06-18',
     reorder: 10
@@ -46,6 +46,26 @@ var products = [
     expdate: '2018-09-18',
     reorder: 5
   }),
+  new Product({
+    name: 'Wata',
+    unit: 'pack',
+    unitq: 24,
+    uprice: 760.35,
+    quantity: 10,
+    type: 'medical',
+    expdate: '2018-09-18',
+    reorder: 2
+  }),
+  new Product({
+    name: 'Lysol',
+    unit: 'pack',
+    unitq: 10,
+    uprice: 2367.56,
+    quantity: 12,
+    type: 'medical',
+    expdate: '2018-09-18',
+    reorder: 2
+  })
 ];
 
 let seedProducts = () => {
@@ -57,7 +77,7 @@ let seedProducts = () => {
   });
   //Add the new data
   for (let x = 0; x < products.length; x++) {
-    products[x].save((err, product) => {
+    Product.create(products[x], (err, product) => {
       if (err) {
         console.log(err);
       } else {
