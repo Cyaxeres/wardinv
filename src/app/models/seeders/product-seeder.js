@@ -1,21 +1,12 @@
 import mongoose from 'mongoose';
-import configDB from '../../../config/database';
-import Product from '../../models/product';
-mongoose.connect(configDB.url);
-let exit = () => mongoose.disconnect();
+import Product from '../product';
+import configDB from '../../../config/database.js';
+mongoose.connect(configDB.url); 
+
+
 let done = 0;
 
 var products = [
-  new Product({
-    name: 'Needles',
-    unit: 'pack',
-    unitq: 50,
-    uprice: 220.50,
-    quantity: 25,
-    type: 'medical',
-    expdate: '2018-06-18',
-    reorder: 10
-  }),
   new Product({
     name: 'Dynometrin 500mL',
     unit: 'one',
@@ -25,6 +16,16 @@ var products = [
     type: 'medical',
     expdate: '2018-07-09',
     reorder: 100
+  }),
+  new Product({
+    name: 'Needles',
+    unit: 'pack',
+    unitq: 50,
+    uprice: 220.50,
+    quantity: 25,
+    type: 'medical',
+    expdate: '2018-06-18',
+    reorder: 10
   }),
   new Product({
     name: 'Pentel RSVP Blk Fine',
@@ -73,22 +74,31 @@ let seedProducts = () => {
   Product.remove({}, (err) => {
     if (err) {
       console.log(err);
+    } else{
+      console.log('> Products removed');
+      console.log('> Adding new products');
+      newData();
     }
   });
-  //Add the new data
-  for (let x = 0; x < products.length; x++) {
-    Product.create(products[x], (err, product) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(`${product.name} was added.`);
-        done++;
-        if (done === products.length) {
-          exit();
+
+  let newData = () => {
+    // Add the new data
+    for (var x = 0; x < products.length; x++) {
+      products[x].save((err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          done++;
+          if (done === products.length) {
+            console.log(`> Products added.`);
+            exit();
+          }
         }
-      }
-    });
+      });
+    }
   }
 }
+
+let exit = () => mongoose.disconnect();
 
 module.exports = seedProducts;

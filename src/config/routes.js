@@ -1,18 +1,18 @@
 // import home from '../app/controllers/home';
-import product from '../app/controllers/products';
+import products from '../app/controllers/products';
 import cart from '../app/controllers/cart';
-// import order from '../app/controllers/order';
+import orders from '../app/controllers/orders';
 
 
 //you can include all your controllers
 
 module.exports = (app, passport) => {
 
-  app.get('/login', product.login);
-  app.get('/signup', product.signup);
+  app.get('/login', products.login);
+  app.get('/signup', products.signup);
 
-  app.get('/', product.loggedIn, product.home); //home
-  app.get('/products', product.loggedIn, product.home); //home
+  app.get('/', products.loggedIn, products.home); //home
+  app.get('/products', products.loggedIn, products.home); //home
 
   // app.post('/signup', passport.authenticate('local-signup', {
   //     successRedirect: '/products', // redirect to the secure profile section
@@ -27,21 +27,25 @@ module.exports = (app, passport) => {
   }));
 
   //New Product Form
-  app.get('/products/new', product.newProduct);
+  //TODO: ADD LOGGED IN MIDDLEWARE
+  app.get('/products/new', products.newProduct);
 
   //View product
-  app.get('/products/:id', product.viewProduct);
+  app.get('/products/:id', products.viewProduct);
 
   //Create Product
-  app.post('/products', product.createProduct);
+  app.post('/products', products.createProduct);
 
   //Adds an item to the cart
+  //TODO: ADD LOGGED IN MIDDLEWARE
   app.get('/cart/new/:id', cart.addToCart);
 
   //Remove item from cart
+  //TODO: ADD LOGGED IN MIDDLEWARE
   app.get('/cart/delete/:id', cart.removeFromCart);
 
   //View cart
+  //TODO: ADD LOGGED IN MIDDLEWARE
   app.get('/cart', cart.viewCart);
 
   //Update cart
@@ -49,4 +53,8 @@ module.exports = (app, passport) => {
 
   //Submit Order
   app.post('/cart/checkout', cart.checkout);
+
+  //View all orders
+  //TODO: ADD LOGGED IN & ROLE MIDDLEWARE
+  app.get('/orders', orders.home);
 }

@@ -2,12 +2,12 @@ extends layouts/main
 
 
 append head
-  title Your Cart - Ward
+  title Orders - Ward
 
 block content
 
   div.container-fluid.section
-    if (error && error.length > 0) 
+    if (error && error.length > 0)
       .alert.alert-warning.alert-dismissible.fade.show(role='alert')
         strong Oops!
         |  #{error}
@@ -21,13 +21,13 @@ block content
         button.close(type='button', data-dismiss='alert', aria-label='Close')
           span(aria-hidden='true') ×
 
-    h1.display-4 Cart
+    h1.display-4 Current Orders
     a.btn.btn-secondary.mr-3(href="/products") Products
     a.btn.btn-primary(href="/products/new") New Product
     if products && products.length > 0
       ul.mt-3.list-group
-      
-      each product, index in products
+
+      each order, index in orders
         li.list-group-item.d-flex.justify-content-between.align-items-center.clearfix
           .container-fluid
             h5.mb-1 #{product.item.name}
@@ -49,4 +49,4 @@ block content
 
 
     else
-      h2.mt-3 No items in cart!
+      h2.mt-3 No current orders!

@@ -11,11 +11,13 @@ import path from 'path';
 
 let mongoStore = require('connect-mongo')(session);
 
-// import seedProd from '../src/app/models/seeders/product-seeder';
-// seedProd();
+
 /***************Mongodb configuratrion********************/
 import configDB from './config/database.js';
 mongoose.connect(configDB.url); // connect to our database
+
+// import seedProd from '../src/app/models/seeders/product-seeder';
+// seedProd();
 
 const app = express();
 app.disable('x-powered-by');

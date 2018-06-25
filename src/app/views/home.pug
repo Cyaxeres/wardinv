@@ -1,6 +1,5 @@
 extends layouts/main
 
-
 append head
     title Home - Ward
 
@@ -23,20 +22,8 @@ block content
             form.form-inline.my-2.my-lg-0
                 input.form-control.mr-sm-2(type='text', placeholder='Search')
                 button.btn.btn-outline-success.my-2.my-sm-0(type='submit') Search
-        
+
     div.container-fluid.section
-        if error && error.length > 0 
-            .alert.alert-warning.alert-dismissible.fade.show(role='alert')
-                strong Oops!
-                |  #{error}
-                button.close(type='button', data-dismiss='alert', aria-label='Close')
-                    span(aria-hidden='true') ×
-        if success && success.length > 0
-            .alert.alert-success.alert-dismissible.fade.show(role='alert')
-                strong Nice!
-                |  #{success}
-                button.close(type='button', data-dismiss='alert', aria-label='Close')
-                    span(aria-hidden='true') ×
 
         .header-section.d-flex.justify-content-between.mb-4.align-items-center
             h1.display-4 Product List
@@ -49,6 +36,18 @@ block content
         .row
             .col-md-2
             .col-md-8
+                if error && error.length >= 0 
+                    .alert.alert-warning.alert-dismissible.fade.show(role='alert')
+                        strong Oops!
+                        |  #{error}
+                        button.close(type='button', data-dismiss='alert', aria-label='Close')
+                            span(aria-hidden='true') ×
+                if success && success.length > 0
+                    .alert.alert-success.alert-dismissible.fade.show(role='alert')
+                        strong Success!
+                        |  #{success}
+                        button.close(type='button', data-dismiss='alert', aria-label='Close')
+                            span(aria-hidden='true') ×           
                 form#prodSearchForm
                     input.form-control.col-3.form-control-lg#prodSearch(type="text", placeholder="Search for products")
 

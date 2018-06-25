@@ -80,7 +80,10 @@ exports.addToCart = (req, res) => {
     //add order to database
     const cart = new Cart(req.session.cart);
     let order = new Order({
-      user: req.session.user,
+      sender: {
+        id: req.session.user, 
+        username: req.session.user.name
+      },
       cart: cart,
       patient: req.body.patient
     });
