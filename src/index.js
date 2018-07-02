@@ -1,15 +1,14 @@
 import app from './app';
-// import browserSync from 'browser-sync';
-// import fs from 'fs';
+import chalk from 'chalk';
 
 const {
   PORT = 8080
 } = process.env;
 
-app.on('listening',function(){
+app.on('listening', function () {
   console.log('server is running');
 });
 
 app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`); // eslint-disable-line no-console 
+  console.log(chalk.bgHex('#008080').black(` LISTENING `) + ` AT ${PORT}`); // eslint-disable-line no-console 
 });

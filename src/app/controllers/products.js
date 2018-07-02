@@ -18,15 +18,14 @@ exports.home = (req, res) => {
     if (err) {
       res.render('home', {
         error: req.flash("error"),
-        session: req.session,
+        cart: req.session.cart,
         products: products
       });
     } else {
       let displayPrices = products.map(x => formatMoney(x.uprice));
-      // console.log(displayPrices);
       res.render('home', {
         success: req.flash("success"),
-        session: req.session,
+        cart: req.session.cart,
         products: products,
         displayPrices: displayPrices
       });

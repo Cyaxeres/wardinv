@@ -2,7 +2,7 @@ extends layouts/main
 
 
 append head
-  title Orders - Ward
+  title Orders | Cabinet Manager
 
 block content
 
@@ -22,31 +22,37 @@ block content
           span(aria-hidden='true') ×
 
     h1.display-4 Current Orders
-    a.btn.btn-secondary.mr-3(href="/products") Products
+    a.btn.btn-secondary.mr-3(href="/products") All Products
     a.btn.btn-primary(href="/products/new") New Product
-    if products && products.length > 0
+    if orders && orders.length > 0
       ul.mt-3.list-group
-
+        li.list-group-item.d-flex.justify-content-between.align-items-center.clearfix.active
+          h5 From
+          h5 No. of Items
+          h5 Total Cost
+          h5 View/Edit Order
       each order, index in orders
         li.list-group-item.d-flex.justify-content-between.align-items-center.clearfix
-          .container-fluid
-            h5.mb-1 #{product.item.name}
-            h6.text-success.mb-0.mr-3
-              span #{displayPrices[index]}
-          form.col-md-3(method="POST", action='/cart')
-            .input-group.input-group-sm.mr-3
-              input(type="hidden" name="product_id" value=`${product.item._id}`)
-              input.form-control.qnty(type='number', value=`${product.qty}`, aria-label="New quantity", max=`${product.item.quantity}`, min=1 required name='qty', id="qnty")
-              .input-group-append
-                button.btn.btn-info.btn-update(type='submit', href=`/update-quantity/${product.item._id}`) Update
-          a.btn.btn-danger.btn-sm.remove-item(href=`/cart/delete/${product.item._id}`) #[ion-icon(name='trash')]
-      hr
-      .float-right
-        h3 Total #[small (#{totalQty} items)]: #[span.text-success #{totalPrice}]
-        form.form-inline(method="POST", action='/cart/checkout')
-          input.form-control.mr-2(type="text", name="patient",placeholder="Patient name", required)
-          button.btn.btn-lg.btn-success.float-right(type='submit') Order Items
+          p.mb-1 #{order.sender.username}
+          p #{order.cart.totalQty} items 
+          p.text-success #{prices[index]}
+          button.btn.btn-info.openViewModal(type='button', data-toggle='modal', data-target='#cartModal', data-order=`${order.id}`)
+            | View/Edit
 
 
+         
     else
-      h2.mt-3 No current orders!
+      h2.mt-3 No orders at this time!
+
+  #cartModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='cartModalTitle', aria-hidden='true')
+      .modal-dialog.modal-dialog-centered(role='document')
+        .modal-content
+          .modal-header
+            h3#cartModalTitle.modal-title Are you sure?
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') &times;
+          .modal-body
+            | Viewing this order will clear your cart if you have one
+          .modal-footer
+            button.btn.btn-secondary(type='button', data-dismiss='modal') Don't see the order
+            a.btn.btn-primary.seeOrder(href="") See the order

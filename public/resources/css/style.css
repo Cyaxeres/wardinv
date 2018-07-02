@@ -1,19 +1,21 @@
 body {
   box-sizing: border-box;
-  font-family: Roboto, sans-serif;
- }
+  font-family: "Roboto", sans-serif;
+  color: darkslategray;
+  letter-spacing: .02rem;
+}
 
 .no-margin {
   margin: 0;
 }
 
 .section {
-  padding: 2rem; 
+  padding: 2rem;
   height: 100vh;
   background-color: #F1F3F4;
 }
 
-.section__bottom{
+.section__bottom {
   padding: 1rem;
   width: 100%;
   position: absolute;
@@ -21,14 +23,20 @@ body {
   right: 0;
 }
 
-.product{
+.product {
   border-left: 5px solid lightgrey;
   transition: .2s ease-out;
 }
-.product:hover{
+
+.product:hover {
   border-left: 5px solid #FF4081;
 }
 
-.btn{
+.btn {
   border-radius: 0;
+}
+
+.order__part--title {
+  letter-spacing: .2rem;
+  color: lightslategrey;
 }

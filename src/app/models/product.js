@@ -1,8 +1,13 @@
 //load the things we need
 import mongoose from 'mongoose';
+import shortid from 'shortid';
 
 //define the schema for our item model
 const productSchema = mongoose.Schema({
+  _id: {
+    type: String,
+    'default': shortid.generate
+  },
   name: {
     type: String,
     required: true

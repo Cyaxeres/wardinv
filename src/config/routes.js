@@ -57,4 +57,7 @@ module.exports = (app, passport) => {
   //View all orders
   //TODO: ADD LOGGED IN & ROLE MIDDLEWARE
   app.get('/orders', orders.home);
+  app.get('/orders/:id', orders.view);
+  app.get('/orders/checkout/:id', orders.home);
+  app.put('/orders', orders.checkout);
 }
