@@ -1,7 +1,7 @@
 extends layouts/main
 
 append head
-    title Login - Ward
+  title Login - Ward
 
 block content
   // Top content
@@ -22,10 +22,12 @@ block content
               .form-top-right
                 i.fa.fa-key
             .form-bottom
-              if (error.length > 0) 
-                .alert.alert-danger #{error}
-              if (success.length > 0)
-                .alert.alert-success #{success}
+              if error && error.length > 0 
+                .alert.alert-warning.alert-dismissible.fade.show(role='alert')
+                  strong Oops!
+                  |  #{error}
+                  button.close(type='button', data-dismiss='alert', aria-label='Close')
+                    span(aria-hidden='true') ×
               form.login-form(role='form' action='/login' method='post')
                 .form-group
                   label.sr-only(for='form-username') Email

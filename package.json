@@ -6,7 +6,7 @@
     "type": "git",
     "url": "git+https://github.com/vmasto/express-babel.git"
   },
-  "author": "Vassilis Mastorostergios <vmasto@gmail.com>",
+  "author": "Jeo",
   "license": "MIT",
   "main": "dist/index.js",
   "engines": {
@@ -51,7 +51,6 @@
     "ejs": "^2.6.1",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
-    "faker": "^4.1.0",
     "fsevents": "*",
     "method-override": "^2.3.10",
     "mongoose": "^5.1.5",
@@ -96,7 +95,9 @@
     "plugins": [
       "transform-object-rest-spread",
       "transform-class-properties"
-    ]
+    ],
+    "sourceMaps": true,
+    "retainLines": true
   },
   "eslintConfig": {
     "parser": "babel-eslint",

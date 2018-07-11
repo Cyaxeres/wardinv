@@ -12,7 +12,7 @@ block content
             ul.navbar-nav.mr-auto.mt-2.mt-lg-0
                 li.nav-item.active
                     a.nav-link(href='/') Products
-                    span.sr-only (current)
+                    span.sr-only (current) 
                 li.nav-item
                     a.nav-link(href='#') Link
                 li.nav-item.dropdown
@@ -20,15 +20,15 @@ block content
                     .dropdown-menu(aria-labelledby='dropdownId')
                         a.dropdown-item(href='#') Action 1
                         a.dropdown-item(href='#') Action 2
-            form.form-inline.my-2.my-lg-0
-                input.form-control.mr-sm-2(type='text', placeholder='Search')
-                button.btn.btn-outline-success.my-2.my-sm-0(type='submit') Search
+            if (session.user)
+                p.my-2.mr-2 Logged in as #{session.user.name}
+                a.btn.btn-sm.btn-danger(href="/logout") Logout
 
     div.container-fluid.section
         .row
             .col-md-2
             .col-md-8
-                if error && error.length >= 0 
+                if error && error.length > 0 
                     .alert.alert-warning.alert-dismissible.fade.show(role='alert')
                         strong Oops!
                         |  #{error}

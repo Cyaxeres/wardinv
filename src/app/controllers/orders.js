@@ -1,26 +1,25 @@
 import Orders from "../models/order";
 import Product from "../models/product";
 import Cart from "../models/cart";
-import {
-  formatMoney
-} from "accounting";
+import { formatMoney } from "accounting";
 
 exports.home = (req, res) => {
   //Get all active orders
-  Orders.find({
+  Orders.find(
+    {
       active: true
     },
     (err, orders) => {
       if (err) {
-        req.flash("error", err);
-        res.render("orders");
+        res.render("orders", {
+          error: req.flash("error")
+        });
       } else {
         let displayPrices = orders.map(x => formatMoney(x.cart.totalPrice));
         res.render("orders", {
           orders: orders,
           prices: displayPrices,
-          success: req.flash("success"),
-          error: req.flash("error")
+          success: req.flash("success")
         });
         // console.log(orders);
       }
@@ -33,94 +32,106 @@ exports.home = (req, res) => {
 exports.view = (req, res) => {
   const orderId = req.params.id;
   Orders.findById(orderId, (err, order) => {
-    let cart = new Cart(order.cart);
-    // let cart = new Cart(req.session.cart);
-    res.render("vieworder", {
-      products: cart.generateArray(),
-      totalPrice: formatMoney(cart.totalPrice),
-      displayPrices: cart.makeDisplayPrices(),
-      totalQty: cart.totalQty,
-      order: order,
-      session: req.session
-    });
+    if (err) {
+      res.render("vieworder", {
+        session: req.session,
+        error: req.flash("error")
+      });
+    } else {
+      let cart = new Cart(order.cart);
+      res.render("vieworder", {
+        products: cart.generateArray(),
+        totalPrice: formatMoney(cart.totalPrice),
+        displayPrices: cart.makeDisplayPrices(),
+        totalQty: cart.totalQty,
+        order: order,
+        session: req.session,
+        success: req.flash("success"),
+        error: req.flash("error")
+      });
+    }
   });
 };
-// ! AYY FUTURE ME: REFACTOR THIS SHIT BRUH DAMN LMAO
+
 exports.checkout = (req, res) => {
-  const curOrder = req.body.orderID;
-  //Get order
-  Orders.findById(curOrder, (err, order) => {
-    checkOrderItems(order);
-  });
-  //For each item in the order check if the cart qty is lower than the qty in the cart
-  //If they are lower than the available then remove them from the qty of products and update order to be inactive
-  //else return error
+  const curOrder = req.params.id;
 
-  //Passes each item to  be updated
-  const checkOrderItems = order => {
-    let cartItems = Object.values(order.cart.items);
-    // console.log(cartItems[0].item._id);
-    let checkArray = cartItems.filter(item => item.item.quantity > item.qty);
-    if (checkArray.length === cartItems.length) {
-      // console.log(checkArray.map(item => item.item.quantity - item.qty));
-      cartItems.forEach(product => updateProduct(product));
-    }
-    //else reload page with an error
-  };
-
-  //Updates product values
-  const updateProduct = product => {
-    let newQty = product.item.quantity - product.qty;
-    // console.log(newQty);
-    Product.findOneAndUpdate({
-      _id: product.item._id
-    }, {
-      $set: {
-        "quantity": newQty
-      }
-    }, (err, result) => {
-      // res.redirect('/orders');
-      // res.finished = true;
-      // res.end();
-      if (err) {
-        //Redirect with error
-        console.log(err);
+  Orders.findById(curOrder)
+    .then(order => {
+      let cartItems = Object.values(order.cart.items);
+      let filteredCart = cartItems.filter(
+        item => item.item.quantity < item.qty
+      );
+      if (filteredCart.length <= 0) {
+        return cartItems;
       } else {
-        //Update Order
-        // console.log(result);
-        updateOrder(curOrder);
-        req.flash("success", "Order completed");
-        res.redirect('/orders/' + curOrder);
-        res.finished = true;
-        res.end();
-
+        filteredCart.forEach(product => {
+          throw `Only ${product.item.quantity} "${product.item.name}" in stock`;
+        });
       }
-      // return result;
+    })
+    .then(items => {
+      return updateItems(items);
+    })
+    .then(newItems => {
+      return deactivateOrder(curOrder, req.session.user);
+    })
+    .then(newOrder => {
+      req.session.verified = null;
+      req.flash("success", "Order completed!");
+      res.redirect("/orders/" + curOrder);
+    })
+    .catch(err => {
+      req.flash("error", err);
+      res.redirect("/orders/" + curOrder);
     });
-  };
+};
 
-  const updateOrder = order => {
-    Orders.findOneAndUpdate({
-        _id: order
-      }, {
-        $set: {
-          active: false,
-          dispenser: req.session.user
-        }
-      }, {
-        sort: {
-          _id: -1
-        },
-        upsert: true
+/**
+ * updates item quantities
+ *
+ * @param {*} items
+ * @returns array of updated items
+ */
+const updateItems = async function(items) {
+  let newItems = [];
+  for (let product of items) {
+    let newQty = product.item.quantity - product.qty;
+    let newItem = await Product.findByIdAndUpdate(
+      product.item._id,
+      {
+        quantity: newQty
       },
-      (err, result) => {
-        if (err) {
-          return false;
-        } else {
-          return true;
-        }
-      }
+      { new: true }
     );
+    newItems.push(newItem);
   }
+  return newItems;
+};
 
+/**
+ * deactivates order
+ *
+ * @param {*} order
+ * @param {*} user
+ * @returns deactivated order
+ */
+const deactivateOrder = async function(order, user) {
+  let nOrder = await Orders.findOneAndUpdate(
+    {
+      _id: order
+    },
+    {
+      $set: {
+        active: false,
+        dispenser: user
+      }
+    },
+    {
+      sort: {
+        _id: -1
+      }
+    }
+  );
+  return nOrder;
 };
