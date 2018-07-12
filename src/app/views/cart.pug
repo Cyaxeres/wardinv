@@ -23,10 +23,8 @@ block content
 
     h1.display-4 Cart
     a.btn.btn-secondary.mr-3(href="/products") Products
-    a.btn.btn-primary(href="/products/new") New Product
     if products && products.length > 0
       ul.mt-3.list-group
-      
       each product, index in products
         li.list-group-item.d-flex.justify-content-between.align-items-center.clearfix
           .container-fluid
