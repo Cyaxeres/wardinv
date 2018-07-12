@@ -82,6 +82,7 @@ module.exports = function(passport) {
                     newUser.password = newUser.generateHash(password);
                     newUser.name = req.body.username;
                     newUser.created_date = day;
+                    newUser.role_id = req.body.role;
                     newUser.updated_date = day;
                     newUser.status = "active"; //inactive for email actiavators
                     newUser.active_hash = active_code;

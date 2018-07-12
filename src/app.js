@@ -70,7 +70,8 @@ app.use(passport.session()); // persistent login sessions
 app.use(
   session({
     cookie: {
-      maxAge: 180 * 60 * 1000
+      maxAge: 86400
+      // expires: false
     },
     secret: "nooot",
     resave: false,
@@ -118,6 +119,7 @@ app.use((err, req, res, next) => {
 app.use((req, res, next) => {
   res.locals.session = req.session;
   res.locals.user = req.user || null;
+  res.locals.backURL = req.header("Referer") || "/";
   next();
 });
 

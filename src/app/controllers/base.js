@@ -1,22 +1,19 @@
 import User from "../models/user";
-exports.loggedIn = (req, res, next) => {
-  if (req.session.user) {
-    next();
-  } else {
-    res.redirect("/login");
-  }
-};
+
+// const isLoggedIn = (req, res, next) => {
+//   if (req.session.user) {
+//     next();
+//   } else {
+//     res.redirect("/login");
+//   }
+// };
 
 exports.signup = (req, res) => {
-  if (req.session.user) {
-    res.redirect("/products");
-  } else {
-    res.render("signup", {
-      error: req.flash("error"),
-      success: req.flash("success"),
-      session: req.session
-    });
-  }
+  res.render("signup", {
+    error: req.flash("error"),
+    success: req.flash("success"),
+    session: req.session
+  });
 };
 
 exports.login = (req, res) => {
@@ -56,4 +53,21 @@ exports.verifyPin = (req, res) => {
       req.flash("error", err);
       res.redirect("/orders/" + orderID);
     });
+};
+
+//CheckAuthMiddleware
+exports.checkAuth = role => {
+  return (req, res, next) => {
+    if (req.session.user) {
+      if (req.session.user.role_id <= role) {
+        next();
+      } else {
+        req.flash("error", "You don't have permission to access this");
+        res.redirect(req.session.backURL || "/");
+      }
+    } else {
+      req.flash("error", "Please sign in");
+      res.redirect("/login");
+    }
+  };
 };

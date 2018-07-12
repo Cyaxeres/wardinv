@@ -25,7 +25,8 @@ exports.home = (req, res) => {
         cart: req.session.cart,
         products: products,
         displayPrices: displayPrices,
-        session: req.session
+        session: req.session,
+        error: req.flash("error")
       });
     }
   });

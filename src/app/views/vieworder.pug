@@ -101,22 +101,22 @@ block content
                 //- button.btn.btn-lg.btn-success.btn-block.openPinModal(type='button', data-toggle='modal', data-target='#pinModal', data-order=`${order.id}`) Dispense
 
 
-  #pinModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='cartModalTitle', aria-hidden='true')
-    .modal-dialog.modal-dialog-centered(role='document')
-      .modal-content
-        .modal-header
-          h3#cartModalTitle.modal-title Enter Pin
-          button.close(type='button', data-dismiss='modal', aria-label='Close')
-            span(aria-hidden='true') &times;
-        .modal-body
-          form(method="GET")
-            .input-group
-              input.form-control.input-sm(type='password', name='pin', pattern='[0-9]{4}', maxlength='4')
-              .input-group-append
-                input.btn.btn-info.btn-sm(type='submit', value='Validate')
-        .modal-footer
-          button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
-          a.btn.btn-block.btn-lg.btn-outline-success(href=`/orders/${order.id}/checkout`) Dispense
+  //- #pinModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='cartModalTitle', aria-hidden='true')
+  //-   .modal-dialog.modal-dialog-centered(role='document')
+  //-     .modal-content
+  //-       .modal-header
+  //-         h3#cartModalTitle.modal-title Enter Pin
+  //-         button.close(type='button', data-dismiss='modal', aria-label='Close')
+  //-           span(aria-hidden='true') &times;
+  //-       .modal-body
+  //-         form(method="GET")
+  //-           .input-group
+  //-             input.form-control.input-sm(type='password', name='pin', pattern='[0-9]{4}', maxlength='4')
+  //-             .input-group-append
+  //-               input.btn.btn-info.btn-sm(type='submit', value='Validate')
+  //-       .modal-footer
+  //-         button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+  //-         a.btn.btn-block.btn-lg.btn-outline-success(href=`/orders/${order.id}/checkout`) Dispense
 
 
           //- form#prodSearchForm
