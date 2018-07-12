@@ -1,0 +1,58 @@
+extends layouts/main
+
+
+append head
+  title Orders | Cabinet Manager
+
+block content
+
+  div.container-fluid.section
+    if (error && error.length > 0)
+      .alert.alert-warning.alert-dismissible.fade.show(role='alert')
+        strong Oops!
+        |  #{error}
+        button.close(type='button', data-dismiss='alert', aria-label='Close')
+          span(aria-hidden='true') ×
+
+    if (success && success.length > 0)
+      .alert.alert-success.alert-dismissible.fade.show(role='alert')
+        strong Success!
+        |  #{success}
+        button.close(type='button', data-dismiss='alert', aria-label='Close')
+          span(aria-hidden='true') ×
+
+    h1.display-4 Current Orders
+    a.btn.btn-secondary.mr-3(href="/products") All Products
+    a.btn.btn-primary(href="/products/new") New Product
+    if orders && orders.length > 0
+      ul.mt-3.list-group
+        li.list-group-item.d-flex.justify-content-between.align-items-center.clearfix.active
+          h5 From
+          h5 No. of Items
+          h5 Total Cost
+          h5 View/Edit Order
+      each order, index in orders
+        li.list-group-item.d-flex.justify-content-between.align-items-center.clearfix
+          p.mb-1 #{order.sender.username}
+          p #{order.cart.totalQty} items 
+          p.text-success #{prices[index]}
+          button.btn.btn-info.openViewModal(type='button', data-toggle='modal', data-target='#cartModal', data-order=`${order.id}`)
+            | View/Edit
+
+
+         
+    else
+      h2.mt-3 No orders at this time!
+
+  #cartModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='cartModalTitle', aria-hidden='true')
+      .modal-dialog.modal-dialog-centered(role='document')
+        .modal-content
+          .modal-header
+            h3#cartModalTitle.modal-title Are you sure?
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') &times;
+          .modal-body
+            | Viewing this order will clear your cart if you have one
+          .modal-footer
+            button.btn.btn-secondary(type='button', data-dismiss='modal') Don't see the order
+            a.btn.btn-primary.seeOrder(href="") See the order

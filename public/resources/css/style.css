@@ -152,6 +152,10 @@ body {
 
 /* Buttons */
 
+.product:hover {
+  border-left: 5px solid #FF4081;
+}
+
 .btn {
   border-radius: 0;
 }
@@ -337,4 +341,8 @@ body {
 
 .no-padding{
   padding: 0;
+}
+.order__part--title {
+  letter-spacing: .2rem;
+  color: lightslategrey;
 }

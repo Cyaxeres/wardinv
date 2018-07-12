@@ -1,84 +1,82 @@
-import Products from '../models/product';
-import {
-  formatMoney
-} from 'accounting';
+import Products from "../models/product";
+import { formatMoney } from "accounting";
 
-
-exports.loggedIn = (req, res, next) => {
-  if (req.session.user) { // req.session.passport._id
-    next();
-  } else {
-    res.redirect('/login');
-  }
-}
+// exports.loggedIn = (req, res, next) => {
+//   if (req.session.user) { // req.session.passport._id
+//     next();
+//   } else {
+//     res.redirect('/login');
+//   }
+// }
 
 exports.home = (req, res) => {
   //Find items and send them to view
-  Products.find({}, function (err, products) {
+  Products.find({}, function(err, products) {
     if (err) {
-      res.render('home', {
+      res.render("home", {
         error: req.flash("error"),
-        session: req.session,
+        cart: req.session.cart,
         products: products
       });
     } else {
       let displayPrices = products.map(x => formatMoney(x.uprice));
-      // console.log(displayPrices);
-      res.render('home', {
+      res.render("home", {
         success: req.flash("success"),
-        session: req.session,
+        cart: req.session.cart,
         products: products,
-        displayPrices: displayPrices
+        displayPrices: displayPrices,
+        session: req.session,
+        error: req.flash("error")
       });
     }
   });
-}
+};
 
-exports.signup = (req, res) => {
-  if (req.session.user) {
-    res.redirect('/products');
-  } else {
-    res.render('signup', {
-      error: req.flash("error"),
-      success: req.flash("success"),
-      session: req.session
-    });
-  }
-}
+// exports.signup = (req, res) => {
+//   if (req.session.user) {
+//     res.redirect('/products');
+//   } else {
+//     res.render('signup', {
+//       error: req.flash("error"),
+//       success: req.flash("success"),
+//       session: req.session
+//     });
+//   }
+// }
 
-exports.login = (req, res) => {
-  if (req.session.user) {
-    res.redirect('/products');
-  } else {
-    res.render('login', {
-      error: req.flash("error"),
-      success: req.flash("success"),
-      session: req.session
-    });
-  }
-}
+// exports.login = (req, res) => {
+//   if (req.session.user) {
+//     res.redirect('/products');
+//   } else {
+//     res.render('login', {
+//       error: req.flash("error"),
+//       success: req.flash("success"),
+//       session: req.session
+//     });
+//   }
+// }
 
 exports.viewProduct = (req, res) => {
   const prodID = req.params.id;
   Products.findById(prodID, (err, product) => {
     const displayPrice = formatMoney(product.uprice);
     if (err) {
-      res.render('product_view', {
-        error: req.flash('error'),
+      res.render("product_view", {
+        error: req.flash("error"),
         product: product
       });
     } else {
-      res.render('product_view', {
+      res.render("product_view", {
         product: product,
         displayPrice: displayPrice
       });
     }
   });
-}
+};
 
 exports.newProduct = (req, res) => {
-  res.render('product_new');
-}
+  res.render("product_new");
+};
 
 exports.createProduct = (req, res) => {
   let pname = req.body.name;
@@ -105,10 +103,10 @@ exports.createProduct = (req, res) => {
   Products.create(newProduct, (err, product) => {
     if (err) {
       req.flash("error", err);
-      res.redirect('/products');
+      res.redirect("/products");
     } else {
       req.flash("success", `${product.name} was added successfully`);
-      res.redirect('/products');
+      res.redirect("/products");
     }
   });
-}
+};
