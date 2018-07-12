@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 import configDB from '../../../config/database';
-import Product from '../../models/product';
+import Product from '../product';
 mongoose.connect(configDB.url);
 let exit = () => mongoose.disconnect();
-let done = 0;
+// let done = 0;
 
 var products = [
   new Product({
@@ -69,26 +69,27 @@ var products = [
 ];
 
 let seedProducts = () => {
-  //Delete all the data so far
-  Product.remove({}, (err) => {
-    if (err) {
-      console.log(err);
-    }
-  });
-  //Add the new data
-  for (let x = 0; x < products.length; x++) {
-    Product.create(products[x], (err, product) => {
+    //Delete all the data so far
+    Product.remove({}, (err) => {
       if (err) {
         console.log(err);
-      } else {
-        console.log(`${product.name} was added.`);
-        done++;
-        if (done === products.length) {
-          exit();
-        }
       }
     });
-  }
-}
+    //Add the new data
+    products.forEach((product, index) => {
+      Product.create(product, (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(`${result.name} was added.`);
+          console.log(index);
+        }
+        if (index === products.length - 1) {
+          exit();
+        }
+      });
+    });
 
-module.exports = seedProducts;
+  }
+
+    module.exports = seedProducts;

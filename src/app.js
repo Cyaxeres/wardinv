@@ -10,9 +10,9 @@ import path from 'path';
 // require('roboto-fontface');
 
 let mongoStore = require('connect-mongo')(session);
-
 // import seedProd from '../src/app/models/seeders/product-seeder';
 // seedProd();
+
 /***************Mongodb configuratrion********************/
 import configDB from './config/database.js';
 mongoose.connect(configDB.url); // connect to our database
@@ -24,9 +24,7 @@ app.disable('x-powered-by');
 app.set('views', path.join(__dirname, './app/views/'));
 app.set('view engine', 'pug');
 
-app.use(logger('dev', {
-  skip: () => app.get('env') === 'test'
-}));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
@@ -35,7 +33,9 @@ app.use(bodyParser.urlencoded({
 app.use('/assets', express.static(path.join(__dirname, '../public')));
 app.use('/bootstrap', express.static(path.join(__dirname, '../node_modules/bootstrap/dist/')));
 app.use('/roboto', express.static(path.join(__dirname, '../node_modules/roboto-fontface/')));
-
+app.use(logger('dev', {
+  skip: () => app.get('env') === 'test'
+}));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
@@ -46,7 +46,9 @@ app.use(session({
   secret: 'nooot',
   resave: false,
   saveUninitialized: false,
-  store: new mongoStore({mongooseConnection: mongoose.connection})
+  store: new mongoStore({
+    mongooseConnection: mongoose.connection
+  })
 }));
 app.use(flash()); // use connect-flash for flash messages stored in session
 

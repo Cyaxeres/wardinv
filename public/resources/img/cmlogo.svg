@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 600 600" style="enable-background:new 0 0 600 600;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#7333D2;}
+	.st1{fill:none;}
+	.st2{fill:#FFFFFF;}
+	.st3{font-family:'Roboto Regular', Roboto;}
+	.st4{font-size:328px;}
+</style>
+<font horiz-adv-x="2048">
+<!-- Roboto is a trademark of Google. -->
+<!-- Copyright: Copyright 2018 Adobe System Incorporated. All rights reserved. -->
+<font-face font-family="Roboto Regular" units-per-em="2048" underline-position="-150" underline-thickness="100"/>
+<missing-glyph horiz-adv-x="908" d="M808,0l-708,0l0,1456l708,0M754,84l0,1287l-274,-643M154,1359l0,-1263l268,632M194,54l515,0l-258,606M451,796l258,606l-515,0z"/>
+<glyph unicode="C" horiz-adv-x="1333" d="M1240,462C1222,308 1165,189 1070,106C974,22 847,-20 688,-20C516,-20 378,42 275,165C171,288 119,453 119,660l0,140C119,935 143,1054 192,1157C240,1260 308,1339 397,1394C486,1449 588,1476 705,1476C860,1476 984,1433 1077,1347C1170,1260 1225,1141 1240,988l-193,0C1030,1104 994,1188 939,1240C883,1292 805,1318 705,1318C582,1318 486,1273 417,1182C347,1091 312,962 312,795l0,-141C312,496 345,370 411,277C477,184 569,137 688,137C795,137 877,161 934,210C991,258 1028,342 1047,462z"/>
+<glyph unicode="M" horiz-adv-x="1788" d="M417,1456l476,-1188l476,1188l249,0l0,-1456l-192,0l0,567l18,612l-478,-1179l-147,0l-477,1176l19,-609l0,-567l-192,0l0,1456z"/>
+</font>
+
+	<rect x="-12" y="-9" class="st0" width="621" height="621"/>
+<rect x="49.3" y="153.7" class="st1" width="500" height="261.8"/>
+<text transform="matrix(1 0 0 1 49.25 399.7344)" class="st2 st3 st4">CM</text>
+</svg>

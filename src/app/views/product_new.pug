@@ -1,4 +1,5 @@
 extends layouts/main
+include mixin/sidebar
 
 append head
   title Add Product | Ward
@@ -6,68 +7,75 @@ append head
 block content
   .container-fluid
     .row
-      .col-md-4
-      .col-md-4.section
-        form(action="/products" method="POST")
-          h1.display-4.mb-4 New Product
-          .form-group
-            label(for="name")
-              .text-dark Product Name
-            input.form-control#name(type="text", name="name", aria-descibedby="nameHelp" required)
-            //- small#nameHelp.form-text.text-muted Enter Product Name
-          hr
-          h4.mb-3 Unit  
-          .form-group
-            label.text-dark(for="unit") Unit of Measure
-            br
-            .btn-group.btn-group-toggle#unit(data-toggle ='buttons',aria-descibedby="unitHelp")
-              label.btn.btn-secondary.btn-sm.active single
-                input#single(type="radio", name="unit", autocomplete="off" checked='' value="one")
-              label.btn.btn-secondary.btn-sm pack
-                input#pack(type="radio", name="unit", autocomplete="off", value="pack")
-              label.btn.btn-secondary.btn-sm pounds
-                input#lbs(type="radio", name="unit", autocomplete="off", value="pounds")
-            small#unitHelp.form-text.text-muted Ex: a pack of needles
-          .form-row
-            .form-group.col-md-6
-              label.text-dark(for="unitq") Quantity 
-                small.text-muted  (per unit)
-              input.form-control#unitq(type="number", aria-descibedby="unitqHelp", min= 1, name="unitq" value= 1)
-              small#unitqHelp.form-text.text-muted Ex: How many in a pack?
-            .form-group.col-md-6
-              label.text-dark(for="uprice") Price 
-              small.text-muted  (per unit)
-              .input-group
-                .input-group-prepend
-                  span.input-group-text $
-                input.form-control#uprice(type='number', aria-label='Amount (to the nearest dollar) in JMD', name="uprice", min=1,aria-descibedby="upriceHelp", value = 100, step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" required)
-              small#upriceHelp.form-text.text-muted Ex: How much for a pack?
-          hr
-          h4.mb-3  General  
-          .form-row
-            .form-group.col-md-6
-              label.text-dark(for="quantity") Quantity
-                small.text-muted  (of units)
-              input.form-control#quantity(type="number", aria-descibedby="quantityHelp", min= 1, name="quantity" value=1)
-              small#quantityHelp.form-text.text-muted Ex: How many packs?
-            .form-group.col-md-6
-              label.text-dark(for="reorder") Reorder Level
-              input.form-control#reorder(type="number", aria-descibedby="reorderHelp", min= 1, name="reorder" value=1)
-              small#reorderHelp.form-text.text-muted We'll warn you when you have this amount of this product left
-          .form-group
-            label.text-dark(for="type") Type
-            br
-            .btn-group.btn-group-toggle#type(data-toggle ='buttons',aria-descibedby="typeHelp")
-              label.btn.btn-secondary.btn-sm.active medical
-                input#single(type="radio", name="type", autocomplete="off" checked='' value="medical")
-              label.btn.btn-secondary.btn-sm general
-                input#pack(type="radio", name="type", autocomplete="off" value="general")
-              label.btn.btn-secondary.btn-sm hazardous
-                input#lbs(type="radio", name="type", autocomplete="off", value="hazardous")
-          .form-group
-            label.text-dark(for="expdate") Expiration Date
-              small.text-muted  (optional)
-            input.form-control#expdate(type="date", aria-descibedby="expdateHelp", name="expdate")
-            small#expdateHelp.form-text.text-muted Ex: How many packs?
-          button.btn.btn-lg.btn-success.float-md-right(type="submit") Add Product
-      .col-md-4
+      +sidebar
+      .container-fluid.content_section.col-10
+        .row
+          .col-md-3
+          .col-md-6
+            .section.form_section.clearfix
+              form(action="/products" method="POST")
+                h1.display-4.mb-4 New Product
+                .form-group
+                  label(for="name")
+                    .text-dark Product Name
+                  input.form-control#name(type="text", name="name", aria-descibedby="nameHelp" required)
+                  //- small#nameHelp.form-text.text-muted Enter Product Name
+                hr
+                h4.mb-3 Unit  
+                .form-group
+                  label.text-dark(for="unit") Unit of Measure
+                  br
+                  .btn-group.btn-group-toggle#unit(data-toggle ='buttons',aria-descibedby="unitHelp")
+                    label.btn.btnBlue.btn-sm.active single
+                      input#single(type="radio", name="unit", autocomplete="off" checked='' value="one")
+                    label.btn.btnBlue.btn-sm pack
+                      input#pack(type="radio", name="unit", autocomplete="off", value="pack")
+                    label.btn.btnBlue.btn-sm pounds
+                      input#lbs(type="radio", name="unit", autocomplete="off", value="pounds")
+                  small#unitHelp.form-text.text-muted Ex: a pack of needles
+                .form-row
+                  .form-group.col-md-6
+                    label.text-dark(for="unitq") Quantity 
+                      small.text-muted  (per unit)
+                    input.form-control#unitq(type="number", aria-descibedby="unitqHelp", min= 1, name="unitq" value= 1)
+                    small#unitqHelp.form-text.text-muted Ex: How many in a pack?
+                  .form-group.col-md-6
+                    label.text-dark(for="uprice") Price 
+                    small.text-muted  (per unit)
+                    .input-group
+                      .input-group-prepend
+                        span.input-group-text $
+                      input.form-control#uprice(type='number', aria-label='Amount (to the nearest dollar) in JMD', name="uprice", min=1,aria-descibedby="upriceHelp", value = 100, step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" required)
+                    small#upriceHelp.form-text.text-muted Ex: How much for a pack?
+                hr
+                h4.mb-3  General  
+                .form-row.mb-3
+                  .form-group.col-md-6
+                    label.text-dark(for="quantity") Quantity
+                      small.text-muted  (of units)
+                    input.form-control#quantity(type="number", aria-descibedby="quantityHelp", min= 1, name="quantity" value=1)
+                    small#quantityHelp.form-text.text-muted Ex: How many packs?
+                  .form-group.col-md-6
+                    label.text-dark(for="reorder") Reorder Level
+                    input.form-control#reorder(type="number", aria-descibedby="reorderHelp", min= 1, name="reorder" value=1)
+                    small#reorderHelp.form-text.text-muted We'll warn you when you have this amount of this product left
+                .form-group
+                  .row
+                    .col-md-6
+                      label.text-dark(for="type") Type
+                      br
+                      .btn-group.btn-group-toggle#type(data-toggle ='buttons',aria-descibedby="typeHelp")
+                        label.btn.btnBlue.btn-sm.active medical
+                          input#single(type="radio", name="type", autocomplete="off" checked='' value="medical")
+                        label.btn.btnBlue.btn-sm general
+                          input#pack(type="radio", name="type", autocomplete="off" value="general")
+                        label.btn.btnBlue.btn-sm hazardous
+                          input#lbs(type="radio", name="type", autocomplete="off", value="hazardous")
+
+                    .col-md-6
+                      label.text-dark(for="expdate") Expiration Date
+                        small.text-muted  (optional)
+                      input.form-control#expdate(type="date", aria-descibedby="expdateHelp", name="expdate")
+                      small#expdateHelp.form-text.text-muted Ex: How many packs?
+                button.btn.btn-lg.btnPurple.float-md-right(type="submit") Add Product
+          .col-md-3
