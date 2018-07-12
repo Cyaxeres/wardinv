@@ -108,4 +108,4 @@ let seedProducts = () => {
 
 let exit = () => mongoose.disconnect();
 
-module.exports = seedProducts;
+    module.exports = seedProducts;
