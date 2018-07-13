@@ -269,7 +269,7 @@ body {
 .login {
   /* position: absolute; */
   margin-top: 25vh;
-  background: url(https://images.pexels.com/photos/139398/thermometer-headache-pain-pills-139398.jpeg);
+  background: url("../img/thermometer-pills-min.jpeg");
   background-attachment: local;
   background-size: cover;
   background-repeat: no-repeat;
@@ -319,7 +319,7 @@ body {
 .img-cont {
   height: 100vh;
   width: auto;
-  background: url(https://images.pexels.com/photos/236380/pexels-photo-236380.jpeg);
+  background: url("../img/hospital-beds-min.jpeg");
   background-attachment: fixed;
   background-size: contain;
   background-repeat: no-repeat;
