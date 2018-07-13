@@ -9,19 +9,15 @@ mixin sidebar()
                     ion-icon(name="medkit")
                     span.ml-2 Products
             li
-                a(href="/cart")
+                a(href="/orders")
                     ion-icon(name="paper")
                     span.ml-2 Orders
-            li
-                a(href='#')
-                    ion-icon(name="list-box")
-                    span.ml-2 Requests
             li
                 a(href="/products/new")
                     ion-icon(name="add-circle")
                     span.ml-2 Add Product
             li
-                a(href="#")
+                a(href="/users/new")
                     ion-icon(name="add-circle")
                     span.ml-2 Add User
         .state-container
@@ -30,4 +26,4 @@ mixin sidebar()
                 if session && session.user
                     span.dot.mr-2 
                     | Signed in as #{session.user.name}
-            a.btn.btnPurple.btn-lg.state.text-uppercase#state(href="#" role="button") Logout 
+            a.btn.btnPurple.btn-lg.state.text-uppercase#state(href="/logout" role="button") Logout 

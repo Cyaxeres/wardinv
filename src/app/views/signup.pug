@@ -1,27 +1,24 @@
 extends layouts/main
+include mixin/sidebar
 
 append head
     title Register User | Cabinet Manager
 
 block content
-    // Top content
-    .top-content
-        .inner-bg
-            .container
+    .container-fluid
+        .row
+            +sidebar
+            .container-fluid.content_section.col-10
                 .row
-                    .col-sm-6.col-sm-offset-3.form-box
-                        .form-top
-                            .form-top-left
-                                h1.display-3 Register user
-                                p.text-muted Enter the name, email, password and role below
-                                .form-top-right
-                                i.fa.fa-key
-                        .form-bottom
-                            if (error.length > 0) 
-                                .alert.alert-danger #{error}
-                            if (success.length > 0)
-                                .alert.alert-success #{success}
+                    if (error.length > 0) 
+                        .alert.alert-danger #{error}
+                    if (success.length > 0)
+                        .alert.alert-success #{success}
+                    .col-md-3
+                    .col-md-6
+                        .section.form_section.clearfix
                             form.login-form(role='form' action='/users' method='post')
+                                h1.display-4.mb-4 New User
                                 .form-group
                                     label.sr-only(for='username') Name
                                     input#username.form-control.form-username(type='text' name='username' required='' placeholder='Name')
@@ -35,11 +32,11 @@ block content
                                     label.text-dark(for="role") Role:
                                     br
                                     .btn-group.btn-group-toggle#role(data-toggle ='buttons')
-                                        label.btn.btn-info.btn-sm.active Regular
+                                        label.btn.btnBlue.btn-sm.active Regular
                                             input#regular(type="radio", name="role", autocomplete="off" checked='' value=2)
-                                        label.btn.btn-info.btn-sm Dispenser
+                                        label.btn.btnBlue.btn-sm Dispenser
                                             input#dispenser(type="radio", name="role", autocomplete="off", value=1)
-                                        label.btn.btn-info.btn-sm Admin
+                                        label.btn.btnBlue.btn-sm Admin
                                             input#admin(type="radio", name="role", autocomplete="off", value=0)                           
-                                button.btn.btn-success.btn-lg.float-right(type='submit') Register
-
+                                button.btn.btnPurple.btn-lg.float-right(type='submit') Register
+                    .col-md-3
