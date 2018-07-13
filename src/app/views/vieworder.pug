@@ -87,7 +87,7 @@ block content
                 p.mb-1.order__part--title TOTAL 
                 h1.text-success #{totalPrice}
 
-              if order.active && !session.verified
+              if order.active && verified != true
                 form(method="POST" action="/orders/sender/verify")
                   input(type='', name='orderID', value = order.id hidden)
                   input(type='', name='senderID', value = order.sender.id hidden)
@@ -96,7 +96,7 @@ block content
                     .input-group-append
                       input.btn.btn-primary.btn-sm(type='submit', value='Verify')
                   small#upriceHelp.form-text.text-danger *4-digit pin is required
-              else if order.active && session.verified == true
+              else if order.active && verified == true
                 a.btn.btn-block.btn-lg.btn-outline-success(href=`/orders/${order.id}/checkout`) Dispense
                 //- button.btn.btn-lg.btn-success.btn-block.openPinModal(type='button', data-toggle='modal', data-target='#pinModal', data-order=`${order.id}`) Dispense
 

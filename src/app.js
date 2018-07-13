@@ -70,10 +70,10 @@ app.use(passport.session()); // persistent login sessions
 app.use(
   session({
     cookie: {
-      maxAge: 86400
+      maxAge: 2 * 60 * 60 * 1000
       // expires: false
     },
-    secret: "nooot",
+    secret: "kyr0Bl4ziK3n",
     resave: false,
     saveUninitialized: false,
     store: new mongoStore({
@@ -90,6 +90,15 @@ app.use((req, res, next) => {
     "Cache-Control",
     "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
   );
+  next();
+});
+
+//store session
+app.use((req, res, next) => {
+  res.locals.session = req.session;
+  res.locals.user = req.user || null;
+  res.locals.verified = req.verified || false;
+  res.locals.backURL = req.header("Referer") || "/";
   next();
 });
 
@@ -112,14 +121,6 @@ app.use((err, req, res, next) => {
   res.status(err.status || 400).render("error", {
     message: err.message
   });
-  next();
-});
-
-//store session
-app.use((req, res, next) => {
-  res.locals.session = req.session;
-  res.locals.user = req.user || null;
-  res.locals.backURL = req.header("Referer") || "/";
   next();
 });
 

@@ -1,33 +1,21 @@
 extends layouts/main
+include mixin/sidebar
 
 append head
-    title Home | Cabinet Manager
+  title Home | Cabinet Manager
 
 block content
-    nav.navbar.navbar-expand-sm.navbar-light
-        a.navbar-brand(href='/')
-            img(src="/assets/resources/img/cmlogo.svg", alt="Cabinet Manager Logo", width="50px")
-        button.navbar-toggler.hidden-lg-up(type='button', data-toggle='collapse', data-target='#collapsibleNavId', aria-controls='collapsibleNavId', aria-expanded='false', aria-label='Toggle navigation')
-        #collapsibleNavId.collapse.navbar-collapse
-            ul.navbar-nav.mr-auto.mt-2.mt-lg-0
-                li.nav-item.active
-                    a.nav-link(href='/') Products
-                    span.sr-only (current) 
-                li.nav-item
-                    a.nav-link(href='#') Link
-                li.nav-item.dropdown
-                    a#dropdownId.nav-link.dropdown-toggle(href='#', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Dropdown
-                    .dropdown-menu(aria-labelledby='dropdownId')
-                        a.dropdown-item(href='#') Action 1
-                        a.dropdown-item(href='#') Action 2
-            if (session.user)
-                p.my-2.mr-2 Logged in as #{session.user.name}
-                a.btn.btn-sm.btn-danger(href="/logout") Logout
-
-    div.container-fluid.section
+    .container-fluid
         .row
-            .col-md-2
-            .col-md-8
+            +sidebar
+                        
+            .container-fluid.content_section.col-10
+                form.mb-3.search#prodSearchForm(role="search")
+                    .input-group
+                        .input-group-prepend
+                            label(for="prodSearch").input-group-text 
+                                ion-icon(name="search")
+                        input.form-control.searchTerm.form-control-lg#prodSearch(type="text", name="prodSearch", placeholder="search products...")
                 if error && error.length > 0 
                     .alert.alert-warning.alert-dismissible.fade.show(role='alert')
                         strong Oops!
@@ -36,46 +24,65 @@ block content
                             span(aria-hidden='true') ×
                 if success && success.length > 0
                     .alert.alert-success.alert-dismissible.fade.show(role='alert')
-                        strong Success!
+                        strong Nice!
                         |  #{success}
                         button.close(type='button', data-dismiss='alert', aria-label='Close')
                             span(aria-hidden='true') ×
-
-                .header-section.d-flex.justify-content-between.mb-4.align-items-center
+                    
+                .row.product_content
+                    .col-md-1
+                    .col-md-10
+                        .header-section.d-flex.justify-content-between.mb-4.align-items-center.ml-0
                             h1.display-4 Products
-                            if session.user && session.user.role_id < 2
-                                .btn-group.float-right
-                                    a.btn.btn-outline-primary.mr-3(href="/products/new") New Product
-                                    a.btn.btn-outline-info.mr-3(href="/orders") Orders
-                            if cart && cart.totalQty > 0  
-                                a.btn.btn-secondary(href="/cart") Cart #[span.badge.badge-light #{cart.totalQty}]
-                form#prodSearchForm
-                    input.form-control.col-3.form-control-lg#prodSearch(type="text", placeholder="Search for products")
+                            .btn-group.float-right
+                                a.btn.btnPurple.mr-3(href="/products/new") New Product
+                                - var cart = session.cart;
+                                if cart && cart.totalQty > 0  
+                                    a.btn.btn-dark(href="/cart") Cart #[span.badge.badge-light #{cart.totalQty}]                    
+                        hr   
+                        ul.mt-5.list-group#productList
+                            .list-container
+                                each product, index in products
+                                    if product.unit == 'pack'
+                                        -var unit =  `pack of ${product. unitq}`;
+                                    else
+                                        -var unit = `${product.unit}`;
 
-                ul.mt-3.list-group#productList
+                                    li.list-group-item.d-flex.justify-content-between.align-items-center.product
+                                        //- h3 #{product.name} as #{product.unit}  #{product.unitq ? "of " + product.unitq : ""}
+                                        .container-fluid
+                                            h5.mb-0 #{product.name}
+                                            p.mb-0.text-success
+                                                span #{displayPrices[index]} #[small.text-muted /#{unit}]
 
-                    each product, index in products
-                        if product.unit == 'pack'
-                            -var unit =  `pack of ${product. unitq}`;
-                        else
-                            -var unit = `${product.unit}`;
+                                        if product.quantity > 0
+                                            if product.quantity <= product.reorder
+                                                span.mr-3.badge.badge-warning.badge-lg  #{product.quantity} in stock
+                                            else
+                                                span.mr-3.badge.badge-success.badge-lg #{product.quantity} in stock
 
-                        li.list-group-item.d-flex.justify-content-between.align-items-center.product
-                            //- h3 #{product.name} as #{product.unit}  #{product.unitq ? "of " + product.unitq : ""}
-                            .container-fluid
-                                h5.mb-0 #{product.name}
-                                p.text-success.mb-0
-                                    span #{displayPrices[index]} #[small.text-muted /#{unit}]
+                                            a.btn.btnBlue.mr-3(href=`/cart/new/${product._id}`) Add to Cart
+                                        else
+                                            span.mr-3.badge.badge-danger.badge-pill None Available
+                    .col-md-1
+                        //- a.btn.btn-secondary.btn-sm(href=`/products/${product._id}`) View Product
+                        script(src='/assets/resources/js/filter.js')
 
-                            if product.quantity > 0
-                                if product.quantity <= product.reorder
-                                    span.mr-3.badge.badge-warning.badge-lg  #{product.quantity} in stock
-                                else
-                                    span.mr-3.badge.badge-success.badge-lg #{product.quantity} in stock
-
-                                a.btn.btn-primary.mr-3(href=`/cart/new/${product.id}`) Add to Cart
-                            else
-                                span.mr-3.badge.badge-danger.badge-pill None Available
-            .col-md-2
-                //- a.btn.btn-secondary.btn-sm(href=`/products/${product._id}`) View Product
-                script(src='/assets/resources/js/filter.js')
+    //- nav.navbar.navbar-expand-sm.navbar-light
+    //-     a.navbar-brand(href='#') CM
+    //-     button.navbar-toggler.hidden-lg-up(type='button', data-toggle='collapse', data-target='#collapsibleNavId', aria-controls='collapsibleNavId', aria-expanded='false', aria-label='Toggle navigation')
+    //-     #collapsibleNavId.collapse.navbar-collapse
+    //-         ul.navbar-nav.mr-auto.mt-2.mt-lg-0
+    //-             li.nav-item.active
+    //-                 a.nav-link(href='#') Products
+    //-                 span.sr-only (current)
+    //-             li.nav-item
+    //-                 a.nav-link(href='#') Link
+    //-             li.nav-item.dropdown
+    //-                 a#dropdownId.nav-link.dropdown-toggle(href='#', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Dropdown
+    //-                 .dropdown-menu(aria-labelledby='dropdownId')
+    //-                     a.dropdown-item(href='#') Action 1
+    //-                     a.dropdown-item(href='#') Action 2
+    //-         form.form-inline.my-2.my-lg-0
+    //-             input.form-control.mr-sm-2(type='text', placeholder='Search')
+    //-             button.btn.btn-outline-success.my-2.my-sm-0(type='submit') Search

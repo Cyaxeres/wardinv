@@ -1,18 +1,36 @@
-body {
-  box-sizing: border-box;
-  font-family: "Roboto", sans-serif;
-  color: darkslategray;
-  letter-spacing: .02rem;
+/* @import "roboto/roboto/roboto-fontface.css"; */
+
+:root {
+  --main-form-color: #fff;
+  --background-color: #f1f3f4;
+  --nav-section-color: #24344b;
+  --nav-panel-color: #2b3c58;
+  --content-section-color: #f2f2f3;
+  --nav-hover-color: #3b4f6a;
+  --btn-purple-color: #7333d2;
+  --btn-blue-color: #80a0f2;
+  --btn-visited-text: #fff;
+  --text-color-light: #fff;
+  --text-color-grey: #9fbeeb;
+  --btn-blue-active: #2b54d0;
+  --btn-purple-active: #6430be;
+  --dot-color: #00ff08;
+  --viewport-height: 100vh;
 }
 
-.no-margin {
+body {
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
   margin: 0;
+  padding: 0;
+  overflow: hidden;
+  min-height: var(--viewport-height);
 }
 
 .section {
   padding: 2rem;
-  height: 100vh;
-  background-color: #F1F3F4;
+  background-color: var(--background-color);
 }
 
 .section__bottom {
@@ -23,10 +41,116 @@ body {
   right: 0;
 }
 
+/* Navigation */
+
+.sidebar-logo {
+  padding: 10px 15px 10px 30px;
+  color: var(--text-color-light);
+  background-color: var(--nav-panel-color);
+}
+
+.sidebar-logo img {
+  height: 3rem;
+  width: 3rem;
+}
+
+/* 
+.sidebar-navigation {
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.sidebar-navigation li {
+  background-color: transparent;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  line-height: 20px;
+  color: var(--text-color);
+}
+
+.nav_panel {
+  background-color: var(--nav-panel-color);
+} */
+
+.nav_panel li a {
+  padding: 20px 25px 20px 30px;
+  display: block;
+  color: var(--text-color-light);
+  text-decoration: none;
+  outline: none;
+}
+
+.nav_panel ion-icon {
+  color: var(--text-color-light);
+}
+
+.nav_panel li a:active,
+.nav_panel li a:hover,
+.nav_panel li a:focus {
+  color: var(--btn-blue-color);
+  background-color: var(--nav-hover-color);
+  transition: 0.2s ease-out;
+}
+
+.sidebar-navigation .header {
+  color: var(--text-color-light);
+  padding: 20px 25px 20px 30px;
+}
+
+.sidebar-navigation .header::before {
+  background-color: transparent;
+}
+
+/* Sections */
+
+.nav_section {
+  background-color: var(--nav-section-color);
+  min-height: var(--viewport-height);
+  padding: 0;
+  position: fixed;
+}
+
+.login_section,
+.content_section {
+  background-color: var(--content-section-color);
+  min-height: var(--viewport-height);
+  padding: 0;
+}
+
+.product_content {
+  margin-top: 5rem;
+}
+
 .product {
   border-left: 5px solid lightgrey;
-  transition: .2s ease-out;
+  transition: 0.2s ease-out;
 }
+
+.product:hover {
+  border-left: 5px solid var(--btn-purple-color);
+}
+
+.list-container {
+  overflow-y: auto;
+}
+
+.state-container {
+  position: absolute;
+  bottom: 4rem;
+  width: 100%;
+  text-align: center;
+}
+
+.form_section {
+  margin-top: 2.5rem;
+  background-color: var(--main-form-color);
+  box-shadow: 0 12px 15px 0 rgba(80, 80, 80, 0.24),
+    0 10px 30px 0 rgba(80, 80, 80, 0.24);
+}
+
+/* Buttons */
 
 .product:hover {
   border-left: 5px solid #FF4081;
@@ -36,6 +160,188 @@ body {
   border-radius: 0;
 }
 
+.btnPurple,
+.btnPurple:visited {
+  color: var(--btn-visited-text);
+  background-color: var(--btn-purple-color);
+}
+
+.btnPurple:hover,
+.btnPurple:active {
+  color: var(--text-color-light);
+  background-color: var(--btn-purple-active);
+}
+
+.btnBlue,
+.btnBlue:visited {
+  color: var(--btn-visited-text);
+  background-color: var(--btn-blue-color);
+  font-weight: 400;
+}
+
+.btnBlue:hover,
+.btnBlue:active {
+  color: var(--btn-visited-text);
+  background-color: var(--btn-blue-active);
+}
+
+.btnBlue:not(:disabled):not(.disabled).active,
+.btnBlue:not(:disabled):not(.disabled):active,
+.show > .btnBlue.dropdown-toggle {
+  color: var(--btn-visited-text);
+  background-color: var(--btn-blue-active);
+}
+
+.btnPurple:focus,
+.btnBlue:focus,
+.btn-dark:focus,
+.state:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.state,
+.state:focus,
+.state:hover,
+.state:active {
+  color: var(--text-color-light);
+  font-weight: 500;
+  letter-spacing: 0.1rem;
+  padding-left: 5rem;
+  padding-right:5rem; 
+}
+
+/* Dot */
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: var(--dot-color);
+  border-radius: 50%;
+  display: inline-block;
+  transform: translateY(-35%);
+}
+
+/* Search */
+
+.search {
+  width: 100%;
+  position: relative;
+}
+
+.searchTerm {
+  outline: none;
+  border: 0;
+  border-radius: 0;
+  font-size: 2rem;
+  height: 7.1vh;
+  font-weight: 300;
+}
+
+.input-group label {
+  background-color: var(--text-color-light);
+  outline: none;
+  border: 0;
+  border-radius: 0;
+  width: 4rem;
+  font-size: 3rem;
+}
+
+/* Text */
+
+.state-container ul {
+  color: var(--text-color-grey);
+}
+
+.login .h2,
+.img-cont h1 {
+  color: var(--text-color-light);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.img-cont > h1 {
+  transform: translateY(40vh);
+}
+
+/* Login */
+
+.login {
+  /* position: absolute; */
+  margin-top: 25vh;
+  background: url(https://images.pexels.com/photos/139398/thermometer-headache-pain-pills-139398.jpeg);
+  background-attachment: local;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 0 12px 15px 0 rgba(80, 80, 80, 0.24),
+    0 10px 30px 0 rgba(80, 80, 80, 0.24);
+}
+
+.login:after {
+  overflow: hidden;
+}
+
+.login-container {
+  background: rgba(40, 57, 101, 0.9);
+  padding: 5rem 3rem 3rem 3rem;
+  height: 30rem;
+}
+
+.login input,
+.login button {
+  width: 100%;
+  border: none;
+  padding: 1rem;
+  outline: 0;
+}
+
+.login input[type="email"],
+.login input[type="password"] {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-color-light);
+}
+
+.login input::placeholder {
+  color: var(--text-color-light);
+}
+
+.login button[type="submit"] {
+  background: var(--btn-blue-color);
+  border-color: transparent;
+  color: var(--text-color-light);
+  cursor: pointer;
+}
+
+.login button[type="submit"]:hover {
+  background: var(--btn-blue-active);
+}
+
+.img-cont {
+  height: 100vh;
+  width: auto;
+  background: url(https://images.pexels.com/photos/236380/pexels-photo-236380.jpeg);
+  background-attachment: fixed;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.img-cont:before {
+  content: "";
+  position: absolute;
+  background: rgba(40, 57, 101, .5);
+  height: 100%;
+  width: 100%;
+  top: 0;
+}
+
+.login-content {
+  position: relative;
+}
+
+.no-padding{
+  padding: 0;
+}
 .order__part--title {
   letter-spacing: .2rem;
   color: lightslategrey;

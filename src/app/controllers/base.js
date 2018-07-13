@@ -37,7 +37,7 @@ exports.verifyPin = (req, res) => {
     .then(
       user => {
         if (user.pin === senderPin) {
-          req.session.verified = true;
+          req.verified = true;
           req.flash("success", "You may now deliver");
           res.redirect("/orders/" + orderID);
         } else {
@@ -49,7 +49,7 @@ exports.verifyPin = (req, res) => {
       }
     )
     .catch(err => {
-      req.session.verified = null;
+      req.verified = false;
       req.flash("error", err);
       res.redirect("/orders/" + orderID);
     });
@@ -66,7 +66,6 @@ exports.checkAuth = role => {
         res.redirect(req.session.backURL || "/");
       }
     } else {
-      req.flash("error", "Please sign in");
       res.redirect("/login");
     }
   };
