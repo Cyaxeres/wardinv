@@ -1,8 +1,9 @@
 extends layouts/main
-include mixin/sidebar
+include mixins/sidebar
+include mixins/alerts
 
 append head
-  title Orders | Cabinet Manager
+  title #{title} | Cabinet Manager
 
 block content
   .container-fluid
@@ -13,25 +14,11 @@ block content
         .row
           .col-md-1
           .col-md-10
-            if (error && error.length > 0)
-              .alert.alert-warning.alert-dismissible.fade.show(role='alert')
-                strong Oops!
-                |  #{error}
-                button.close(type='button', data-dismiss='alert', aria-label='Close')
-                  span(aria-hidden='true') ×
-
-            if (success && success.length > 0)
-              .alert.alert-success.alert-dismissible.fade.show(role='alert')
-                strong Success!
-                |  #{success}
-                button.close(type='button', data-dismiss='alert', aria-label='Close')
-                  span(aria-hidden='true') ×
+            +alerts
 
             .product_content.clearfix
-              h1.display-4.float-left Current Orders
-              .btn-group.float-right.mt-4
-                a.btn.btnPurple.mr-3(href="/products") All Products
-                a.btn.btnBlue(href="/products/new") New Product
+              h1.display-4= title
+            hr
               
             if orders && orders.length > 0
               ul.mt-3.list-group

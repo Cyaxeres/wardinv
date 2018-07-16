@@ -95,10 +95,12 @@ app.use((req, res, next) => {
 
 //store session
 app.use((req, res, next) => {
-  res.locals.session = req.session;
-  res.locals.user = req.user || null;
-  res.locals.verified = req.verified || false;
-  res.locals.backURL = req.header("Referer") || "/";
+  res.locals = {
+    session: req.session,
+    user: req.session.user,
+    backURL: req.header("Referer") || "/",
+    path: req.path
+  };
   next();
 });
 
