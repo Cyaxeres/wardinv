@@ -1,5 +1,6 @@
 extends layouts/main
-include mixin/sidebar
+include mixins/sidebar
+include mixins/alerts
 
 append head
     title Register User | Cabinet Manager
@@ -10,10 +11,7 @@ block content
             +sidebar
             .container-fluid.content_section.col-10
                 .row
-                    if (error.length > 0) 
-                        .alert.alert-danger #{error}
-                    if (success.length > 0)
-                        .alert.alert-success #{success}
+                    +alerts
                     .col-md-3
                     .col-md-6
                         .section.form_section.clearfix
@@ -28,6 +26,9 @@ block content
                                 .form-group
                                     label.sr-only(for='password') Password
                                     input#password.form-control.form-username(type='password' name='password' ng-model='user.password' required='' placeholder='Password')
+                                .form-group
+                                    label.sr-only(for='password') Pin
+                                    input#pin.form-control.form-username(type='pin' name='pin' ng-model='user.pin' required='' placeholder='Pin')
                                 .form-group
                                     label.text-dark(for="role") Role:
                                     br

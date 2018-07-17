@@ -19,7 +19,8 @@ exports.home = (req, res) => {
         res.render("orders", {
           orders: orders,
           prices: displayPrices,
-          success: req.flash("success")
+          success: req.flash("success"),
+          title: "All Orders"
         });
         // console.log(orders);
       }
@@ -39,6 +40,8 @@ exports.view = (req, res) => {
       });
     } else {
       let cart = new Cart(order.cart);
+      let verif = req.session.verified;
+      req.session.verified = null;
       res.render("vieworder", {
         products: cart.generateArray(),
         totalPrice: formatMoney(cart.totalPrice),
@@ -46,11 +49,38 @@ exports.view = (req, res) => {
         totalQty: cart.totalQty,
         order: order,
         session: req.session,
+        verified: verif,
         success: req.flash("success"),
         error: req.flash("error")
       });
     }
   });
+};
+
+exports.history = (req, res) => {
+  const user = req.session.user._id;
+  //Get all active orders
+  Orders.find(
+    {
+      "sender.id": user
+    },
+    (err, orders) => {
+      if (err) {
+        res.render("orders", {
+          error: req.flash("error")
+        });
+      } else {
+        let displayPrices = orders.map(x => formatMoney(x.cart.totalPrice));
+        res.render("orders", {
+          orders: orders,
+          prices: displayPrices,
+          success: req.flash("success"),
+          title: "Your Orders"
+        });
+        // console.log(orders);
+      }
+    }
+  );
 };
 
 exports.checkout = (req, res) => {
