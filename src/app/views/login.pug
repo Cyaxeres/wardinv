@@ -1,4 +1,5 @@
 extends layouts/main
+include mixins/alerts
 
 append head
   title Login - Ward
@@ -10,8 +11,7 @@ block content
             .img-cont
               h1.display-1 Cabinet Manager
           .col-md-5.no-padding
-            if (error.length > 0) 
-              .alert.alert-danger.fade.show(role='alert') #{error}
+            +alerts
             .row
               .col-md-2
               .col-md-8.login-content
@@ -20,7 +20,7 @@ block content
                     .h2 Sign in
                     form(role='form' action='/login' method='post')
                       .form-group
-                        input#email.form-username.form-control(type='email' name='email' required='' placeholder='Email...')
+                        input#email.form-username.form-control(type='email' name='email' required='' placeholder='Email...' autofocus)
                       .form-group
                         input#password.form-password.form-control(type='password' required='' name='password' placeholder='Password...')
                       button.btn(type='submit') Sign in

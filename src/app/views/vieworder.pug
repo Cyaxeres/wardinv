@@ -1,5 +1,6 @@
 extends layouts/main
-include mixin/sidebar
+include mixins/sidebar
+include mixins/alerts
 
 append head
   title Order | CM
@@ -11,20 +12,9 @@ block content
 
       .container-fluid.content_section.col-10
         .row
-          .col-md-2
-          .col-md-8
-            if error && error.length > 0 
-              .alert.alert-warning.alert-dismissible.fade.show(role='alert')
-                strong Oops!
-                |  #{error}
-                button.close(type='button', data-dismiss='alert', aria-label='Close')
-                  span(aria-hidden='true') ×
-            if success && success.length > 0
-              .alert.alert-success.alert-dismissible.fade.show(role='alert')
-                strong Success!
-                |  #{success}
-                button.close(type='button', data-dismiss='alert', aria-label='Close')
-                  span(aria-hidden='true') ×
+          .col-md-1
+          .col-md-10
+            +alerts
             .product_content
               .header-section.d-flex.justify-content-between.mb-4.align-items-center
                 h1.display-4.mb-0 Order Details
@@ -70,7 +60,7 @@ block content
                       p.mb-1.order__part--title TOTAL 
                       h1.text-success #{totalPrice}
 
-                    if order.active && verified != true
+                    if order.active && verified != order.id
                       form(method="POST" action="/orders/sender/verify")
                         input(type='', name='orderID', value = order.id hidden)
                         input(type='', name='senderID', value = order.sender.id hidden)
@@ -79,6 +69,7 @@ block content
                           .input-group-append
                             input.btn.btnBlue.btn-sm(type='submit', value='Verify')
                         small#upriceHelp.form-text.text-danger *4-digit pin is required
-                    else if order.active && verified == true
+                    else if order.active && verified === order.id
                       a.btn.btn-block.btn-lg.btn-outline-success(href=`/orders/${order.id}/checkout`) Dispense
                       //- button.btn.btn-lg.btn-success.btn-block.openPinModal(type='button', data-toggle='modal', data-target='#pinModal', data-order=`${order.id}`) Dispense
+          .col-md-1      

@@ -37,7 +37,7 @@ exports.verifyPin = (req, res) => {
     .then(
       user => {
         if (user.pin === senderPin) {
-          req.verified = true;
+          req.session.verified = orderID;
           req.flash("success", "You may now deliver");
           res.redirect("/orders/" + orderID);
         } else {

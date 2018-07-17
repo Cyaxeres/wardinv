@@ -1,44 +1,35 @@
 extends layouts/main
-include mixin/sidebar
+include mixins/sidebar
+include mixins/alerts
 
 append head
-  title Home | Cabinet Manager
+    title Home | Cabinet Manager
 
 block content
     .container-fluid
         .row
             +sidebar
-                        
+
             .container-fluid.content_section.col-10
                 form.mb-3.search#prodSearchForm(role="search")
                     .input-group
                         .input-group-prepend
-                            label(for="prodSearch").input-group-text 
-                                ion-icon(name="search")
-                        input.form-control.searchTerm.form-control-lg#prodSearch(type="text", name="prodSearch", placeholder="search products...")
-                if error && error.length > 0 
-                    .alert.alert-warning.alert-dismissible.fade.show(role='alert')
-                        strong Oops!
-                        |  #{error}
-                        button.close(type='button', data-dismiss='alert', aria-label='Close')
-                            span(aria-hidden='true') ×
-                if success && success.length > 0
-                    .alert.alert-success.alert-dismissible.fade.show(role='alert')
-                        strong Nice!
-                        |  #{success}
-                        button.close(type='button', data-dismiss='alert', aria-label='Close')
-                            span(aria-hidden='true') ×
-                    
+                            .input-group-text 
+                                i(class="icon ion-md-search")
+                        input.form-control.form-control-lg.searchTerm#prodSearch(type="text", name="prodSearch", placeholder="search products..." autofocus)
+                
                 .row.product_content
+                    +alerts
+                    h2
                     .col-md-1
                     .col-md-10
                         .header-section.d-flex.justify-content-between.mb-4.align-items-center.ml-0
-                            h1.display-4 Products
-                            .btn-group.float-right
-                                a.btn.btnPurple.mr-3(href="/products/new") New Product
+                            h1.display-4.animated.fadeInLeft.animation-delay-200 Products
+                            .btn-group.float-right.animated.fadeInRight.animation-delay-200
+                                a.btn.btnPurple.mr-3(href="/products/new") Add Product
                                 - var cart = session.cart;
                                 if cart && cart.totalQty > 0  
-                                    a.btn.btn-dark(href="/cart") Cart #[span.badge.badge-light #{cart.totalQty}]                    
+                                    a.btn.btn-success(href="/cart") View Cart #[span.badge.badge-light #{cart.totalQty}]                    
                         hr   
                         ul.mt-5.list-group#productList
                             .list-container
