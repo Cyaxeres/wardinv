@@ -2,13 +2,13 @@ extends layouts/main
 include mixin/sidebar
 
 append head
-  title Home | Cabinet Manager
+    title Home | Cabinet Manager
 
 block content
     .container-fluid
         .row
             +sidebar
-                        
+
             .container-fluid.content_section.col-10
                 form.mb-3.search#prodSearchForm(role="search")
                     .input-group
@@ -28,7 +28,7 @@ block content
                         |  #{success}
                         button.close(type='button', data-dismiss='alert', aria-label='Close')
                             span(aria-hidden='true') ×
-                    
+
                 .row.product_content
                     .col-md-1
                     .col-md-10
@@ -38,9 +38,21 @@ block content
                                 a.btn.btnPurple.mr-3(href="/products/new") New Product
                                 - var cart = session.cart;
                                 if cart && cart.totalQty > 0  
-                                    a.btn.btn-dark(href="/cart") Cart #[span.badge.badge-light #{cart.totalQty}]                    
+                                    a.btn.btn-dark(href="/cart") Cart #[span.badge.badge-light #{cart.totalQty}]
                         hr   
-                        ul.mt-5.list-group#productList
+                        ul.list-inline.clearfix
+                            .float-right
+                                .dropdown.list-inline-item
+                                    p.dropdown-toggle#dropdownSort.mr-2(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Sort
+                                    .dropdown-menu(aria-labelledby='dropdownType')
+                                        a.dropdown-item(href="#") Ascending
+                                        a.dropdown-item(href="#") Descending
+                                .dropdown.list-inline-item
+                                    p.dropdown-toggle#dropdownPrice(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Price
+                                    .dropdown-menu(aria-labelledby='dropdownPrice')
+                                        a.dropdown-item(href="#") High
+                                        a.dropdown-item(href="#") Low                 
+                        ul.mt-3.list-group#productList
                             .list-container
                                 each product, index in products
                                     if product.unit == 'pack'
@@ -65,24 +77,4 @@ block content
                                         else
                                             span.mr-3.badge.badge-danger.badge-pill None Available
                     .col-md-1
-                        //- a.btn.btn-secondary.btn-sm(href=`/products/${product._id}`) View Product
                         script(src='/assets/resources/js/filter.js')
-
-    //- nav.navbar.navbar-expand-sm.navbar-light
-    //-     a.navbar-brand(href='#') CM
-    //-     button.navbar-toggler.hidden-lg-up(type='button', data-toggle='collapse', data-target='#collapsibleNavId', aria-controls='collapsibleNavId', aria-expanded='false', aria-label='Toggle navigation')
-    //-     #collapsibleNavId.collapse.navbar-collapse
-    //-         ul.navbar-nav.mr-auto.mt-2.mt-lg-0
-    //-             li.nav-item.active
-    //-                 a.nav-link(href='#') Products
-    //-                 span.sr-only (current)
-    //-             li.nav-item
-    //-                 a.nav-link(href='#') Link
-    //-             li.nav-item.dropdown
-    //-                 a#dropdownId.nav-link.dropdown-toggle(href='#', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Dropdown
-    //-                 .dropdown-menu(aria-labelledby='dropdownId')
-    //-                     a.dropdown-item(href='#') Action 1
-    //-                     a.dropdown-item(href='#') Action 2
-    //-         form.form-inline.my-2.my-lg-0
-    //-             input.form-control.mr-sm-2(type='text', placeholder='Search')
-    //-             button.btn.btn-outline-success.my-2.my-sm-0(type='submit') Search
