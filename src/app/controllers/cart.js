@@ -29,12 +29,15 @@ exports.viewCart = (req, res) => {
     });
   } else {
     let cart = new Cart(req.session.cart);
+    let oedit = req.session.oedit || null;
+    req.session.oedit = null;
     res.render("cart", {
       products: cart.generateArray(),
       totalPrice: formatMoney(cart.totalPrice),
       displayPrices: cart.makeDisplayPrices(),
       totalQty: cart.totalQty,
       session: req.session,
+      oedit: oedit,
       success: req.flash("success"),
       error: req.flash("error")
     });

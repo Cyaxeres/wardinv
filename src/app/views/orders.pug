@@ -17,18 +17,20 @@ block content
             +alerts
 
             .product_content.clearfix
-              h1.display-4= title
+              h1.display-4.mb-0
+                  i.mr-3.color-primary(class="icon ion-md-cube")
+                  | #{title}
             hr
               
             if orders && orders.length > 0
               ul.mt-3.list-group
-                li.list-group-item.d-flex.justify-content-between.align-items-center.clearfix#listHeader
+                li.list-group-item.d-flex.justify-content-around.align-items-center#listHeader
                   h5 From
                   h5 No. of Items
                   h5 Total Cost
                   h5 View/Edit Order
               each order, index in orders
-                li.list-group-item.d-flex.justify-content-between.align-items-center.clearfix
+                li.list-group-item.d-flex.justify-content-around.align-items-center
                   p.mb-1 #{order.sender.username}
                   p #{order.cart.totalQty} items 
                   p.text-success #{prices[index]}

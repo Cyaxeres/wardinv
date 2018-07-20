@@ -38,7 +38,7 @@ module.exports = function(passport) {
         passwordField: "password",
         passReqToCallback: true // allows us to pass back the entire request to the callback
       },
-      function(req, email, password, pin, done) {
+      function(req, email, password, done) {
         // asynchronous
         // User.findOne wont fire unless data is sent back
         process.nextTick(function() {
@@ -80,7 +80,7 @@ module.exports = function(passport) {
 
                     newUser.mail = email;
                     newUser.password = newUser.generateHash(password);
-                    newUser.pin = newUser.generateHash(pin);
+                    newUser.pin = newUser.generateHash(req.body.pin);
                     newUser.name = req.body.username;
                     newUser.created_date = day;
                     newUser.role_id = req.body.role;
@@ -94,8 +94,8 @@ module.exports = function(passport) {
                         throw err;
                       }
                       /*  var email            = require('../lib/email.js');
-                  email.activate_email(req.body.username,req.body.email,active_code);
-                                      return done(null, newUser,req.flash('success', 'Account Created Successfully,Please Check Your Email For Account Confirmation.'));
+                    email.activate_email(req.body.username,req.body.email,active_code);
+                    return done(null, newUser,req.flash('success', 'Account Created Successfully,Please Check Your Email For Account Confirmation.'));
                   */
 
                       return done(

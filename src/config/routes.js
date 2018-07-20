@@ -8,11 +8,7 @@ import orders from "../app/controllers/orders";
 module.exports = (app, passport) => {
   app.get("/login", base.login);
   app.get("/users/new", base.checkAuth(0), base.signup);
-  app.get("/logout", function(req, res) {
-    req.session.destroy(function(err) {
-      res.redirect("/"); //Inside a callback… bulletproof!
-    });
-  });
+  app.get("/logout", base.logout);
 
   app.get("/", base.checkAuth(2), products.home); //home
 
@@ -41,7 +37,7 @@ module.exports = (app, passport) => {
   app.post("/products", base.checkAuth(1), products.createProduct);
   app.get("/products/:id", base.checkAuth(0), products.viewProduct);
   //TODO: ADD LOGGED IN MIDDLEWARE
-  app.get("/cart/new/:id", cart.addToCart);
+  app.get("/cart/add/:id", cart.addToCart);
 
   //Remove item from cart
   //TODO: ADD LOGGED IN MIDDLEWARE
@@ -62,6 +58,7 @@ module.exports = (app, passport) => {
   //TODO: ADD LOGGED IN & ROLE MIDDLEWARE
   app.get("/orders", base.checkAuth(1), orders.home);
   app.get("/orders/history", base.checkAuth(2), orders.history);
-  app.get("/orders/:id", base.checkAuth(1), orders.view);
+  app.get("/orders/:id", base.checkAuth(2), orders.view);
+  app.post("/orders/:id", base.checkAuth(2), orders.edit);
   app.get("/orders/:id/checkout", base.checkAuth(1), orders.checkout);
 };

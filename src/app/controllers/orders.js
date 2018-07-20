@@ -165,3 +165,25 @@ const deactivateOrder = async function(order, user) {
   );
   return nOrder;
 };
+
+exports.edit = (req, res) => {
+  const order = req.body.order;
+  const product = req.body.product;
+  Orders.findById(order, (err, order) => {
+    if (err) {
+      req.flash("error", "Item couldn't be removed");
+      res.redirect("/orders/" + order._id);
+    }
+    let newCart = new Cart(order.cart);
+    newCart.remove(product);
+    order.set({ cart: newCart });
+    order.save((err, newOrder) => {
+      if (err) {
+        req.flash("error", "Item couldn't be removed");
+        res.redirect("/orders/" + newOrder._id);
+      }
+      req.flash("success", "Item removed");
+      res.redirect("/orders/" + newOrder._id);
+    });
+  });
+};
