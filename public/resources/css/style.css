@@ -152,6 +152,11 @@ body {
   margin-top: 5rem;
 }
 
+#productList{
+  height: 60vh;
+  overflow: auto;
+}
+
 .product {
   border-left: 5px solid lightgrey;
   transition: 0.2s ease-out;

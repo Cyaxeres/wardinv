@@ -31,18 +31,18 @@ block content
                                 if cart && cart.totalQty > 0  
                                     a.btn.btn-success(href="/cart") View Cart #[span.badge.badge-light #{cart.totalQty}]                    
                         hr   
-                        ul.list-inline.clearfix
-                            .float-right
-                                .dropdown.list-inline-item
-                                    p.dropdown-toggle#dropdownSort.mr-2(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Sort
-                                    .dropdown-menu(aria-labelledby='dropdownType')
-                                        a.dropdown-item(href="#") Ascending
-                                        a.dropdown-item(href="#") Descending
-                                .dropdown.list-inline-item
-                                    p.dropdown-toggle#dropdownPrice(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Price
-                                    .dropdown-menu(aria-labelledby='dropdownPrice')
-                                        a.dropdown-item(href="#") High
-                                        a.dropdown-item(href="#") Low                 
+                        //- ul.list-inline.clearfix
+                        //-     .float-right
+                        //-         .dropdown.list-inline-item
+                        //-             p.dropdown-toggle#dropdownSort.mr-2(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Sort
+                        //-             .dropdown-menu(aria-labelledby='dropdownType')
+                        //-                 a.dropdown-item(href="#") Ascending
+                        //-                 a.dropdown-item(href="#") Descending
+                        //-         .dropdown.list-inline-item
+                        //-             p.dropdown-toggle#dropdownPrice(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Price
+                        //-             .dropdown-menu(aria-labelledby='dropdownPrice')
+                        //-                 a.dropdown-item(href="#") High
+                        //-                 a.dropdown-item(href="#") Low                 
                         ul.mt-3.list-group#productList
                             .list-container
                                 each product, index in products

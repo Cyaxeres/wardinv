@@ -34,11 +34,8 @@ block content
                   p.text-success #{prices[index]}
                   button.btn.btnBlue.openViewModal(type='button', data-toggle='modal', data-target='#cartModal', data-order=`${order.id}`)
                     | View/Edit
-
-
-
-              else
-                h2.mt-3 No orders at this time!
+            else
+              h2.mt-3 No orders at this time
 
             #cartModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='cartModalTitle', aria-hidden='true')
               .modal-dialog.modal-dialog-centered(role='document')
