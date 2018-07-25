@@ -22,16 +22,9 @@ block content
                   | Order Details
                 h4
                   if order.active
-                    span.badge.badge-danger Not delivered
+                    span.badge.badge-secondary Not delivered
                   else
                     span.badge.badge-success Delivered
-                
-
-                //- .btn-group.float-right
-                //-     a.btn.btn-outline-primary.mr-3(href="/products/new") All Products
-                //-     a.btn.btn-outline-info.mr-3(href="/orders") All Orders
-                //-     if cart && cart.totalQty > 0  
-                //-         a.btn.btn-secondary(href="/cart") Cart #[span.badge.badge-light #{cart.totalQty}]
               hr
               .order__details.container
                 .row
@@ -43,7 +36,7 @@ block content
                       p.mb-1.order__part--title FROM #[h4.font-weight-bold #{order.sender.username}]
                   .col-md-4
                     .order__detail.mb-2.text-center
-                      p.mb-1.order__part--title TO #[h4.font-weight-bold #{order.patient}]
+                      p.mb-1.order__part--title TO #[h4.font-weight-bold #{order.docket.docno} | #{order.docket.name}]
               .card.mt-4
                 .card-body
                   .card-title 
@@ -59,7 +52,7 @@ block content
                           form.form-inline.float-right.ml-3(method="POST" action=`/orders/${order.id}`)
                             input(type="hidden", value=`${order.id}` name="order")
                             input(type="hidden", value=`${product.item._id}` name="product")
-                            button.btn.btn-secondary.btn-sm(type="submit" title="Remove item") Remove item
+
 
                   .float-right.mt-3.text-right
                     //- h6.text-muted No. of Items: #{totalQty}
@@ -80,9 +73,24 @@ block content
                         else if order.active && verified === order.id
                           a.btn.btn-block.btn-lg.btn-outline-success(href=`/orders/${order.id}/checkout`) Dispense
                       if order.active && user._id == order.sender.id
-                          a.btn.btn-block.btn-lg.btn-info(href=`/orders/edit/${order.id}`) 
-                            | Edit Cart
+                        //- a.btn.btn-danger.mt-4(href=`/orders/delete/${order.id}` title="Removes item")
+                        //-   | Delete Order
+                        button.btn.btn-danger.openViewModal.mt-3(type='button', data-toggle='modal', data-target='#cartModal', data-order=`/delete/${order.id}`)
+                          | Delete Order
                           //- button.btn.btn-lg.btn-success.btn-block.openPinModal(type='button', data-toggle='modal', data-target='#pinModal', data-order=`${order.id}`) Dispense
                   //- h2 User is #{user._id}
                   //- h2 Order is #{order.sender.id}
+
+        #cartModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='cartModalTitle', aria-hidden='true')
+          .modal-dialog.modal-dialog-centered(role='document')
+            .modal-content
+              .modal-header
+                h3#cartModalTitle.modal-title Are you sure?
+                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                  span(aria-hidden='true') &times;
+              .modal-body
+                | This will delete the order!
+              .modal-footer
+                button.btn.btn-primary(type='button', data-dismiss='modal') Cancel
+                a.btn.btn-secondary(href="") Delete it
           .col-md-1      

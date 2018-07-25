@@ -1,5 +1,4 @@
-$(document).on("click", ".openViewModal", function () {
-  var orderId = $(this).data('order');
-  console.log(orderId);
-  $(".modal-footer a").attr('href', '/orders/' + orderId);
+$(document).on("click", ".openViewModal", function() {
+  var orderAction = $(this).data("order");
+  $(".modal-footer a").attr("href", "/orders" + orderAction);
 });

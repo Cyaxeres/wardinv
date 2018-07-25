@@ -1,6 +1,7 @@
 import Products from "../models/product";
 import Cart from "../models/cart";
 import Order from "../models/order";
+import Docket from "../models/docket";
 import { formatMoney } from "accounting";
 
 exports.addToCart = (req, res) => {
@@ -31,15 +32,20 @@ exports.viewCart = (req, res) => {
     let cart = new Cart(req.session.cart);
     let oedit = req.session.oedit || null;
     req.session.oedit = null;
-    res.render("cart", {
-      products: cart.generateArray(),
-      totalPrice: formatMoney(cart.totalPrice),
-      displayPrices: cart.makeDisplayPrices(),
-      totalQty: cart.totalQty,
-      session: req.session,
-      oedit: oedit,
-      success: req.flash("success"),
-      error: req.flash("error")
+    let dockets = undefined;
+    Docket.find({ status: "active" }, (err, foundDockets) => {
+      dockets = foundDockets;
+      res.render("cart", {
+        products: cart.generateArray(),
+        totalPrice: formatMoney(cart.totalPrice),
+        displayPrices: cart.makeDisplayPrices(),
+        totalQty: cart.totalQty,
+        session: req.session,
+        oedit: oedit,
+        dockets: dockets,
+        success: req.flash("success"),
+        error: req.flash("error")
+      });
     });
   }
 };
@@ -81,19 +87,21 @@ exports.updateQuantity = (req, res) => {
 exports.checkout = (req, res) => {
   //add order to database
   const cart = new Cart(req.session.cart);
+  let docno = req.body.docket;
   let order = new Order({
     sender: {
       id: req.session.user,
       username: req.session.user.name
     },
     cart: cart,
-    patient: req.body.patient
+    docket: docno
   });
   Order.create(order, (err, result) => {
     if (err) {
       req.flash("error", "Oops! Something went wrong. Try again?");
       res.redirect("/products");
-    } else {
+      res.send(req.body);
+    } else if (result) {
       req.flash("success", "Order submitted! Feel free to pick it up!");
       req.session.cart = null;
       res.redirect("/products");

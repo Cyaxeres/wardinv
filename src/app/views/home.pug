@@ -24,7 +24,9 @@ block content
                     .col-md-1
                     .col-md-10
                         .header-section.d-flex.justify-content-between.mb-4.align-items-center.ml-0
-                            h1.display-4.animated.fadeInLeft.animation-delay-200 Products
+                            h1.display-4.animated.fadeInLeft.animation-delay-200
+                                i.mr-3.color-primary(class="icon ion-md-pricetags")
+                                | Products
                             .btn-group.float-right.animated.fadeInRight.animation-delay-200
                                 a.btn.btnPurple.mr-3(href="/products/new") Add Product
                                 - var cart = session.cart;

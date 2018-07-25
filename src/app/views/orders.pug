@@ -11,47 +11,29 @@ block content
       +sidebar
 
       .container-fluid.content_section.col-10
+        +alerts
         .row
           .col-md-1
           .col-md-10
-            +alerts
 
             .product_content.clearfix
               h1.display-4.mb-0
                   i.mr-3.color-primary(class="icon ion-md-cube")
                   | #{title}
             hr
-              
             if orders && orders.length > 0
-              ul.mt-3.list-group
+              ul.mt-5.list-group
                 li.list-group-item.d-flex.justify-content-around.align-items-center#listHeader
                   h5 From
                   h5 No. of Items
                   h5 Total Cost
-                  h5 View/Edit Order
+                  h5 View Order
               each order, index in orders
                 li.list-group-item.d-flex.justify-content-around.align-items-center
                   p.mb-1 #{order.sender.username}
                   p #{order.cart.totalQty} items 
                   p.text-success #{prices[index]}
-                  button.btn.btnBlue.openViewModal(type='button', data-toggle='modal', data-target='#cartModal', data-order=`${order.id}`)
-                    | View/Edit
-
-
-
-              else
-                h2.mt-3 No orders at this time!
-
-            #cartModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='cartModalTitle', aria-hidden='true')
-              .modal-dialog.modal-dialog-centered(role='document')
-                .modal-content
-                  .modal-header
-                    h3#cartModalTitle.modal-title Are you sure?
-                    button.close(type='button', data-dismiss='modal', aria-label='Close')
-                      span(aria-hidden='true') &times;
-                  .modal-body
-                    | Viewing this order will clear your cart if you have one
-                  .modal-footer
-                    button.btn.btn-secondary(type='button', data-dismiss='modal') Don't see the order
-                    a.btn.btn-primary.seeOrder(href="") See the order
+                  a.btn.btnBlue(href=`/orders/${order.id}` title="See order") View
+            else
+              h2.mt-3 Nothing to see here... 
           .col-md-1

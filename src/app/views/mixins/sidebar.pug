@@ -7,26 +7,26 @@ mixin sidebar()
         ul.panel.panel-default.nav_panel.my-4.list-unstyled
             li
                 a(href="/", class= (path==='/products' || path=== '/' ?'active':undefined))
-                    i(class="icon ion-md-planet")
-                    span.ml-2 Home
+                    i(class="icon ion-md-pricetags")
+                    span.ml-2 Products
+            li
+                a(href="/orders/history", class=(path==='/orders/history'? 'active': undefined))
+                    i(class="icon ion-md-cube")
+                    span.ml-2 My Orders
             if user && user.role_id <= 1
                 li
                     a(href="/orders", class=(path==='/orders'? 'active': undefined))
                         i(class="icon ion-md-cube")
                         span.ml-2 All Orders
                 li
-                    a(href="/products/new", class=(path==='/products/new'?'active':undefined))
-                        i(class="icon ion-md-add-circle")
-                        span.ml-2 Add Product
+                    a(href="/dockets", class=(path==='/dockets'?'active':undefined))
+                        i(class="icon ion-md-folder")
+                        span.ml-2 Dockets
             if user && session.user.role_id < 1
                 li
                     a(href="/users/new", class=(path==='/users/new'?'active':undefined))
                         i(class="icon ion-md-person-add")
                         span.ml-2 Add User
-            li
-                a(href="/orders/history", class=(path==='/orders/history'? 'active': undefined))
-                    i(class="icon ion-md-cube")
-                    span.ml-2 My Orders
         .state-container
             ul.list-unstyled
                 li.header

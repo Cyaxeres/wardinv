@@ -1,0 +1,52 @@
+extends layouts/main
+include mixins/sidebar
+include mixins/alerts
+
+append head
+  title #{title} | CM
+
+block content
+  .container-fluid
+    .row
+      +sidebar
+
+      .container-fluid.content_section.col-10
+        //- form.mb-3.search#prodSearchForm(role="search")
+        //-     .input-group
+        //-         .input-group-prepend
+        //-             .input-group-text 
+        //-                 i(class="icon ion-md-search")
+        //-         input.form-control.form-control-lg.searchTerm#prodSearch(type="text", name="prodSearch", placeholder="search products..." autofocus)
+
+        .row.product_content
+          +alerts
+          h2
+          .col-md-1
+          .col-md-10
+            .header-section.d-flex.justify-content-between.mb-4.align-items-center.ml-0
+              h1.display-4.animated.fadeInLeft.animation-delay-200
+                i.mr-3.color-primary(class="icon ion-md-folder")
+                | Dockets
+              .btn-group.float-right.animated.fadeInRight.animation-delay-200
+                a.btn.btnPurple.mr-3(href="/dockets/new") Add Docket 
+                - var cart = session.cart;
+                if cart && cart.totalQty > 0  
+                  a.btn.btn-success(href="/cart") View Cart #[span.badge.badge-light #{cart.totalQty}]  
+                  
+            hr   
+            ul.mt-5.list-group#productList
+                li.list-group-item.d-flex.justify-content-around.align-items-center#listHeader
+                  h5 Docket Number
+                  h5 Patient
+                  h5 Status
+                  h5 Edit Docket
+                each docket, index in dockets
+                  li.list-group-item.d-flex.justify-content-around.align-items-center
+                    p.mb-1 #{docket.docno}
+                    p #{docket.name}
+                    p(class=(docket.status==='active'? 'text-success': 'text-muted')) #{docket.status}
+                    a.btn.btnBlue(href=`/dockets/${docket._id}/edit` title="Edit docket") Edit Docket
+          .col-md-1
+            //- a.btn.btn-secondary.btn-sm(href=`/products/${product._id}`) View Product
+            //- script(src='/assets/resources/js/filter.js')
+

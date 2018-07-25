@@ -57,10 +57,10 @@ app.set("view engine", "pug");
 // app.use(logger('dev', {
 //   skip: () => app.get('env') === 'test'
 // }));
-app.use(bodyParser.json());
+
 app.use(
   bodyParser.urlencoded({
-    extended: false
+    extended: true
   })
 );
 
@@ -110,33 +110,33 @@ require("./config/auth")(passport); // pass passport for configuration
 // routes ======================================================================
 require("./config/routes.js")(app, passport); // load our routes and pass in our app and fully configured passport
 
-// Catch 404 and forward to error handler
-app.use((req, res, next) => {
-  const err = new Error("This page doesn't exist!");
-  err.status = 404;
-  next(err);
-});
+// // Catch 404 and forward to error handler
+// app.use((req, res, next) => {
+//   const err = new Error("This page doesn't exist!");
+//   err.status = 404;
+//   next(err);
+// });
 
-// Error handler
-app.use((err, req, res, next) => {
-  // eslint-disable-line no-unused-vars
-  res.status(err.status || 400).render("error", {
-    message: err.message
+// // Error handler
+// app.use((err, req, res, next) => {
+//   // eslint-disable-line no-unused-vars
+//   res.status(err.status || 400).render("error", {
+//     message: err.message
+//   });
+//   next();
+// });
+
+app.use(function(req, res, next) {
+  res.status(404).render("404", {
+    title: "Sorry, page not found",
+    session: req.session
   });
-  next();
 });
 
-// app.use(function (req, res, next) {
-//   res.status(404).render('404', {
-//     title: "Sorry, page not found",
-//     session: req.session
-//   });
-// });
-
-// app.use(function (req, res, next) {
-//   res.status(500).render('404', {
-//     title: "Sorry, page not found"
-//   });
-// });
+app.use(function(req, res, next) {
+  res.status(500).render("404", {
+    title: "Sorry, page not found"
+  });
+});
 
 export default app;

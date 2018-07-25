@@ -41,9 +41,15 @@ block content
                   .float-right
                     h5.text-right Total #[small (#{totalQty} items)] 
                     h1.text-right #[span.text-success #{totalPrice}]
-                    form.form-inline(method="POST", action='/cart/checkout')
-                      input.form-control.mr-2(type="text", name="patient",placeholder="Patient name", required)
-                      button.btn.btnPurple.float-right(type='submit') Order Items
+                    form(method="POST", action='/cart/checkout')
+                      //- input.form-control.mr-2(type="text", name="patient",placeholder="Patient name", required)
+                      select.custom-select.mb-3#docket(onclick="if (this.value.startsWith('/')) { location = this.value;} else return;" name="docket" required)
+                        option(selected disabled) Choose/Add Docket
+                        option(value="/dockets/new") -- Add a Docket --
+                        if dockets && dockets.length >=1
+                          for docket in dockets
+                            option(value=`${docket._id}`) #{docket.docno} | #{docket.name}
+                      button.btn.btn-lg.btnPurple.float-right(type='submit') Order Items
 
 
             else
