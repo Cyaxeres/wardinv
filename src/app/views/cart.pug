@@ -31,7 +31,7 @@ block content
                         h5.mb-1 #{product.item.name}
                         h6.text-info.mb-0.mr-3
                           span #{displayPrices[index]}
-                      form.col-md-2(method="POST", action='/cart')
+                      form.col-md-3(method="POST", action='/cart')
                         .input-group.input-group-sm
                           input(type="hidden" name="product_id" value=`${product.item._id}`)
                           input.form-control.qnty(type='number', value=`${product.qty}`, aria-label="New quantity", max=`${product.item.quantity}`, min=1, name='qty' required)
@@ -39,19 +39,6 @@ block content
                             button.btn.btnBlue.btn-update(type='submit', href=`/update-quantity/${product.item._id}`) Update
                       a.h5.btn-red(href=`/cart/delete/${product.item._id}`, title="Remove item") 
                         i(class='icon ion-md-close-circle')
-                  hr
-                  //- .float-right
-                  //-   h5.text-right Total #[small (#{totalQty} items)] 
-                  //-   h1.text-right #[span.text-success #{totalPrice}]
-                  //-   form(method="POST", action='/cart/checkout')
-                  //-     //- input.form-control.mr-2(type="text", name="patient",placeholder="Patient name", required)
-                  //-     select.custom-select.mb-3#docket(onclick="if (this.value.startsWith('/')) { location = this.value;} else return;" name="docket" required)
-                  //-       option(selected disabled) Choose/Add Docket
-                  //-       option(value="/dockets/new") -- Add a Docket --
-                  //-       if dockets && dockets.length >=1
-                  //-         for docket in dockets
-                  //-           option(value=`${docket._id}`) #{docket.docno} | #{docket.name}
-                  //-     button.btn.btn-lg.btnPurple.float-right(type='submit') Order Items
 
                 .col-md-4
                   .card.checkoutCard
@@ -59,18 +46,12 @@ block content
                       h1 Order Details
                       //- hr#cardLine
                       form(method="POST", action='/cart/checkout')
-                        select.custom-select.mb-3mt-3#select-patient(onclick="if (this.value.startsWith('/')) { location = this.value;} else return;" name="docket" required)
+                        select.custom-select.mb-3.mt-3#select-patient(onchange="if (this.value.startsWith('/')) { location = this.value;} else return;" name="docket" required)
                           option(selected disabled) Choose/Add Docket
                           option(value="/dockets/new") -- Add a Docket --
                           if dockets && dockets.length >=1
                             for docket in dockets
                               option(value=`${docket._id}`) #{docket.docno} | #{docket.name}
-                        //- select.custom-select.mb-3.mt-3#select-patient(title="Click to select patient")
-                        //-   option(selected) Choose/Add Patient
-                        //-   option(value="1") Jerry Chang
-                        //-   option(value="2") Desiree Brown
-                        //-   option(value="3") Vito Corleone
-                        //-   option(value="4") Shawna White
                         .my-2
                           h5.text-light#total Total #[small (#{totalQty} items)]
                           h3.display-4#price #[span.text-light #{totalPrice}]
@@ -78,19 +59,3 @@ block content
             else
               h2.mt-3 No items in cart!
           .col-md-1
-
-//-  .card.col-lg-4.checkoutCard
-//-           .card-body
-//-             h1.display-4.text-uppercase Checkout
-//-             form(action='')
-//-               .input-group.mb-5
-//-                 input.form-control.form-control-lg(type='text', placeholder='Employee')
-//-                 // <label>Employee</label> 
-//-               .input-group.mb-5
-//-                 input.form-control.form-control-lg(type='text', placeholder='Patient')
-//-                 // <label>Patient</label> 
-//-               .row.align-items-center
-//-                 h3
-//-                   | Total:
-//-                   span $450.00
-//-                 button.btn.btn-lg.btnPink.btn-xlarge(type='submit') DISPENSE

@@ -11,7 +11,7 @@ block content
             +sidebar
 
             .container-fluid.content_section.col-10
-                form.mb-3.search#prodSearchForm(role="search")
+                form.mb-2.search#prodSearchForm(role="search")
                     .input-group#search-div
                         //- .input-group-prepend
                         //-     .input-group-text 
@@ -32,7 +32,7 @@ block content
                                 a.btn.btnPurple.mr-3(href="/products/new") Add Product
                                 - var cart = session.cart;
                                 if cart && cart.totalQty > 0  
-                                    a.btn.btnBlue(href="/cart") View Cart #[span.badge.badge-light #{cart.totalQty}]                    
+                                    a.btn.btn-success(href="/cart") View Cart #[span.badge.badge-light #{cart.totalQty}]                    
                         hr   
                         //- ul.list-inline.clearfix
                         //-     .float-right
