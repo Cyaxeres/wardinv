@@ -22,12 +22,14 @@ block content
                 | Your Cart
             hr
             if products && products.length > 0
-                  ul.mt-5.list-group
+              .row
+                .col-md-8
+                  ul.mt-3.list-group
                   each product, index in products
                     li.list-group-item.d-flex.justify-content-between.align-items-center.clearfix
                       .container-fluid
                         h5.mb-1 #{product.item.name}
-                        h6.text-success.mb-0.mr-3
+                        h6.text-info.mb-0.mr-3
                           span #{displayPrices[index]}
                       form.col-md-2(method="POST", action='/cart')
                         .input-group.input-group-sm
@@ -38,20 +40,57 @@ block content
                       a.h5.btn-red(href=`/cart/delete/${product.item._id}`, title="Remove item") 
                         i(class='icon ion-md-close-circle')
                   hr
-                  .float-right
-                    h5.text-right Total #[small (#{totalQty} items)] 
-                    h1.text-right #[span.text-success #{totalPrice}]
-                    form(method="POST", action='/cart/checkout')
-                      //- input.form-control.mr-2(type="text", name="patient",placeholder="Patient name", required)
-                      select.custom-select.mb-3#docket(onclick="if (this.value.startsWith('/')) { location = this.value;} else return;" name="docket" required)
-                        option(selected disabled) Choose/Add Docket
-                        option(value="/dockets/new") -- Add a Docket --
-                        if dockets && dockets.length >=1
-                          for docket in dockets
-                            option(value=`${docket._id}`) #{docket.docno} | #{docket.name}
-                      button.btn.btn-lg.btnPurple.float-right(type='submit') Order Items
+                  //- .float-right
+                  //-   h5.text-right Total #[small (#{totalQty} items)] 
+                  //-   h1.text-right #[span.text-success #{totalPrice}]
+                  //-   form(method="POST", action='/cart/checkout')
+                  //-     //- input.form-control.mr-2(type="text", name="patient",placeholder="Patient name", required)
+                  //-     select.custom-select.mb-3#docket(onclick="if (this.value.startsWith('/')) { location = this.value;} else return;" name="docket" required)
+                  //-       option(selected disabled) Choose/Add Docket
+                  //-       option(value="/dockets/new") -- Add a Docket --
+                  //-       if dockets && dockets.length >=1
+                  //-         for docket in dockets
+                  //-           option(value=`${docket._id}`) #{docket.docno} | #{docket.name}
+                  //-     button.btn.btn-lg.btnPurple.float-right(type='submit') Order Items
 
-
+                .col-md-4
+                  .card.checkoutCard
+                    .card-body
+                      h1 Order Details
+                      //- hr#cardLine
+                      form(method="POST", action='/cart/checkout')
+                        select.custom-select.mb-3mt-3#select-patient(onclick="if (this.value.startsWith('/')) { location = this.value;} else return;" name="docket" required)
+                          option(selected disabled) Choose/Add Docket
+                          option(value="/dockets/new") -- Add a Docket --
+                          if dockets && dockets.length >=1
+                            for docket in dockets
+                              option(value=`${docket._id}`) #{docket.docno} | #{docket.name}
+                        //- select.custom-select.mb-3.mt-3#select-patient(title="Click to select patient")
+                        //-   option(selected) Choose/Add Patient
+                        //-   option(value="1") Jerry Chang
+                        //-   option(value="2") Desiree Brown
+                        //-   option(value="3") Vito Corleone
+                        //-   option(value="4") Shawna White
+                        .my-2
+                          h5.text-light#total Total #[small (#{totalQty} items)]
+                          h3.display-4#price #[span.text-light #{totalPrice}]
+                          button.btn.btn-lg.btnBlue.btn-block.mt-3#btn-order(type='submit') Order Items
             else
               h2.mt-3 No items in cart!
           .col-md-1
+
+//-  .card.col-lg-4.checkoutCard
+//-           .card-body
+//-             h1.display-4.text-uppercase Checkout
+//-             form(action='')
+//-               .input-group.mb-5
+//-                 input.form-control.form-control-lg(type='text', placeholder='Employee')
+//-                 // <label>Employee</label> 
+//-               .input-group.mb-5
+//-                 input.form-control.form-control-lg(type='text', placeholder='Patient')
+//-                 // <label>Patient</label> 
+//-               .row.align-items-center
+//-                 h3
+//-                   | Total:
+//-                   span $450.00
+//-                 button.btn.btn-lg.btnPink.btn-xlarge(type='submit') DISPENSE

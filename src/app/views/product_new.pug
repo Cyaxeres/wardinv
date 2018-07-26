@@ -26,11 +26,11 @@ block content
                   label.text-dark(for="unit") Unit of Measure
                   br
                   .btn-group.btn-group-toggle#unit(data-toggle ='buttons',aria-descibedby="unitHelp")
-                    label.btn.btnBlue.btn-sm.active single
-                      input#single(type="radio", name="unit", autocomplete="off" checked='' value="one")
-                    label.btn.btnBlue.btn-sm pack
+                    label.btn.btnBlue.btn-sm#btn-single single
+                      input#single(type="radio", name="unit", autocomplete="off" value="one" required)
+                    label.btn.btnBlue.btn-sm#btn-pack pack
                       input#pack(type="radio", name="unit", autocomplete="off", value="pack")
-                    label.btn.btnBlue.btn-sm pounds
+                    label.btn.btnBlue.btn-sm#btn-pounds pounds
                       input#lbs(type="radio", name="unit", autocomplete="off", value="pounds")
                   small#unitHelp.form-text.text-muted Ex: a pack of needles
                 .form-row
@@ -69,11 +69,11 @@ block content
                           input#single(type="radio", name="type", autocomplete="off" checked='' value="medical")
                         label.btn.btnBlue.btn-sm general
                           input#pack(type="radio", name="type", autocomplete="off" value="general")
-                        label.btn.btnBlue.btn-sm hazardous
+                        label.btn.btn-danger.btn-sm hazardous
                           input#lbs(type="radio", name="type", autocomplete="off", value="hazardous")
 
                     .col-md-6
-                      label.text-dark(for="expdate") Expiration Date
+                      label.text-dark(for="expdate" ) Expiration Date
                         small.text-muted  (optional)
                       input.form-control#expdate(type="date", aria-descibedby="expdateHelp", name="expdate")
                       small#expdateHelp.form-text.text-muted Ex: How many packs?
