@@ -32,30 +32,6 @@ exports.home = (req, res) => {
   });
 };
 
-// exports.signup = (req, res) => {
-//   if (req.session.user) {
-//     res.redirect('/products');
-//   } else {
-//     res.render('signup', {
-//       error: req.flash("error"),
-//       success: req.flash("success"),
-//       session: req.session
-//     });
-//   }
-// }
-
-// exports.login = (req, res) => {
-//   if (req.session.user) {
-//     res.redirect('/products');
-//   } else {
-//     res.render('login', {
-//       error: req.flash("error"),
-//       success: req.flash("success"),
-//       session: req.session
-//     });
-//   }
-// }
-
 exports.viewProduct = (req, res) => {
   const prodID = req.params.id;
   Products.findById(prodID, (err, product) => {

@@ -32,29 +32,31 @@ exports.home = (req, res) => {
 
 exports.view = (req, res) => {
   const orderId = req.params.id;
-  Orders.findById(orderId, (err, order) => {
-    if (err) {
-      res.render("vieworder", {
-        session: req.session,
-        error: req.flash("error")
-      });
-    } else {
-      let cart = new Cart(order.cart);
-      let verif = req.session.verified;
-      req.session.verified = null;
-      res.render("vieworder", {
-        products: cart.generateArray(),
-        totalPrice: formatMoney(cart.totalPrice),
-        displayPrices: cart.makeDisplayPrices(),
-        totalQty: cart.totalQty,
-        order: order,
-        session: req.session,
-        verified: verif,
-        success: req.flash("success"),
-        error: req.flash("error")
-      });
-    }
-  });
+  Orders.findById(orderId)
+    .populate("docket")
+    .exec((err, order) => {
+      if (err) {
+        res.render("vieworder", {
+          session: req.session,
+          error: req.flash("error")
+        });
+      } else {
+        let cart = new Cart(order.cart);
+        let verif = req.session.verified;
+        req.session.verified = null;
+        res.render("vieworder", {
+          products: cart.generateArray(),
+          totalPrice: formatMoney(cart.totalPrice),
+          displayPrices: cart.makeDisplayPrices(),
+          totalQty: cart.totalQty,
+          order: order,
+          session: req.session,
+          verified: verif,
+          success: req.flash("success"),
+          error: req.flash("error")
+        });
+      }
+    });
 };
 
 exports.history = (req, res) => {
@@ -165,3 +167,37 @@ const deactivateOrder = async function(order, user) {
   );
   return nOrder;
 };
+
+exports.delete = (req, res) => {
+  Orders.findByIdAndRemove(req.params.id, (err, order) => {
+    if (err) {
+      req.flash("error", "Could not remove order at this time");
+      res.redirect("/orders/history");
+    } else if (order) {
+      req.flash("success", "Order removed");
+      res.redirect("/orders/history");
+    }
+  });
+};
+/* exports.edit = (req, res) => {
+  const order = req.body.order;
+  const product = req.body.product;
+  Orders.findById(order, (err, order) => {
+    if (err) {
+      req.flash("error", "Item couldn't be removed");
+      res.redirect("/orders/" + order._id);
+    }
+    let newCart = new Cart(order.cart);
+    newCart.remove(product);
+    order.set({ cart: newCart });
+    order.save((err, newOrder) => {
+      if (err) {
+        req.flash("error", "Item couldn't be removed");
+        res.redirect("/orders/" + newOrder._id);
+      }
+      req.flash("success", "Item removed");
+      res.redirect("/orders/" + newOrder._id);
+    });
+  });
+};
+ */

@@ -1,4 +1,4 @@
-import {formatMoney} from 'accounting';
+import { formatMoney } from "accounting";
 
 class Cart {
   //Gets the old cart if it exists or initializes a new one
@@ -36,7 +36,7 @@ class Cart {
   makeDisplayPrices() {
     let arr = [];
     for (let id in this.items) {
-      arr.push(formatMoney((this.items[id].price)));
+      arr.push(formatMoney(this.items[id].price));
     }
     return arr;
   }
@@ -45,12 +45,12 @@ class Cart {
     this.totalQty -= this.items[id].qty;
     this.totalPrice -= this.items[id].price;
     delete this.items[id];
-    if(this.totalQty <= 0 && this.items === {}) {
-        this.totalPrice = 0;
+    if (this.totalQty <= 0 && this.items === {}) {
+      this.totalPrice = 0;
     }
   }
 
-  updateQuantity(id, nQty){
+  updateQuantity(id, nQty) {
     //get item
     let storedItem = this.items[id];
     //remove previous quantity
@@ -67,35 +67,3 @@ class Cart {
 }
 
 module.exports = Cart;
-
-// Cart {
-//     items = {
-//         "988377839289282":{
-//             item:Joe,
-//             qty: 5,
-//             price: 3802
-//         }
-//         "988377839289282":{
-//             item:Joe,
-//             qty: 5,
-//             price: 3802
-//         }
-//         "988377839289282":{
-//             item:Joe,
-//             qty: 5,
-//             price: 3802
-//         }
-//         "988377839289282":{
-//             item:Joe,
-//             qty: 5,
-//             price: 3802
-//         }
-//         "988377839289282":{
-//             item:Joe,
-//             qty: 5,
-//             price: 3802
-//         }
-//     }
-//     Qty = qty - 5
-//     Price = now - pro
-// }

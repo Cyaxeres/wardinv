@@ -7,7 +7,7 @@ mixin alerts()
                 span(aria-hidden='true') ×
     if success && success.length > 0
         .alert.alert-success.alert-dismissible.animated.fadeInDown.animation-delay-200(role='alert')
-            strong Nice!
+            strong Success!
             |  #{success}
             button.close(type='button', data-dismiss='alert', aria-label='Close')
                 span(aria-hidden='true') ×

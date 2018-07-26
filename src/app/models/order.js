@@ -22,8 +22,9 @@ const orderSchema = Schema(
       type: Object,
       required: true
     },
-    patient: {
-      type: String,
+    docket: {
+      type: Schema.Types.ObjectId,
+      ref: "Docket",
       required: true
     },
     active: {

@@ -1,0 +1,40 @@
+extends layouts/main
+include mixins/sidebar
+include mixins/alerts
+
+append head
+  title Add Docket | CM
+
+block content
+  .container-fluid
+    .row
+      +sidebar
+      .container-fluid.content_section.col-10
+        .row
+          +alerts
+          .col-md-3
+          .col-md-6
+            .section.form_section.clearfix
+              form.login-form(role='form' action=(docket ? `/dockets/${docket._id}?_method=PUT`: '/dockets') method='post')
+                -var formTitle = (docket ? 'Edit Docket' : 'New Docket')
+                  h1.display-4.mb-4 #{formTitle}
+                .form-group
+                  label(for='docno') Docket Number
+                  input#docno.form-control(type='text' name=(docket ? 'docket[docno]' : 'docno') required='' placeholder='Ex: 123456'  pattern='[0-9]{6}' aria-describedby="docnoHelp" value=(docket ? docket.docno : ''))
+                  small#docnoHelp.form-text.text-muted Help: Must be a 6-digit number
+                .form-group
+                  label(for='name') Patient's Name
+                  input#name.form-control.form-name(type='text' name=(docket ? 'docket[name]' : 'name') autocomplete="off" required='' placeholder='Ex: Jeff Goldblum' value=(docket ? docket.name : ''))
+                .form-group
+                  label.text-dark(for="status") Status:
+                  br
+                  .btn-group.btn-group-toggle#status(data-toggle='buttons')
+                    //- label.btn.btnBlue.btn-sm(class=(docket && docket.status !='inactive' ? 'active' : undefined)) Active
+                    label.btn.btnBlue.btn-sm(class=(!docket ? 'active' : docket  && docket.status !='inactive' ? 'active' : undefined)) Active
+                      input#regular(type="radio", name=(docket ? 'docket[status]' : 'status'), autocomplete="off" checked value="active")
+
+                    label.btn.btnBlue.btn-sm(class=(docket && docket.status=='inactive' ? 'active' : undefined)) Inactive
+                      input#dispenser(type="radio", name=(docket ? 'docket[status]' : 'status'), autocomplete="off", value="inactive")
+                -var formBtnMsg = (docket ? 'Update Docket' : 'Add Docket')
+                  button.btn.btnPurple.btn-lg.float-right(type='submit') #{formBtnMsg}
+            .col-md-3
