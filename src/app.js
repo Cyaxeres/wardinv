@@ -120,7 +120,7 @@ app.use((req, res, next) => {
 // Error handler
 app.use((err, req, res, next) => {
   // eslint-disable-line no-unused-vars
-  res.status(err.status || 400).render("error", {
+  res.status(err.status || 400).render("404", {
     message: err.message
   });
   next();

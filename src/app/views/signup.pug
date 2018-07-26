@@ -28,7 +28,7 @@ block content
                                     input#password.form-control.form-username(type='password' name='password' ng-model='user.password' required='' placeholder='Password')
                                 .form-group
                                     label.sr-only(for='password') Pin
-                                    input#pin.form-control.form-username(type='pin' name='pin' ng-model='user.pin' required='' placeholder='Pin')
+                                    input#pin.form-control.form-username(type='password' name='pin' ng-model='user.pin' maxlength="4" required='' placeholder='Pin')
                                 .form-group
                                     label.text-dark(for="role") Role:
                                     br

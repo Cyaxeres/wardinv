@@ -21,19 +21,21 @@ block content
             hr
               
             if orders && orders.length > 0
-              ul.mt-3.list-group
-                li.list-group-item.d-flex.justify-content-between.align-items-center.clearfix#listHeader
-                  h5 From
-                  h5 No. of Items
-                  h5 Total Cost
-                  h5 View/Edit Order
-              each order, index in orders
-                li.list-group-item.d-flex.justify-content-between.align-items-center.clearfix
-                  p.mb-1 #{order.sender.username}
-                  p #{order.cart.totalQty} items 
-                  p.text-success #{prices[index]}
-                  button.btn.btnBlue.openViewModal(type='button', data-toggle='modal', data-target='#cartModal', data-order=`${order.id}`)
-                    | View/Edit
+              div#order-div
+                ul.mt-3.list-group#order-list
+                  li.list-group-item.d-flex.justify-content-around.align-items-center.clearfix#listHeader
+                    h5 From
+                    h5 No. of Items
+                    h5 Total Cost
+                    h5 View/Edit Order
+                each order, index in orders
+                  li.list-group-item.d-flex.justify-content-around.align-items-center.clearfix
+                    span.mb-1 #{order.sender.username}
+                    span #{order.cart.totalQty} items 
+                    span.text-info #{prices[index]}
+                    button.btn.btnBlue.openViewModal(type='button', data-toggle='modal', data-target='#cartModal', data-order=`${order.id}`)
+                      | View/Edit
+                  
             else
               h2.mt-3 No orders at this time
 
@@ -45,7 +47,7 @@ block content
                     button.close(type='button', data-dismiss='modal', aria-label='Close')
                       span(aria-hidden='true') &times;
                   .modal-body
-                    | Viewing this order will clear your cart if you have one
+                    h6 Viewing this order will clear your cart if you have one!
                   .modal-footer
                     button.btn.btn-secondary(type='button', data-dismiss='modal') Don't see the order
                     a.btn.btn-primary.seeOrder(href="") See the order

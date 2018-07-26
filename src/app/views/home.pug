@@ -12,11 +12,12 @@ block content
 
             .container-fluid.content_section.col-10
                 form.mb-3.search#prodSearchForm(role="search")
-                    .input-group
-                        .input-group-prepend
-                            .input-group-text 
-                                i(class="icon ion-md-search")
+                    .input-group#search-div
+                        //- .input-group-prepend
+                        //-     .input-group-text 
+                        //-         i(class="icon ion-md-search")
                         input.form-control.form-control-lg.searchTerm#prodSearch(type="text", name="prodSearch", placeholder="search products..." autofocus)
+                        i.text-muted(class="icon ion-md-search")#search-icon
                 
                 .row.product_content
                     +alerts
@@ -29,7 +30,7 @@ block content
                                 a.btn.btnPurple.mr-3(href="/products/new") Add Product
                                 - var cart = session.cart;
                                 if cart && cart.totalQty > 0  
-                                    a.btn.btn-success(href="/cart") View Cart #[span.badge.badge-light #{cart.totalQty}]                    
+                                    a.btn.btnBlue(href="/cart") View Cart #[span.badge.badge-light #{cart.totalQty}]                    
                         hr   
                         //- ul.list-inline.clearfix
                         //-     .float-right
@@ -55,7 +56,7 @@ block content
                                         //- h3 #{product.name} as #{product.unit}  #{product.unitq ? "of " + product.unitq : ""}
                                         .container-fluid
                                             h5.mb-0 #{product.name}
-                                            p.mb-0.text-success
+                                            p.mb-0.text-info
                                                 span #{displayPrices[index]} #[small.text-muted /#{unit}]
 
                                         if product.quantity > 0

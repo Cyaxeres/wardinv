@@ -41,7 +41,7 @@ block content
                   .col-md-4
                     .order__detail.mb-2.text-center
                       p.mb-1.order__part--title TO #[h4.font-weight-bold #{order.patient}]
-              .card.mt-4
+              .card.mt-4#orderCard
                 .card-body
                   .card-title 
                     p.order__part--title.text-uppercase Order Information  
@@ -58,7 +58,7 @@ block content
                     //- h3.mt-1 Total: #[span.text-success #{totalPrice}]
                     .order__detail.mb-2
                       p.mb-1.order__part--title TOTAL 
-                      h1.text-success #{totalPrice}
+                      h1.text-info #{totalPrice}
 
                     if order.active && verified != order.id
                       form(method="POST" action="/orders/sender/verify")

@@ -1,9 +1,17 @@
 extends layouts/main 
+include mixins/alerts
+
 block content
-	.wrap
-		.logo
-			h1 404
-			p Error occurred! - File not Found
-			.sub
-			p
-				a(href='/') Back
+	.container-fluid#error-container
+		.text-wrapper
+			.title(data-content="404")
+				h1 
+					span.number 4
+					span.number 0
+					span.number 4
+			.subtitle
+				p It seems you've lost your way.
+			.btn-redirect
+				a.btn.btnPurple-outline.btn-lg#btn-error(href="/products")
+					i.mr-2(class='icon ion-ios-arrow-back') 
+					| Take Me Back
