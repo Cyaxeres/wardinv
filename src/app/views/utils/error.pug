@@ -1,4 +1,4 @@
-extends layouts/main 
+extends ../layouts/main
 
 append head
 	title #{title} | CM
@@ -6,13 +6,12 @@ append head
 block content
 	.container-fluid#error-container
 		.text-wrapper
-			.title(data-content="404")
+			.title(data-content= `${status}`)
 				h1 
-					span.number 4
-					span.number 0
-					span.number 4
+					each key in statusSplit
+						span.number #{key}
 			.subtitle
-				p It seems you've lost your way.
+				p #{message}
 			.btn-redirect
 				a.btn.btnPurple-outline.btn-lg#btn-error(href="/products")
 					i.mr-2(class='icon ion-ios-arrow-back') 

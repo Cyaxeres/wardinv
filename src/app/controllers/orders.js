@@ -11,12 +11,12 @@ exports.home = (req, res) => {
     },
     (err, orders) => {
       if (err) {
-        res.render("orders", {
+        res.render("order/index", {
           error: req.flash("error")
         });
       } else {
         let displayPrices = orders.map(x => formatMoney(x.cart.totalPrice));
-        res.render("orders", {
+        res.render("order/index", {
           orders: orders,
           prices: displayPrices,
           success: req.flash("success"),
@@ -36,7 +36,7 @@ exports.view = (req, res) => {
     .populate("docket")
     .exec((err, order) => {
       if (err) {
-        res.render("vieworder", {
+        res.render("order/view", {
           session: req.session,
           error: req.flash("error")
         });
@@ -44,7 +44,7 @@ exports.view = (req, res) => {
         let cart = new Cart(order.cart);
         let verif = req.session.verified;
         req.session.verified = null;
-        res.render("vieworder", {
+        res.render("order/view", {
           products: cart.generateArray(),
           totalPrice: formatMoney(cart.totalPrice),
           displayPrices: cart.makeDisplayPrices(),
@@ -68,12 +68,12 @@ exports.history = (req, res) => {
     },
     (err, orders) => {
       if (err) {
-        res.render("orders", {
+        res.render("order/index", {
           error: req.flash("error")
         });
       } else {
         let displayPrices = orders.map(x => formatMoney(x.cart.totalPrice));
-        res.render("orders", {
+        res.render("order/index", {
           orders: orders,
           prices: displayPrices,
           success: req.flash("success"),

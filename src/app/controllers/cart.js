@@ -25,7 +25,7 @@ exports.addToCart = (req, res) => {
 
 exports.viewCart = (req, res) => {
   if (!req.session.cart || req.session.cart.items == {}) {
-    res.render("cart", {
+    res.render("cart/index", {
       products: null
     });
   } else {
@@ -35,7 +35,7 @@ exports.viewCart = (req, res) => {
     let dockets = undefined;
     Docket.find({ status: "active" }, (err, foundDockets) => {
       dockets = foundDockets;
-      res.render("cart", {
+      res.render("cart/index", {
         products: cart.generateArray(),
         totalPrice: formatMoney(cart.totalPrice),
         displayPrices: cart.makeDisplayPrices(),
@@ -52,7 +52,7 @@ exports.viewCart = (req, res) => {
 
 exports.removeFromCart = (req, res) => {
   if (!req.session.cart || req.session.cart.items == {}) {
-    res.render("cart", {
+    res.render("cart/index", {
       products: null
     });
   }
@@ -66,7 +66,7 @@ exports.removeFromCart = (req, res) => {
 
 exports.updateQuantity = (req, res) => {
   if (!req.session.cart || req.session.cart.items == {}) {
-    res.render("cart", {
+    res.render("cart/index", {
       products: null
     });
   }

@@ -1,0 +1,40 @@
+extends ../layouts/main
+include ../mixins/sidebar
+include ../mixins/alerts
+
+append head
+  title #{title} | Cabinet Manager
+
+block content
+  .container-fluid
+    .row
+      +sidebar
+
+      .container-fluid.content_section.col-10
+        +alerts
+        .row
+          .col-md-1
+          .col-md-10
+
+            .product_content.clearfix
+              h1.display-4.mb-0
+                  i.mr-3.color-primary(class="icon ion-md-cube")
+                  | #{title}
+            hr
+            if orders && orders.length > 0
+              .list-overflow
+                ul.mt-5.list-group
+                  li.list-group-item.d-flex.justify-content-around.align-items-center#listHeader
+                    h5 From
+                    h5 No. of Items
+                    h5 Total Cost
+                    h5 View Order
+                each order, index in orders
+                  li.list-group-item.d-flex.justify-content-around.align-items-center
+                    p.mb-1 #{order.sender.username}
+                    p #{order.cart.totalQty} items 
+                    p.text-success #{prices[index]}
+                    a.btn.btnBlue(href=`/orders/${order.id}` title="See order") View
+            else
+              h2.mt-3 Nothing to see here... 
+          .col-md-1

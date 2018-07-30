@@ -29,11 +29,11 @@ exports.home = (req, res) => {
   //Get all active docket
   Docket.find({}, (err, dockets) => {
     if (err) {
-      res.render("docket_home", {
+      res.render("docket/index", {
         error: req.flash("error")
       });
     } else {
-      res.render("docket_home", {
+      res.render("docket/index", {
         dockets: dockets,
         success: req.flash("success"),
         title: "Dockets"
@@ -53,7 +53,7 @@ exports.edit = (req, res) => {
       res.redirect("/dockets");
     } else if (foundDocket) {
       let docket = foundDocket;
-      res.render("docket_new", { docket: docket });
+      res.render("docket/new", { docket: docket });
     }
   });
 };
