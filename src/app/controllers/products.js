@@ -13,14 +13,14 @@ exports.home = (req, res) => {
   //Find items and send them to view
   Products.find({}, function(err, products) {
     if (err) {
-      res.render("home", {
+      res.render("product/index", {
         error: req.flash("error"),
         cart: req.session.cart,
         products: products
       });
     } else {
       let displayPrices = products.map(x => formatMoney(x.uprice));
-      res.render("home", {
+      res.render("product/index", {
         success: req.flash("success"),
         cart: req.session.cart,
         products: products,
@@ -37,12 +37,12 @@ exports.viewProduct = (req, res) => {
   Products.findById(prodID, (err, product) => {
     const displayPrice = formatMoney(product.uprice);
     if (err) {
-      res.render("product_view", {
+      res.render("product/view", {
         error: req.flash("error"),
         product: product
       });
     } else {
-      res.render("product_view", {
+      res.render("product/view", {
         product: product,
         displayPrice: displayPrice
       });
@@ -51,7 +51,7 @@ exports.viewProduct = (req, res) => {
 };
 
 exports.newProduct = (req, res) => {
-  res.render("product_new");
+  res.render("product/new");
 };
 
 exports.createProduct = (req, res) => {

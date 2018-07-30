@@ -1,6 +1,6 @@
-extends layouts/main
-include mixins/sidebar
-include mixins/alerts
+extends ../layouts/main
+include ../mixins/sidebar
+include ../mixins/alerts
 
 append head
   title Your Cart - Ward
@@ -24,30 +24,31 @@ block content
             if products && products.length > 0
               .row
                 .col-md-8
-                  ul.mt-3.list-group
-                  each product, index in products
-                    li.list-group-item.d-flex.justify-content-between.align-items-center.clearfix
-                      .container-fluid
-                        h5.mb-1 #{product.item.name}
-                        h6.text-info.mb-0.mr-3
-                          span #{displayPrices[index]}
-                      form.col-md-3(method="POST", action='/cart')
-                        .input-group.input-group-sm
-                          input(type="hidden" name="product_id" value=`${product.item._id}`)
-                          input.form-control.qnty(type='number', value=`${product.qty}`, aria-label="New quantity", max=`${product.item.quantity}`, min=1, name='qty' required)
-                          .input-group-append
-                            button.btn.btnBlue.btn-update(type='submit', href=`/update-quantity/${product.item._id}`) Update
-                      a.h5.btn-red(href=`/cart/delete/${product.item._id}`, title="Remove item") 
-                        i(class='icon ion-md-close-circle')
+                  .list-overflow
+                    ul.mt-3.list-group
+                      each product, index in products
+                        li.list-group-item.d-flex.justify-content-between.align-items-center.clearfix
+                          .container-fluid
+                            h5.mb-1 #{product.item.name}
+                            h6.text-info.mb-0.mr-3
+                              span #{displayPrices[index]}
+                          form.col-md-3(method="POST", action='/cart')
+                            .input-group.input-group-sm
+                              input(type="hidden" name="product_id" value=`${product.item._id}`)
+                              input.form-control.qnty(type='number', value=`${product.qty}`, aria-label="New quantity", max=`${product.item.quantity}`, min=1, name='qty' required)
+                              .input-group-append
+                                button.btn.btnBlue.btn-update(type='submit', href=`/update-quantity/${product.item._id}`) Update
+                          a.h5.btn-red(href=`/cart/delete/${product.item._id}`, title="Remove item") 
+                            i(class='icon ion-md-close-circle')
 
                 .col-md-4
                   .card.checkoutCard
                     .card-body
-                      h1 Order Details
-                      //- hr#cardLine
+                      h1 Checkout
+                      //- hr.bg-light
                       form(method="POST", action='/cart/checkout')
                         select.custom-select.mb-3.mt-3#select-patient(onchange="if (this.value.startsWith('/')) { location = this.value;} else return;" name="docket" required)
-                          option(selected disabled) Choose/Add Docket
+                          option(value="" selected disabled) Choose/Add Docket
                           option(value="/dockets/new") -- Add a Docket --
                           if dockets && dockets.length >=1
                             for docket in dockets

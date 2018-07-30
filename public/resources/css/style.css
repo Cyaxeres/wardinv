@@ -22,6 +22,10 @@
   color: #7333d2;
 }
 
+.color-secondary{
+  color: var(--text-color-grey);
+}
+
 .btn-red,
 .btn-red:visited {
   color: grey;
@@ -56,6 +60,15 @@ body {
   z-index: 1;
   color: #24344b;
 }
+
+.list-overflow{
+  height: 80vh;
+  overflow: auto;
+}
+/* 
+.list-overflow > li{
+  height: 5rem;
+} */
 
 .section {
   padding: 2rem;
@@ -226,6 +239,7 @@ body {
 
 .btnPurple-outline,
 .btnPurple-outline:visited {
+  background: transparent;
   border: 0.2rem solid var(--btn-purple-color);
   color: var(--text-color-light);
   border-radius: 0.5rem;
@@ -247,6 +261,7 @@ body {
 
 .btnBlue-outline,
 .btnBlue-outline:visited {
+  background: transparent;
   border: 0.2rem solid var(--btn-blue-color);
   color: var(--text-color-light);
   border-radius: 0.5rem;
@@ -291,7 +306,8 @@ body {
   padding-right: 5rem;
 }
 
-#btn-order {
+#btn-order,
+#btn-dispense {
   border-radius: 0.3rem;
   padding: 1rem;
 }
@@ -304,6 +320,27 @@ body {
 #btn-error:active {
   font-weight: 500;
   transform: translate3d(0rem, -0.2rem, -0.2rem);
+  transition: 0.3s ease-in-out;
+}
+
+#btn-error i {
+  color: var(--text-color-light);
+  font-size: 1.4rem;
+}
+
+#btn-verify{
+  background: transparent;
+  /* transform: translateY(-15%); */
+}
+
+#btn-verify i{
+  font-size: 1.3rem;
+}
+
+#btn-verify:hover,
+#btn-verify:focus{
+  color: var(--btn-blue-color);
+  /* border-bottom: .1rem solid var(--btn-blue-color); */
   transition: 0.3s ease-in-out;
 }
 
@@ -476,11 +513,11 @@ body {
   font-weight: 400;
 }
 
-.checkoutCard h3,
 .checkoutCard h5 {
   color: var(--text-color-light);
   font-weight: 400;
 }
+
 
 /* .checkoutCard h3>span {
   font-weight: 700;
@@ -519,31 +556,44 @@ body {
   border: 0;
   border-bottom: 2px solid var(--btn-blue-color);
   background-color: transparent;
-  border-radius: 0.5rem;
+  border-radius: 0;
   color: var(--text-color-light);
   text-align-last: center;
-  background: url(../img/drop-down-arrow.svg) center no-repeat;
-  background-position-x: 15rem;
+  background: url(../img/drop-down-arrow.svg) right center no-repeat;
 }
 
 .checkoutCard .input-group ::-webkit-input-placeholder {
   position: absolute;
-  color: var(--text-color-grey);
+  color: var(--text-color-light);
   font-size: 1.2rem;
-  transform: translateX(15%);
+  text-align: center;
 }
 
 #select-patient:hover,
-#select-patient:focus {
+#select-patient:focus,
+#pin:hover,
+#pin:focus {
   box-shadow: none;
   outline: none;
-  border-width: 3px;
+  border-width: .2rem;
+  text-align: center;
+  color: var(--text-color-light);
   border-color: var(--btn-blue-active);
   transition: all 0.2s ease-in-out;
 }
 
 #select-patient option {
   color: var(--nav-section-color);
+}
+
+#pin{
+  appearance: none;
+  position: relative;
+  border: 0;
+  border-bottom: .1rem solid var(--btn-blue-color);
+  background-color: transparent;
+  border-radius: 0;
+  background: url(../img/locked-padlock.svg) left center no-repeat; 
 }
 
 /* #cardLine{
@@ -596,11 +646,6 @@ body {
   font-size: 3rem;
   font-weight: 500;
   color: var(--text-color-light);
-}
-
-#btn-error i {
-  color: var(--text-color-light);
-  font-size: 1.4rem;
 }
 
 .number {

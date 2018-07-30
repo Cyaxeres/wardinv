@@ -12,7 +12,7 @@ import chalk from "chalk";
 let mongoStore = require("connect-mongo")(session);
 
 //Logging middleware with color options
-export const morganMiddleware = logger(function(tokens, req, res) {
+export const morganMiddleware = logger(function (tokens, req, res) {
   return [
     chalk.hex("#ff4757")("🍄  Morgan: "),
     chalk.hex("#34ace0")(tokens.method(req, res)),
@@ -29,8 +29,9 @@ export const morganMiddleware = logger(function(tokens, req, res) {
 /***************Mongodb configuratrion********************/
 import configDB from "./config/database.js";
 mongoose.connect(
-  configDB.url,
-  { useNewUrlParser: true }
+  configDB.url, {
+    useNewUrlParser: true
+  }
 ); // connect to our database
 
 // import seedProd from "../src/app/models/seeders/product-seeder";
@@ -110,33 +111,39 @@ require("./config/auth")(passport); // pass passport for configuration
 // routes ======================================================================
 require("./config/routes.js")(app, passport); // load our routes and pass in our app and fully configured passport
 
-// // Catch 404 and forward to error handler
-// app.use((req, res, next) => {
-//   const err = new Error("This page doesn't exist!");
-//   err.status = 404;
-//   next(err);
-// });
+// Catch 404 and forward to error handler
+app.use((req, res, next) => {
+  const err = new Error("This page doesn't exist!");
+  err.status = 404;
+  next(err);
+});
 
-// // Error handler
-// app.use((err, req, res, next) => {
-//   // eslint-disable-line no-unused-vars
-//   res.status(err.status || 400).render("error", {
-//     message: err.message
+// Error handler
+app.use((err, req, res, next) => {
+  // eslint-disable-line no-unused-vars
+  let newStatus = err.status.toString().split("");
+  res.status(err.status || 400).render("utils/error", {
+    message: err.message,
+    status: err.status,
+    statusSplit: newStatus
+  });
+  // next();
+});
+
+// TODO: Refactor Error handling 
+// app.use(function(req, res, next) {
+//   res.status(404).render("utils/404", {
+//     title: "Sorry, page not found",
+//     session: req.session
 //   });
 //   next();
 // });
 
-app.use(function(req, res, next) {
-  res.status(404).render("404", {
-    title: "Sorry, page not found",
-    session: req.session
-  });
-});
-
-app.use(function(req, res, next) {
-  res.status(500).render("404", {
-    title: "Sorry, page not found"
-  });
-});
+// app.use(function(req, res, next) {
+//   res.status(500).render("utils/404", {
+//     title: "Sorry, page not found"
+//   });
+//   next();
+// });
 
 export default app;

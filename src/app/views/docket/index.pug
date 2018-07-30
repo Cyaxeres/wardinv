@@ -1,7 +1,6 @@
-extends layouts/main
-include mixins/sidebar
-include mixins/alerts
-
+extends ../layouts/main
+include ../mixins/sidebar
+include ../mixins/alerts
 append head
   title #{title} | CM
 
@@ -34,18 +33,19 @@ block content
                   a.btn.btn-success(href="/cart") View Cart #[span.badge.badge-light #{cart.totalQty}]  
                   
             hr   
-            ul.mt-5.list-group#productList
-                li.list-group-item.d-flex.justify-content-around.align-items-center#listHeader
-                  h5 Docket Number
-                  h5 Patient
-                  h5 Status
-                  h5 Edit Docket
-                each docket, index in dockets
-                  li.list-group-item.d-flex.justify-content-around.align-items-center
-                    p.mb-1 #{docket.docno}
-                    p #{docket.name}
-                    p(class=(docket.status==='active'? 'text-success': 'text-muted')) #{docket.status}
-                    a.btn.btnBlue(href=`/dockets/${docket._id}/edit` title="Edit docket") Edit Docket
+            .list-overflow
+              ul.mt-5.list-group
+                  li.list-group-item.d-flex.justify-content-around.align-items-center#listHeader
+                    h5 Docket Number
+                    h5 Patient
+                    h5 Status
+                    h5 Edit Docket
+                  each docket, index in dockets
+                    li.list-group-item.d-flex.justify-content-around.align-items-center
+                      p.mb-1 #{docket.docno}
+                      p #{docket.name}
+                      p(class=(docket.status==='active'? 'text-success': 'text-muted')) #{docket.status}
+                      a.btn.btnBlue(href=`/dockets/${docket._id}/edit` title="Edit docket") Edit Docket
           .col-md-1
             //- a.btn.btn-secondary.btn-sm(href=`/products/${product._id}`) View Product
             //- script(src='/assets/resources/js/filter.js')
