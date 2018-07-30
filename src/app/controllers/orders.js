@@ -20,6 +20,7 @@ exports.home = (req, res) => {
           orders: orders,
           prices: displayPrices,
           success: req.flash("success"),
+          error: req.flash("error"),
           title: "All Orders"
         });
         // console.log(orders);
@@ -34,28 +35,26 @@ exports.view = (req, res) => {
   const orderId = req.params.id;
   Orders.findById(orderId)
     .populate("docket")
-    .exec((err, order) => {
-      if (err) {
-        res.render("order/view", {
-          session: req.session,
-          error: req.flash("error")
-        });
-      } else {
-        let cart = new Cart(order.cart);
-        let verif = req.session.verified;
-        req.session.verified = null;
-        res.render("order/view", {
-          products: cart.generateArray(),
-          totalPrice: formatMoney(cart.totalPrice),
-          displayPrices: cart.makeDisplayPrices(),
-          totalQty: cart.totalQty,
-          order: order,
-          session: req.session,
-          verified: verif,
-          success: req.flash("success"),
-          error: req.flash("error")
-        });
-      }
+    .exec()
+    .then(order => {
+      let cart = new Cart(order.cart);
+      let verif = req.session.verified;
+      req.session.verified = null;
+      res.render("order/view", {
+        products: cart.generateArray(),
+        totalPrice: formatMoney(cart.totalPrice),
+        displayPrices: cart.makeDisplayPrices(),
+        totalQty: cart.totalQty,
+        order: order,
+        session: req.session,
+        verified: verif,
+        success: req.flash("success"),
+        error: req.flash("error")
+      });
+    })
+    .catch(err => {
+      req.flash("error", "Could not find that order");
+      res.redirect("/orders");
     });
 };
 
@@ -82,7 +81,9 @@ exports.history = (req, res) => {
         // console.log(orders);
       }
     }
-  );
+  ).sort({
+    created_at: -1
+  });
 };
 
 exports.checkout = (req, res) => {

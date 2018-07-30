@@ -22,7 +22,7 @@
   color: #7333d2;
 }
 
-.color-secondary{
+.color-secondary {
   color: var(--text-color-grey);
 }
 
@@ -61,7 +61,7 @@ body {
   color: #24344b;
 }
 
-.list-overflow{
+.list-overflow {
   height: 80vh;
   overflow: auto;
 }
@@ -328,17 +328,17 @@ body {
   font-size: 1.4rem;
 }
 
-#btn-verify{
+#btn-verify {
   background: transparent;
   /* transform: translateY(-15%); */
 }
 
-#btn-verify i{
+#btn-verify i {
   font-size: 1.3rem;
 }
 
 #btn-verify:hover,
-#btn-verify:focus{
+#btn-verify:focus {
   color: var(--btn-blue-color);
   /* border-bottom: .1rem solid var(--btn-blue-color); */
   transition: 0.3s ease-in-out;
@@ -518,7 +518,6 @@ body {
   font-weight: 400;
 }
 
-
 /* .checkoutCard h3>span {
   font-weight: 700;
 } */
@@ -575,7 +574,7 @@ body {
 #pin:focus {
   box-shadow: none;
   outline: none;
-  border-width: .2rem;
+  border-width: 0.2rem;
   text-align: center;
   color: var(--text-color-light);
   border-color: var(--btn-blue-active);
@@ -586,14 +585,14 @@ body {
   color: var(--nav-section-color);
 }
 
-#pin{
+#pin {
   appearance: none;
   position: relative;
   border: 0;
-  border-bottom: .1rem solid var(--btn-blue-color);
+  border-bottom: 0.1rem solid var(--btn-blue-color);
   background-color: transparent;
   border-radius: 0;
-  background: url(../img/locked-padlock.svg) left center no-repeat; 
+  background: url(../img/locked-padlock.svg) left center no-repeat;
 }
 
 /* #cardLine{
@@ -643,7 +642,7 @@ body {
 }
 
 .subtitle {
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 500;
   color: var(--text-color-light);
 }

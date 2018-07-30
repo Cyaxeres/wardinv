@@ -1,16 +1,17 @@
 //load the things we need
-import mongoose from 'mongoose';
-import shortid from 'shortid';
+import mongoose from "mongoose";
+import shortid from "shortid";
 
 //define the schema for our item model
 const productSchema = mongoose.Schema({
   _id: {
     type: String,
-    'default': shortid.generate
+    default: shortid.generate
   },
   name: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   }, //Example: War Pike
   unit: {
     type: String,
@@ -43,4 +44,4 @@ const productSchema = mongoose.Schema({
 });
 
 //create the model for users and expose it to our app
-module.exports = mongoose.model('Product', productSchema);
+module.exports = mongoose.model("Product", productSchema);

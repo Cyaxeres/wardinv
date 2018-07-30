@@ -65,6 +65,7 @@ module.exports = (app, passport) => {
 
   app.get("/dockets/new", base.checkAuth(2), dockets.new);
   app.get("/dockets/:id/edit", base.checkAuth(2), dockets.edit);
+  app.get("/dockets/:id", base.checkAuth(2), dockets.view);
   app.put("/dockets/:id", base.checkAuth(2), dockets.update);
   app.get("/dockets", base.checkAuth(2), dockets.home);
   app.post("/dockets", base.checkAuth(2), dockets.add);

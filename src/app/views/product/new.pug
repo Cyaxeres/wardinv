@@ -2,7 +2,7 @@ extends ../layouts/main
 include ../mixins/sidebar
 
 append head
-  title Add Product | Ward
+  title Add Product | CM
 
 block content
   .container-fluid
@@ -38,7 +38,7 @@ block content
                     label.text-dark(for="unitq") Quantity 
                       small.text-muted  (per unit)
                     input.form-control#unitq(type="number", aria-descibedby="unitqHelp", min= 1, name="unitq" value= 1)
-                    small#unitqHelp.form-text.text-muted Ex: How many in a pack?
+                    small#unitqHelp.form-text.text-muted Ex: How many in a pack? or  How many pounds?
                   .form-group.col-md-6
                     label.text-dark(for="uprice") Price 
                     small.text-muted  (per unit)

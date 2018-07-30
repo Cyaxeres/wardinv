@@ -26,8 +26,9 @@ block content
                       span.badge.badge-secondary Not delivered
                     else
                       span.badge.badge-success Delivered
-                  button.btn.btn-outline-danger.openViewModal(type='button', data-toggle='modal', data-target='#cartModal', data-order=`/delete/${order.id}`)
-                    | Delete Order
+                  if order.active && user._id == order.sender.id
+                    button.btn.btn-outline-danger.openViewModal(type='button', data-toggle='modal', data-target='#cartModal', data-order=`/delete/${order.id}`)
+                      | Delete Order
               hr
               .order__details
                 .row

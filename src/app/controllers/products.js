@@ -1,14 +1,6 @@
 import Products from "../models/product";
 import { formatMoney } from "accounting";
 
-// exports.loggedIn = (req, res, next) => {
-//   if (req.session.user) { // req.session.passport._id
-//     next();
-//   } else {
-//     res.redirect('/login');
-//   }
-// }
-
 exports.home = (req, res) => {
   //Find items and send them to view
   Products.find({}, function(err, products) {
@@ -33,21 +25,22 @@ exports.home = (req, res) => {
 };
 
 exports.viewProduct = (req, res) => {
-  const prodID = req.params.id;
-  Products.findById(prodID, (err, product) => {
-    const displayPrice = formatMoney(product.uprice);
-    if (err) {
-      res.render("product/view", {
-        error: req.flash("error"),
-        product: product
-      });
-    } else {
-      res.render("product/view", {
-        product: product,
-        displayPrice: displayPrice
-      });
-    }
-  });
+  // const prodID = req.params.id;
+  // Products.findById(prodID, (err, product) => {
+  //   const displayPrice = formatMoney(product.uprice);
+  //   if (err) {
+  //     res.render("product/view", {
+  //       error: req.flash("error"),
+  //       product: product
+  //     });
+  //   } else {
+  //     res.render("product/view", {
+  //       product: product,
+  //       displayPrice: displayPrice
+  //     });
+  //   }
+  // });
+  res.redirect("/products");
 };
 
 exports.newProduct = (req, res) => {
@@ -55,30 +48,21 @@ exports.newProduct = (req, res) => {
 };
 
 exports.createProduct = (req, res) => {
-  let pname = req.body.name;
-  let punit = req.body.unit;
-  let punitq = req.body.unitq;
-  let puprice = req.body.uprice;
-  let pquantity = req.body.quantity;
-  let ptype = req.body.type;
-  let pexpdate = req.body.expdate;
-  let preorder = req.body.reorder;
-
   const newProduct = {
-    name: pname,
-    unit: punit,
-    unitq: punitq,
-    uprice: puprice,
-    quantity: pquantity,
-    type: ptype,
-    expdate: pexpdate,
-    reorder: preorder
+    name: req.body.name,
+    unit: req.body.unit,
+    unitq: req.body.unitq,
+    uprice: req.body.uprice,
+    quantity: req.body.quantity,
+    type: req.body.type,
+    expdate: req.body.expdate,
+    reorder: req.body.reorder
   };
 
   //Create new product
   Products.create(newProduct, (err, product) => {
     if (err) {
-      req.flash("error", err);
+      req.flash("error", "Could not add product. Maybe it already exists?");
       res.redirect("/products");
     } else {
       req.flash("success", `${product.name} was added successfully`);

@@ -46,7 +46,7 @@ block content
                     .card-body
                       h1 Checkout
                       //- hr.bg-light
-                      form(method="POST", action='/cart/checkout')
+                      form#cartForm(method="POST", action='/cart/checkout')
                         select.custom-select.mb-3.mt-3#select-patient(onchange="if (this.value.startsWith('/')) { location = this.value;} else return;" name="docket" required)
                           option(value="" selected disabled) Choose/Add Docket
                           option(value="/dockets/new") -- Add a Docket --
@@ -60,3 +60,5 @@ block content
             else
               h2.mt-3 No items in cart!
           .col-md-1
+  script.
+    document.getElementById("cartForm").reset();

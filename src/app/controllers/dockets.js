@@ -1,7 +1,7 @@
 import Docket from "../models/docket";
 
 exports.new = (req, res) => {
-  res.render("docket_new");
+  res.render("docket/new");
 };
 
 exports.add = (req, res) => {
@@ -72,4 +72,8 @@ exports.update = (req, res) => {
       }
     }
   );
+};
+
+exports.view = (req, res) => {
+  res.redirect("/dockets");
 };

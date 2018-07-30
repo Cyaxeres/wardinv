@@ -12,7 +12,7 @@ import chalk from "chalk";
 let mongoStore = require("connect-mongo")(session);
 
 //Logging middleware with color options
-export const morganMiddleware = logger(function (tokens, req, res) {
+export const morganMiddleware = logger(function(tokens, req, res) {
   return [
     chalk.hex("#ff4757")("🍄  Morgan: "),
     chalk.hex("#34ace0")(tokens.method(req, res)),
@@ -29,7 +29,8 @@ export const morganMiddleware = logger(function (tokens, req, res) {
 /***************Mongodb configuratrion********************/
 import configDB from "./config/database.js";
 mongoose.connect(
-  configDB.url, {
+  configDB.url,
+  {
     useNewUrlParser: true
   }
 ); // connect to our database
@@ -121,16 +122,17 @@ app.use((req, res, next) => {
 // Error handler
 app.use((err, req, res, next) => {
   // eslint-disable-line no-unused-vars
+  err.status = err.status || 400;
   let newStatus = err.status.toString().split("");
-  res.status(err.status || 400).render("utils/error", {
+  res.status(err.status).render("utils/error", {
     message: err.message,
     status: err.status,
     statusSplit: newStatus
   });
-  // next();
+  next();
 });
 
-// TODO: Refactor Error handling 
+// TODO: Refactor Error handling
 // app.use(function(req, res, next) {
 //   res.status(404).render("utils/404", {
 //     title: "Sorry, page not found",

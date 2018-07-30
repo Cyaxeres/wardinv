@@ -13,15 +13,15 @@ mixin sidebar()
                 a(href="/orders/history", class=(path==='/orders/history'? 'active': undefined))
                     i(class="icon ion-md-cube")
                     span.ml-2 My Orders
+            li
+                a(href="/dockets", class=(path==='/dockets'?'active':undefined))
+                    i(class="icon ion-md-folder")
+                    span.ml-2 Dockets
             if user && user.role_id <= 1
                 li
                     a(href="/orders", class=(path==='/orders'? 'active': undefined))
                         i(class="icon ion-md-cube")
                         span.ml-2 All Orders
-                li
-                    a(href="/dockets", class=(path==='/dockets'?'active':undefined))
-                        i(class="icon ion-md-folder")
-                        span.ml-2 Dockets
             if user && session.user.role_id < 1
                 li
                     a(href="/users/new", class=(path==='/users/new'?'active':undefined))

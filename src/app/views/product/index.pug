@@ -3,7 +3,7 @@ include ../mixins/sidebar
 include ../mixins/alerts
 
 append head
-    title Home | Cabinet Manager
+    title Home | CM
 
 block content
     .container-fluid
@@ -29,7 +29,8 @@ block content
                                 i.mr-3.color-primary(class="icon ion-md-pricetags")
                                 | Products
                             .btn-group.float-right.animated.fadeInRight.animation-delay-200
-                                a.btn.btnPurple.mr-3(href="/products/new") Add Product
+                                if user && user.role_id <= 1
+                                    a.btn.btnPurple.mr-3(href="/products/new") Add Product
                                 - var cart = session.cart;
                                 if cart && cart.totalQty > 0  
                                     a.btn.btn-success(href="/cart") View Cart #[span.badge.badge-light #{cart.totalQty}]                    
@@ -51,6 +52,8 @@ block content
                                 each product, index in products
                                     if product.unit == 'pack'
                                         -var unit =  `pack of ${product. unitq}`;
+                                    else if product.unit == 'pounds'
+                                        -var unit =  `${product. unitq} pounds`;
                                     else
                                         -var unit = `${product.unit}`;
 
