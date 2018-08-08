@@ -69,9 +69,4 @@ module.exports = (app, passport) => {
   app.put("/dockets/:id", base.checkAuth(2), dockets.update);
   app.get("/dockets", base.checkAuth(2), dockets.home);
   app.post("/dockets", base.checkAuth(2), dockets.add);
-  // app.get("/theists", (req, res, next) => {
-  //   const err = new Error("Internal Server Error!");
-  //   err.status = 500;
-  //   next(err);
-  // });
 };

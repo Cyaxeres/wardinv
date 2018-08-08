@@ -3,7 +3,7 @@ include ../mixins/sidebar
 include ../mixins/alerts
 
 append head
-  title #{title} | Cabinet Manager
+  title #{title} | CM
 
 block content
   .container-fluid
@@ -28,12 +28,20 @@ block content
                     h5 From
                     h5 No. of Items
                     h5 Total Cost
+                    h5 Status
                     h5 View Order
                 each order, index in orders
                   li.list-group-item.d-flex.justify-content-around.align-items-center
                     p.mb-1 #{order.sender.username}
                     p #{order.cart.totalQty} items 
                     p.text-success #{prices[index]}
+                    if order.active === true
+                      -var variant= 'text-muted'
+                      -var status= 'Not Delivered'
+                    else 
+                      -var variant= 'text-success'
+                      -var status='Delivered'
+                    p(class=`${variant}`) #{status}
                     a.btn.btnBlue(href=`/orders/${order.id}` title="See order") View
             else
               h2.mt-3 Nothing to see here... 
