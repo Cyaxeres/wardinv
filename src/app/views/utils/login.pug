@@ -5,23 +5,23 @@ append head
   title Login | CM
 
 block content
-      .container-fluid.login_section
+  .container-fluid.login_section
+    .row
+      .col-md-7.no-padding
+        .img-cont
+          h1.display-1 Cabinet Manager
+      .col-md-5.no-padding
+        +alerts
         .row
-          .col-md-7.no-padding
-            .img-cont
-              h1.display-1 Cabinet Manager
-          .col-md-5.no-padding
-            +alerts
-            .row
-              .col-md-2
-              .col-md-8.login-content
-                .login
-                  .login-container
-                    .h2 Sign in
-                    form(role='form' action='/login' method='post')
-                      .form-group
-                        input#email.form-username.form-control(type='email' name='email' required='' placeholder='Email...' autofocus)
-                      .form-group
-                        input#password.form-password.form-control(type='password' required='' name='password' placeholder='Password...')
-                      button.btn(type='submit') Sign in
-              .col-md-2
+          .col-md-2
+          .col-md-8.login-content
+            .login
+              .login-container
+                .h2 Sign in
+                form(role='form' action='/login' method='post')
+                  .form-group
+                    input#email.form-username.form-control(type='email' name='email' required='' placeholder='Email...' autofocus)
+                  .form-group
+                    input#password.form-password.form-control(type='password' required='' name='password' placeholder='Password...')
+                  button.btn(type='submit') Sign in
+          .col-md-2

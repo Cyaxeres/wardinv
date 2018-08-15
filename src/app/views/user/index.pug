@@ -1,0 +1,52 @@
+extends ../layouts/main
+include ../mixins/sidebar
+include ../mixins/alerts
+append head
+  title #{title} | CM
+
+block content
+  .container-fluid
+    .row
+      +sidebar
+
+      .container-fluid.content_section.col-10
+        .row.product_content
+          +alerts
+
+          .col-md-1
+          .col-md-10
+            .header-section.d-flex.justify-content-between.mb-4.align-items-center.ml-0
+              h1.display-4.animated.fadeInLeft.animation-delay-200
+                i.mr-3.color-primary(class="icon ion-md-people")
+                | Users
+              .btn-group.float-right.animated.fadeInRight.animation-delay-200
+                a.btn.btnPurple.mr-3(href="/users/new") Add User  
+
+            hr
+            if users && users.length > 0   
+              .list-overflow
+                .table-responsive
+                  table.table.table-striped
+                    thead.text-center#listHeader
+                      tr
+                        th(scope="col") Name
+                        th(scope="col") Mail
+                        th(scope="col") Role
+                        th(scope="col") Edit User
+                    tbody.text-center
+                      each user, index in users
+                        tr
+                          th(scope="row") #{user.name}
+                          td #{user.mail}
+                          - var role = (user.role_id === 1 ? 'Dispenser' : 'Employee')
+                          td #{role}
+                          td
+                            a.btn.btn-sm.btn-info(href=`/users/${user._id}/edit` title="Edit this user")
+                              i(class="icon ion-md-create")
+
+            else
+              .col-md-8  
+                .alert.alert-info(role="alert")
+                  h3.alert-heading Don't see any users?
+                  p Something either went wrong or you don't have any!
+                  a.btn.btnBlue(href="/users/new") Add user

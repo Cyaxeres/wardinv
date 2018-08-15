@@ -9,40 +9,48 @@ block content
   .container-fluid
     .row
       +sidebar
-
       .container-fluid.content_section.col-10
-        +alerts
-        .row
+        .row.product_content
+          +alerts
           .col-md-1
           .col-md-10
-
-            .product_content.clearfix
-              h1.display-4.mb-0
-                  i.mr-3.color-primary(class="icon ion-md-cube")
-                  | #{title}
+            .header-section.d-flex.justify-content-between.mb-4.align-items-center.ml-0
+              h1.display-4.animated.fadeInLeft.animation-delay-200
+                i.mr-3.color-primary(class="icon ion-md-cube")
+                | #{title}
             hr
             if orders && orders.length > 0
               .list-overflow
-                ul.mt-5.list-group
-                  li.list-group-item.d-flex.justify-content-around.align-items-center#listHeader
-                    h5 From
-                    h5 No. of Items
-                    h5 Total Cost
-                    h5 Status
-                    h5 View Order
-                each order, index in orders
-                  li.list-group-item.d-flex.justify-content-around.align-items-center
-                    p.mb-1 #{order.sender.username}
-                    p #{order.cart.totalQty} items 
-                    p.text-success #{prices[index]}
-                    if order.active === true
-                      -var variant= 'text-muted'
-                      -var status= 'Not Delivered'
-                    else 
-                      -var variant= 'text-success'
-                      -var status='Delivered'
-                    p(class=`${variant}`) #{status}
-                    a.btn.btnBlue(href=`/orders/${order.id}` title="See order") View
+                .table-responsive
+                  table.table.table-striped
+                    thead.text-center#listHeader
+                      tr
+                        th(scope="col") From
+                        th(scope="col") No. of Items
+                        th(scope="col") Total Cost
+                        th(scope="col") Status
+                        th(scope="col") View Order
+                        tbody.text-center
+                          each order, index in orders
+                            if order.active === true
+                              -var variant= 'text-muted'
+                              -var status= 'Not Delivered'
+                            else 
+                              -var variant= 'text-success'
+                              -var status='Delivered'
+                            tr
+                              th(scope="row") #{order.sender.username}
+                              td #{order.cart.totalQty} items 
+                              td #{prices[index]}
+                              td
+                                p(class=`${variant}`) #{status}
+                              td
+                                a.btn.btn-sm.btn-info(href=`/orders/${order.id}` title="View this order")
+                                  i(class="icon ion-md-eye")
+
             else
-              h2.mt-3 Nothing to see here... 
-          .col-md-1
+              .col-md-8  
+                .alert.alert-info(role="alert")
+                  h3.alert-heading Don't see any orders?
+                  p Maybe it's time to make one
+                  a.btn.btn-info(href="/") Add an order

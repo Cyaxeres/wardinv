@@ -1,18 +1,11 @@
 import User from "../models/user";
 
-// const isLoggedIn = (req, res, next) => {
-//   if (req.session.user) {
-//     next();
-//   } else {
-//     res.redirect("/login");
-//   }
-// };
-
 exports.signup = (req, res) => {
   res.render("user/new", {
     error: req.flash("error"),
     success: req.flash("success"),
-    session: req.session
+    session: req.session,
+    title: "New User"
   });
 };
 

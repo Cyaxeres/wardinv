@@ -1,4 +1,6 @@
 import Docket from "../models/docket";
+import Order from "../models/order";
+import { formatMoney } from "accounting";
 
 exports.new = (req, res) => {
   res.render("docket/new");
@@ -36,9 +38,9 @@ exports.home = (req, res) => {
       res.render("docket/index", {
         dockets: dockets,
         success: req.flash("success"),
+        error: req.flash("error"),
         title: "Dockets"
       });
-      // console.log(docket);
     }
   }).sort({
     status: 1,
@@ -75,5 +77,47 @@ exports.update = (req, res) => {
 };
 
 exports.view = (req, res) => {
-  res.redirect("/dockets");
+  Docket.findById(req.params.id)
+    .select("-__v")
+    .exec()
+    .then(docket => {
+      if (docket) {
+        Order.find({ docket: req.params.id, active: false })
+          // .select("_id sender.username cart.totalQty cart.totalPrice")
+          .exec()
+          .then(orders => {
+            let cartReducer = (accumulator, currentValue) =>
+              accumulator + currentValue.cart.totalPrice;
+            let cartTotal = formatMoney(orders.reduce(cartReducer, 0));
+
+            orders = orders.map(order => {
+              return {
+                _id: order._id,
+                sender: order.sender.username,
+                totalQty: order.cart.totalQty,
+                totalPrice: formatMoney(order.cart.totalPrice)
+              };
+            });
+            // const newOrders = {
+            //   orders,
+            //   cartTotal
+            // };
+            // console.log(newOrders);
+            res.render("docket/view", {
+              docket,
+              orders,
+              cartTotal,
+              success: req.flash("success"),
+              error: req.flash("error")
+            });
+            // res.status(200).json(newOrders);
+          });
+      } else {
+        throw "An error occurred";
+      }
+    })
+    .catch(err => {
+      req.flash("error", "Could not find that docket");
+      res.redirect("/dockets");
+    });
 };

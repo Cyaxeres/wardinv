@@ -62,7 +62,7 @@ body {
 }
 
 .list-overflow {
-  height: 80vh;
+  height: 60vh;
   overflow: auto;
 }
 /* 
@@ -97,7 +97,7 @@ body {
   width: auto;
 }
 
-.alert {
+.alert-top {
   position: absolute;
   z-index: 101;
   top: 0;
@@ -500,7 +500,7 @@ body {
 
 #listHeader {
   border-radius: 0;
-  background-color: var(--btn-purple-color);
+  background-color: var(--nav-panel-color);
   color: var(--text-color-light);
 }
 

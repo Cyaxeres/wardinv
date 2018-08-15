@@ -10,13 +10,6 @@ block content
       +sidebar
 
       .container-fluid.content_section.col-10
-        //- form.mb-3.search#prodSearchForm(role="search")
-        //-     .input-group
-        //-         .input-group-prepend
-        //-             .input-group-text 
-        //-                 i(class="icon ion-md-search")
-        //-         input.form-control.form-control-lg.searchTerm#prodSearch(type="text", name="prodSearch", placeholder="search products..." autofocus)
-
         .row.product_content
           +alerts
           h2
@@ -31,22 +24,38 @@ block content
                 - var cart = session.cart;
                 if cart && cart.totalQty > 0  
                   a.btn.btn-success(href="/cart") View Cart #[span.badge.badge-light #{cart.totalQty}]  
-                  
-            hr   
-            .list-overflow
-              ul.mt-5.list-group
-                  li.list-group-item.d-flex.justify-content-around.align-items-center#listHeader
-                    h5 Docket Number
-                    h5 Patient
-                    h5 Status
-                    h5 Edit Docket
-                  each docket, index in dockets
-                    li.list-group-item.d-flex.justify-content-around.align-items-center
-                      p.mb-1 #{docket.docno}
-                      p #{docket.name}
-                      p(class=(docket.status==='active'? 'text-success': 'text-muted')) #{docket.status}
-                      a.btn.btnBlue(href=`/dockets/${docket._id}/edit` title="Edit docket") Edit Docket
-          .col-md-1
-            //- a.btn.btn-secondary.btn-sm(href=`/products/${product._id}`) View Product
-            //- script(src='/assets/resources/js/filter.js')
 
+            hr
+            if dockets && dockets.length > 0   
+              .list-overflow
+                .table-responsive
+                  table.table.table-striped
+                    thead.text-center#listHeader
+                      tr
+                        th(scope="col") Docket No.
+                        th(scope="col") Patient
+                        th(scope="col") Status
+                        if user && user.role_id <=1
+                          th(scope="col") View Docket
+                        if user && user.role_id < 1
+                          th(scope="col") Edit Docket
+                    tbody.text-center
+                      each docket, index in dockets
+                        tr
+                          th(scope="row") #{docket.docno}
+                          td #{docket.name}
+                          td(class=(docket.status==='active'? 'text-success': 'text-muted')) #{docket.status}
+                          if user && user.role_id <=1
+                            td
+                              a.btn.btn-sm.btn-info(href=`/dockets/${docket._id}` title="View this docket") 
+                                i(class="icon ion-md-eye")
+                          if user && user.role_id < 1
+                            td
+                              a.btn.btn-sm.btn-secondary(href=`/dockets/${docket._id}/edit` title="Edit this docket")
+                                i(class="icon ion-md-create")
+            else
+              .col-md-8  
+                .alert.alert-info(role="alert")
+                  h3.alert-heading Don't see any dockets?
+                  p Don't worry, this space shouldn't be empty for long.
+                  a.btn.btn-info(href="/dockets/new") Add a docket                   

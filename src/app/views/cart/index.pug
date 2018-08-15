@@ -16,9 +16,8 @@ block content
           .col-md-1
           .col-md-10
             .header-section.d-flex.justify-content-between.mb-4.align-items-center.ml-0
-              h1.display-4 
-                span.mr-3.color-primary 
-                  i(class="icon ion-md-cart")
+              h1.display-4.animated.fadeInLeft.animation-delay-200
+                i.mr-3.color-primary(class="icon ion-md-cart")
                 | Your Cart
             hr
             if products && products.length > 0
@@ -58,7 +57,10 @@ block content
                           h3.display-4#price #[span.text-light #{totalPrice}]
                           button.btn.btn-lg.btnBlue.btn-block.mt-3#btn-order(type='submit') Order Items
             else
-              h2.mt-3 No items in cart!
-          .col-md-1
+              .col-md-8  
+                .alert.alert-info(role="alert")
+                  h3.alert-heading Don't see any items?
+                  p You might have just removed them all or there aren't any
+                  a.btn.btn-info(href="/") See products
   script.
     document.getElementById("cartForm").reset();

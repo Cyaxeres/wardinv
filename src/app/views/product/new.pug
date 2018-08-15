@@ -13,12 +13,12 @@ block content
           .col-md-3
           .col-md-6
             .section.form_section.clearfix#formSection
-              form(action="/products" method="POST")
-                h1.display-4.mb-4 New Product
+              form(action=(product ? `/products/${product._id}?_method=PUT` : "/products" ), method="POST")
+                h1.display-4.mb-4 #{product ? 'Edit Product' : 'New Product' }
                 .form-group
                   label(for="name")
                     .text-dark Product Name
-                  input.form-control#name(type="text", name="name", aria-descibedby="nameHelp" required)
+                  input.form-control#name(type="text", name=(product ? "product[name]" : "name"), aria-descibedby="nameHelp" value=(product ? product.name : '') required autofocus)
                   //- small#nameHelp.form-text.text-muted Enter Product Name
                 hr
                 h4.mb-3 Unit  
@@ -26,18 +26,19 @@ block content
                   label.text-dark(for="unit") Unit of Measure
                   br
                   .btn-group.btn-group-toggle#unit(data-toggle ='buttons',aria-descibedby="unitHelp")
-                    label.btn.btnBlue.btn-sm#btn-single single
-                      input#single(type="radio", name="unit", autocomplete="off" value="one" required)
-                    label.btn.btnBlue.btn-sm#btn-pack pack
-                      input#pack(type="radio", name="unit", autocomplete="off", value="pack")
-                    label.btn.btnBlue.btn-sm#btn-pounds pounds
-                      input#lbs(type="radio", name="unit", autocomplete="off", value="pounds")
+                    -var unitName= (product ? 'product[unit]' : 'unit')
+                    label.btn.btnBlue.btn-sm#btn-single(class=(!product ? 'active' : product && product.unit === 'one' ? 'selected active' : undefined)) single
+                      input#single(type="radio", name=`${unitName}`, autocomplete="off" value="one" required)
+                    label.btn.btnBlue.btn-sm#btn-pack(class=(product && product.unit === 'pack' ? 'active' : undefined)) pack
+                      input#pack(type="radio", name=`${unitName}`, autocomplete="off", value="pack")
+                    label.btn.btnBlue.btn-sm#btn-pounds(class=(product && product.unit === 'pounds' ? 'active' : undefined)) pounds
+                      input#lbs(type="radio", name=`${unitName}`, autocomplete="off", value="pounds")
                   small#unitHelp.form-text.text-muted Ex: a pack of needles
                 .form-row
                   .form-group.col-md-6
                     label.text-dark(for="unitq") Quantity 
                       small.text-muted  (per unit)
-                    input.form-control#unitq(type="number", aria-descibedby="unitqHelp", min= 1, name="unitq" value= 1)
+                    input.form-control#unitq(type="number", aria-descibedby="unitqHelp", min= 1, name=(product ? "product[unitq]" : "unitq") value=(product ? product.unitq : 1))
                     small#unitqHelp.form-text.text-muted Ex: How many in a pack? or  How many pounds?
                   .form-group.col-md-6
                     label.text-dark(for="uprice") Price 
@@ -45,7 +46,7 @@ block content
                     .input-group
                       .input-group-prepend
                         span.input-group-text $
-                      input.form-control#uprice(type='number', aria-label='Amount (to the nearest dollar) in JMD', name="uprice", min=1,aria-descibedby="upriceHelp", value = 100, step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" required)
+                      input.form-control#uprice(type='number', aria-label='Amount (to the nearest dollar) in JMD', name=(product ? "product[uprice]" : "uprice"), min=1,aria-descibedby="upriceHelp", value = (product ? product.uprice : 100), step="0.1" data-number-to-fixed="2" data-number-stepfactor="100" required)
                     small#upriceHelp.form-text.text-muted Ex: How much for a pack?
                 hr
                 h4.mb-3  General  
@@ -53,29 +54,30 @@ block content
                   .form-group.col-md-6
                     label.text-dark(for="quantity") Quantity
                       small.text-muted  (of units)
-                    input.form-control#quantity(type="number", aria-descibedby="quantityHelp", min= 1, name="quantity" value=1)
+                    input.form-control#quantity(type="number", aria-descibedby="quantityHelp", min= 1, name=(product ? "product[quantity]" : "quantity") value=(product ? product.quantity : 1))
                     small#quantityHelp.form-text.text-muted Ex: How many packs?
                   .form-group.col-md-6
                     label.text-dark(for="reorder") Reorder Level
-                    input.form-control#reorder(type="number", aria-descibedby="reorderHelp", min= 1, name="reorder" value=1)
+                    input.form-control#reorder(type="number", aria-descibedby="reorderHelp", min= 1, name=(product ? "product[reorder]": "reorder") value=(product ? product.reorder : 1))
                     small#reorderHelp.form-text.text-muted We'll warn you when you have this amount of this product left
                 .form-group
                   .row
                     .col-md-6
+                      -var typeName= (product ? 'product[type]' : 'type')
                       label.text-dark(for="type") Type
                       br
                       .btn-group.btn-group-toggle#type(data-toggle ='buttons',aria-descibedby="typeHelp")
-                        label.btn.btnBlue.btn-sm.active medical
-                          input#single(type="radio", name="type", autocomplete="off" checked='' value="medical")
-                        label.btn.btnBlue.btn-sm general
-                          input#pack(type="radio", name="type", autocomplete="off" value="general")
-                        label.btn.btn-danger.btn-sm hazardous
-                          input#lbs(type="radio", name="type", autocomplete="off", value="hazardous")
+                        label.btn.btnBlue.btn-sm(class=(!product ? "active" : product && product.type === 'medical' ? "active" : undefined)) medical
+                          input#single(type="radio", name=`${typeName}`, autocomplete="off" checked='' value="medical")
+                        label.btn.btnBlue.btn-sm(class=(product && product.type === 'general' ? "active" : undefined)) general
+                          input#pack(type="radio", name=`${typeName}`, autocomplete="off" value="general")
+                        label.btn.btnBlue.btn-sm(class=(product && product.type === 'hazardous' ? "active" : undefined)) hazardous
+                          input#lbs(type="radio", name=`${typeName}`, autocomplete="off", value="hazardous")
 
                     .col-md-6
                       label.text-dark(for="expdate" ) Expiration Date
                         small.text-muted  (optional)
-                      input.form-control#expdate(type="date", aria-descibedby="expdateHelp", name="expdate")
+                      input.form-control#expdate(type="date", aria-descibedby="expdateHelp", name=(product && product.expdate ? "product[expdate]" : "expdate"), value=(product && product.expdate ? new Date(product.expdate).toISOString().slice(0,10) : undefined))
                       small#expdateHelp.form-text.text-muted Ex: How many packs?
-                button.btn.btn-lg.btnPurple.float-md-right(type="submit") Add Product
+                button.btn.btn-lg.btnPurple.float-md-right(type="submit") #{product ? 'Update Product' : 'Add Product'}
           .col-md-3

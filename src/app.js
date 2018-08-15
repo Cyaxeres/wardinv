@@ -8,7 +8,6 @@ import logger from "morgan";
 import passport from "passport";
 import path from "path";
 import chalk from "chalk";
-
 let mongoStore = require("connect-mongo")(session);
 
 //Logging middleware with color options
@@ -55,10 +54,6 @@ app.use(morganMiddleware);
 // View engine setup
 app.set("views", path.join(__dirname, "./app/views/"));
 app.set("view engine", "pug");
-
-// app.use(logger('dev', {
-//   skip: () => app.get('env') === 'test'
-// }));
 
 app.use(
   bodyParser.urlencoded({
@@ -131,21 +126,5 @@ app.use((err, req, res, next) => {
   });
   next();
 });
-
-// TODO: Refactor Error handling
-// app.use(function(req, res, next) {
-//   res.status(404).render("utils/404", {
-//     title: "Sorry, page not found",
-//     session: req.session
-//   });
-//   next();
-// });
-
-// app.use(function(req, res, next) {
-//   res.status(500).render("utils/404", {
-//     title: "Sorry, page not found"
-//   });
-//   next();
-// });
 
 export default app;

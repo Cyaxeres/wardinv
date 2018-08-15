@@ -60,7 +60,6 @@ exports.removeFromCart = (req, res) => {
   let id = req.params.id;
   cart.remove(id);
   req.session.cart = cart;
-  // console.log(req.session.cart);
   res.redirect("/cart");
 };
 
@@ -72,16 +71,13 @@ exports.updateQuantity = (req, res) => {
   }
   const cart = new Cart(req.session.cart);
   let id = req.body.product_id;
-  // !console.log(id);
   let newQty = parseInt(req.body.qty);
-  //! console.log(`newqty is ${newQty}`);
   cart.updateQuantity(id, newQty);
   // console.log(cart);
   let product = cart.items[id].item;
   req.flash("success", `${product.name} was updated`);
   req.session.cart = cart;
   res.redirect("/cart");
-  // !res.send('route works');
 };
 
 exports.checkout = (req, res) => {

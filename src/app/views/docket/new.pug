@@ -20,7 +20,7 @@ block content
                   h1.display-4.mb-4 #{formTitle}
                 .form-group
                   label(for='docno') Docket Number
-                  input#docno.form-control(type='text' name=(docket ? 'docket[docno]' : 'docno') required='' placeholder='Ex: 123456'  pattern='[0-9]{6}' aria-describedby="docnoHelp" value=(docket ? docket.docno : ''))
+                  input#docno.form-control(type='text' name=(docket ? 'docket[docno]' : 'docno') required='' placeholder='Ex: 123456'  pattern='[0-9]{6}' aria-describedby="docnoHelp" value=(docket ? docket.docno : '') autofocus)
                   small#docnoHelp.form-text.text-muted Help: Must be a 6-digit number
                 .form-group
                   label(for='name') Patient's Name
@@ -29,7 +29,6 @@ block content
                   label.text-dark(for="status") Status:
                   br
                   .btn-group.btn-group-toggle#status(data-toggle='buttons')
-                    //- label.btn.btnBlue.btn-sm(class=(docket && docket.status !='inactive' ? 'active' : undefined)) Active
                     label.btn.btnBlue.btn-sm(class=(!docket ? 'active' : docket  && docket.status !='inactive' ? 'active' : undefined)) Active
                       input#regular(type="radio", name=(docket ? 'docket[status]' : 'status'), autocomplete="off" checked value="active")
 
