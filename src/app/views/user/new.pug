@@ -3,7 +3,7 @@ include ../mixins/sidebar
 include ../mixins/alerts
 
 append head
-    title Register User | CM
+    title #{title} | CM
 block content
     .container-fluid
         .row
@@ -14,29 +14,32 @@ block content
                     .col-md-3
                     .col-md-6
                         .section.form_section.clearfix
-                            form.login-form(role='form' action='/users' method='post')
-                                h1.display-4.mb-4 New User
+                            form.login-form(role='form' action=(foundUser ? `/users/${foundUser._id}?_method=PATCH` : '/users') method='POST')
+                                h1.display-4.mb-4 #{title}
                                 .form-group
                                     label.sr-only(for='username') Name
-                                    input#username.form-control.form-username(type='text' name='username' required='' placeholder='Name')
+                                    input#username.form-control(type='text' name=(foundUser ? 'foundUser[name]': 'username') required='' placeholder='Name', autofocus value=(foundUser ? foundUser.name : undefined))
                                 .form-group
                                     label.sr-only(for='email') Email
-                                    input#email.form-control.form-username(type='email' name='email' required='' placeholder='Email')
+                                    input#email.form-control(type='email' name=(foundUser ? 'foundUser[mail]': 'email') required='' value= (foundUser ? foundUser.mail : undefined) placeholder='Email')
+
                                 .form-group
                                     label.sr-only(for='password') Password
-                                    input#password.form-control.form-username(type='password' name='password' ng-model='user.password' required='' placeholder='Password')
+                                    input#password.form-control(type='password' name=(foundUser ? 'foundUser[password]' : 'password') placeholder='Password')&attributes((!foundUser ? {'required': ''} : ''))
                                 .form-group
                                     label.sr-only(for='password') Pin
-                                    input.form-control.form-username(type='password' name='pin' ng-model='user.pin' maxlength="4" required='' placeholder='Pin')
+                                    input.form-control(type='password' name=(foundUser ? 'foundUser[pin]' : 'pin') maxlength="4" placeholder='Pin')&attributes((!foundUser ? {'required': ''} : ''))
                                 .form-group
                                     label.text-dark(for="role") Role:
                                     br
                                     .btn-group.btn-group-toggle#role(data-toggle ='buttons')
-                                        label.btn.btnBlue.btn-sm.active Regular
-                                            input#regular(type="radio", name="role", autocomplete="off" checked='' value=2)
-                                        label.btn.btnBlue.btn-sm Dispenser
-                                            input#dispenser(type="radio", name="role", autocomplete="off", value=1)
-                                        label.btn.btnBlue.btn-sm Admin
-                                            input#admin(type="radio", name="role", autocomplete="off", value=0)                           
-                                button.btn.btnPurple.btn-lg.float-right(type='submit') Register
+                                        label.btn.btnBlue.btn-sm(class=(!foundUser ? 'active' : foundUser && foundUser.role_id === 2 ? 'active' : undefined)) Regular
+                                            input#regular(type="radio", name=(foundUser ? "foundUser[role_id]": "role"), autocomplete="off" checked='' value=2)
+                                        label.btn.btnBlue.btn-sm(class=(foundUser && foundUser.role_id === 1 ? 'active' : undefined)) Dispenser
+                                            input#dispenser(type="radio", name=(foundUser ? "foundUser[role_id]": "role"), autocomplete="off", value=1)
+                                        label.btn.btnBlue.btn-sm(class=(foundUser && foundUser.role_id === 0 ? 'active' : undefined)) Admin
+                                            input#admin(type="radio", name=(foundUser ? "foundUser[role_id]": "role"), autocomplete="off", value=0)                           
+                                button.btn.btnPurple.btn-lg.float-right(type='submit')
+                                    i.mr-2(class="icon ion-md-person-add")
+                                    | #{foundUser ? 'Update User' : 'Create User'}
                     .col-md-3

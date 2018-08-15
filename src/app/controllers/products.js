@@ -24,6 +24,22 @@ exports.home = (req, res) => {
   });
 };
 
+exports.edit = (req, res, next) => {
+  Products.findById(req.params.id)
+    .select("-__v")
+    .exec()
+    .then(result => {
+      res.render("product/new", { product: result });
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: {
+          message: err
+        }
+      });
+    });
+};
+
 exports.viewProduct = (req, res) => {
   // const prodID = req.params.id;
   // Products.findById(prodID, (err, product) => {
@@ -69,4 +85,20 @@ exports.createProduct = (req, res) => {
       res.redirect("/products");
     }
   });
+};
+
+exports.update = (req, res) => {
+  Products.findByIdAndUpdate(
+    req.params.id,
+    req.body.product,
+    (err, updatedProduct) => {
+      if (err) {
+        req.flash("error", err);
+        res.redirect("/products");
+      } else if (updatedProduct) {
+        req.flash("success", "Product updated");
+        res.redirect("/products");
+      }
+    }
+  );
 };

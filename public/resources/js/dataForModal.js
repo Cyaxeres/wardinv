@@ -1,4 +1,4 @@
 $(document).on("click", ".openViewModal", function() {
-  var orderAction = $(this).data("order");
-  $(".modal-footer a").attr("href", "/orders" + orderAction);
+  var modalAction = $(this).data("op");
+  $(".modal-footer a").attr("href", modalAction);
 });

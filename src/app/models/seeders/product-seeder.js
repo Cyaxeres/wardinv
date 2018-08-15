@@ -38,7 +38,7 @@ var products = [
     reorder: 10
   }),
   new Product({
-    name: "Apsrin 500g",
+    name: "Asprin 500g",
     unit: "pack",
     unitq: 12,
     uprice: 730.25,
@@ -108,4 +108,4 @@ let seedProducts = () => {
 
 let exit = () => mongoose.disconnect();
 
-    module.exports = seedProducts;
+module.exports = seedProducts;

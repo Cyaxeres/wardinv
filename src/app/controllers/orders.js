@@ -23,7 +23,6 @@ exports.home = (req, res) => {
           error: req.flash("error"),
           title: "All Orders"
         });
-        // console.log(orders);
       }
     }
   ).sort({
@@ -60,7 +59,6 @@ exports.view = (req, res) => {
 
 exports.history = (req, res) => {
   const user = req.session.user._id;
-  //Get all active orders
   Orders.find(
     {
       "sender.id": user
@@ -78,7 +76,6 @@ exports.history = (req, res) => {
           success: req.flash("success"),
           title: "Your Orders"
         });
-        // console.log(orders);
       }
     }
   ).sort({
@@ -180,25 +177,3 @@ exports.delete = (req, res) => {
     }
   });
 };
-/* exports.edit = (req, res) => {
-  const order = req.body.order;
-  const product = req.body.product;
-  Orders.findById(order, (err, order) => {
-    if (err) {
-      req.flash("error", "Item couldn't be removed");
-      res.redirect("/orders/" + order._id);
-    }
-    let newCart = new Cart(order.cart);
-    newCart.remove(product);
-    order.set({ cart: newCart });
-    order.save((err, newOrder) => {
-      if (err) {
-        req.flash("error", "Item couldn't be removed");
-        res.redirect("/orders/" + newOrder._id);
-      }
-      req.flash("success", "Item removed");
-      res.redirect("/orders/" + newOrder._id);
-    });
-  });
-};
- */
